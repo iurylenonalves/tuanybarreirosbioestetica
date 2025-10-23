@@ -5,6 +5,7 @@ import { ResultsSection } from "@/components/sections/ResultsSection";
 import { CtaFormSection } from "@/components/sections/CtaFormSection";
 import { ProductsSection } from "@/components/sections/ProductsSection";
 import { BlogSection } from "@/components/sections/BlogSection";
+import { ContactFormSection } from "@/components/sections/ContactFormSection";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <CtaFormSection />
       <ProductsSection />
       <BlogSection />
+      <ContactFormSection />
     </main>
   );
 }
