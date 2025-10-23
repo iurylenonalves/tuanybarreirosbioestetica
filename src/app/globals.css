@@ -3,6 +3,20 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  
+  /* Nossas novas cores da marca */
+  --color-brand-background: #FFFCFA; /* O nosso "branco" principal */
+  --color-brand-pink-light: #FCEFEF;  /* A primeira cor de seção */
+  --color-brand-off-white: #FEFAFA;   /* A segunda cor de seção */
+  --color-brand-text-button: #4A3629; /* A cor de texto dos botões */
+  --color-brand-whatsapp: #25D366; /* Verde do WhatsApp */
+  --color-brand-notification: #EF4444; /* Vermelho para notificação */
+
+  /* Cores antigas que talvez ainda sejam úteis */
+  --color-brand-soft-beige: #EAE4DD;
+  --color-brand-light-nude: #FBE9E9;
+  --color-brand-dark-nude: #D6C4C0;
+  --color-brand-brown: #946C53;
 }
 
 @theme inline {
@@ -10,6 +24,32 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  
+  /* Mapeando nossas cores da marca */
+  --color-brand-background: var(--color-brand-background);
+  --color-brand-pink-light: var(--color-brand-pink-light);
+  --color-brand-off-white: var(--color-brand-off-white);
+  --color-brand-text-button: var(--color-brand-text-button);
+  --color-brand-whatsapp: var(--color-brand-whatsapp);
+  --color-brand-notification: var(--color-brand-notification);
+  
+  /* Mapeando as cores antigas */
+  --color-brand-soft-beige: var(--color-brand-soft-beige);
+  --color-brand-light-nude: var(--color-brand-light-nude);
+  --color-brand-dark-nude: var(--color-brand-dark-nude);
+  --color-brand-brown: var(--color-brand-brown);
+}
+
+/* REGRA MÁGICA PARA AS SEÇÕES ALTERNADAS */
+/* Qualquer seção com a classe "alternating-section" seguirá este padrão de cores */
+.alternating-section:nth-of-type(3n+1) {
+    background-color: var(--color-brand-pink-light);
+}
+.alternating-section:nth-of-type(3n+2) {
+    background-color: var(--color-brand-off-white);
+}
+.alternating-section:nth-of-type(3n+3) {
+    background-color: var(--color-brand-background);
 }
 
 @media (prefers-color-scheme: dark) {
