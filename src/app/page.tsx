@@ -3,6 +3,7 @@ import { AboutSnippetSection } from "@/components/sections/AboutSnippetSection";
 import { ServicesSection } from "@/components/sections/ServicesSection";
 import { ResultsSection } from "@/components/sections/ResultsSection";
 import { CtaFormSection } from "@/components/sections/CtaFormSection";
+import { ProductsSection } from "@/components/sections/ProductsSection";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <ServicesSection />
       <ResultsSection />
       <CtaFormSection />
+      <ProductsSection />
     </main>
   );
 }
