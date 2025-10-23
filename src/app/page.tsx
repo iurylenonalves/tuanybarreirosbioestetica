@@ -4,6 +4,7 @@ import { ServicesSection } from "@/components/sections/ServicesSection";
 import { ResultsSection } from "@/components/sections/ResultsSection";
 import { CtaFormSection } from "@/components/sections/CtaFormSection";
 import { ProductsSection } from "@/components/sections/ProductsSection";
+import { BlogSection } from "@/components/sections/BlogSection";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <ResultsSection />
       <CtaFormSection />
       <ProductsSection />
+      <BlogSection />
     </main>
   );
 }
