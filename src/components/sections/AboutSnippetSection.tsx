@@ -58,7 +58,9 @@ export function AboutSnippetSection() {
             </ul>
           
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center md:justify-start gap-6">
-              <Button variant="secondary">Sobre mim</Button>
+              <Link href="/sobre">
+                <Button variant="secondary">Sobre mim</Button>
+              </Link>
               <Link 
                 href="/contato" 
                 className="flex items-center gap-2 font-semibold text-gray-800 hover:text-brand-brown transition-colors"
