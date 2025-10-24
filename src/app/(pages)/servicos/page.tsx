@@ -1,6 +1,7 @@
 import { ServicesHeroSection } from "@/components/sections/ServicesHeroSection";
 import { ServiceListSection } from "@/components/sections/ServiceListSection";
 import { FeaturesListSection } from "@/components/sections/FeaturesListSection";
+import { TestimonialSection } from "@/components/sections/TestimonialSection";
 
 export default function ServicesPage() {
   return (
@@ -8,6 +9,7 @@ export default function ServicesPage() {
       <ServicesHeroSection />
       <ServiceListSection />
       <FeaturesListSection />
+      <TestimonialSection />
     </>
   );
 }
