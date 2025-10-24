@@ -22,8 +22,30 @@ const dancingScript = Dancing_Script({
 });
 
 export const metadata: Metadata = {
-  title: "Tuany Barreiros Bioestética",
-  description: "Bioestética que valoriza sua beleza natural.",
+  // Título principal e template para outras páginas
+  title: {
+    default: 'Tuany Barreiros Bioestética | Cuidado e Transformação',
+    template: '%s | Tuany Barreiros Bioestética',
+  },
+  description: "Bioestética que valoriza sua beleza natural. Transforme sua confiança com cuidados estéticos personalizados.",
+  
+  // Objeto Open Graph para compartilhamento em redes sociais
+  openGraph: {
+    title: 'Tuany Barreiros Bioestética | Cuidado e Transformação',
+    description: 'Transforme sua confiança com cuidados estéticos personalizados.',
+    url: 'https://tuanybarreirosbioestetica.vercel.app/', // <-- IMPORTANTE: Troque pela sua URL da Vercel
+    siteName: 'Tuany Barreiros Bioestética',
+    images: [
+      {
+        url: 'https://tuanybarreirosbioestetica.vercel.app/tuany-retrato.jpg', // <-- URL ABSOLUTA DA IMAGEM
+        width: 800, // Largura da imagem
+        height: 600, // Altura da imagem
+        alt: 'Retrato de Tuany Barreiros, especialista em bioestética',
+      },
+    ],
+    locale: 'pt_BR',
+    type: 'website',
+  },
 };
 
 export default function RootLayout({
