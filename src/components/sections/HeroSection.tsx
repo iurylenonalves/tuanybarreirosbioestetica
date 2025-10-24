@@ -13,13 +13,13 @@ export function HeroSection() {
       description: 'Cuidado profundo para uma pele radiante e saudável.',
     },
     {
-      src: '/hero-image-2.jpg', // << Troque pela sua imagem
+      src: '/service-limpeza.jpg', // << Troque pela sua imagem
       alt: 'Descrição da imagem 2',
       title: 'Tecnologia e Bem-estar',
       description: 'Utilizamos equipamentos de ponta para resultados incríveis.',
     },
     {
-      src: '/hero-image-3.jpg', // << Troque pela sua imagem
+      src: '/service-nutricao.jpg', // << Troque pela sua imagem
       alt: 'Descrição da imagem 3',
       title: 'Cuidado que Transforma',
       description: 'Uma jornada única de autoconfiança e beleza.',
