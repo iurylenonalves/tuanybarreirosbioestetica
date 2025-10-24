@@ -2,7 +2,7 @@ import { ServiceListSection } from "@/components/sections/ServiceListSection";
 import { ServicesHeroSection } from "@/components/sections/ServicesHeroSection";
 import { FeaturesListSection } from "@/components/sections/FeaturesListSection";
 import { TestimonialSection } from "@/components/sections/TestimonialSection";
-import { SchedulingCtaSection } from "@/components/sections/SchedulingCtaSection";
+import { ServiceCtaSection } from "@/components/sections/ServiceCtaSection";
 import { FaqSection } from "@/components/sections/FaqSection";
 
 export default function ServicesPage() {
@@ -12,7 +12,7 @@ export default function ServicesPage() {
       <ServiceListSection />
       <FeaturesListSection />
       <TestimonialSection />
-      <SchedulingCtaSection />
+      <ServiceCtaSection />
       <FaqSection />
     </>
   );

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-export function SchedulingCtaSection() {
+export function ServiceCtaSection() {
   const [email, setEmail] = useState('');
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
