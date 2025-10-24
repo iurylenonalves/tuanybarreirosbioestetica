@@ -55,7 +55,7 @@ export function TestimonialsCarousel({ slides }: TestimonialsCarouselProps) {
                 {/* Citação */}
                 <blockquote className="mt-6">
                   <p className="font-serif text-2xl md:text-3xl font-medium text-gray-800">
-                    "{slide.quote}"
+                    &quot;{slide.quote}&quot;
                   </p>
                 </blockquote>
 
