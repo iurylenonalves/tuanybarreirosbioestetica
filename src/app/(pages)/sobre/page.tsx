@@ -3,6 +3,7 @@ import { AboutBioSection } from "@/components/sections/AboutBioSection";
 import { ValuesSection } from "@/components/sections/ValuesSection";
 import { TimelineSection } from "@/components/sections/TimelineSection";
 import { AboutCtaSection } from "@/components/sections/AboutCtaSection";
+import { TestimonialSection } from "@/components/sections/TestimonialSection";
 
 export default function AboutPage() {
   return (
@@ -12,6 +13,7 @@ export default function AboutPage() {
       <ValuesSection />
       <TimelineSection />
       <AboutCtaSection />
+      <TestimonialSection />
     </>
   );
 }
