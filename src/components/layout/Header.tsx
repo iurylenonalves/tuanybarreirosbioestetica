@@ -50,7 +50,7 @@ export function Header() {
         {/* 3. Botão à Direita */}
         <div className="hidden md:flex flex-1 justify-end">
           <Link 
-            href="/contato" // Ou link direto do Calendly
+            href="/agendar" // Ou link direto do Calendly
             className="bg-brand-background text-brand-text-button px-6 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-shadow"
           >
             Agendar

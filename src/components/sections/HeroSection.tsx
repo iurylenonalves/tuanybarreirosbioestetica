@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { ImageCarousel, Slide } from '@/components/ui/ImageCarousel';
 import { Button } from '@/components/ui/Button';
+import Link from 'next/dist/client/link';
 
 export function HeroSection() {
   // Dados de exemplo para o carrossel. Coloque suas imagens na pasta /public
@@ -39,8 +40,12 @@ export function HeroSection() {
                 é uma jornada única de autoconfiança e bem-estar.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
+              <Link href="/agendar">
                 <Button variant="primary">Agendar</Button>
+              </Link>
+              <Link href="/sobre">
                 <Button variant="secondary">Saiba mais</Button>
+              </Link>
             </div>
         </div>
         

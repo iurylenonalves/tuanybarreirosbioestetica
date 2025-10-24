@@ -6,22 +6,22 @@ const servicesData: ServiceCardProps[] = [
     category: 'Limpeza',
     title: 'Limpeza profunda de pele',
     description: 'Removemos impurezas e revitalizamos sua pele.',
-    imageSrc: '/service-limpeza.jpg', // Adicione esta imagem em /public
-    linkHref: '/servicos/limpeza-de-pele',
+    imageSrc: '/service-limpeza.jpg',
+    linkHref: '/agendar',
   },
   {
     category: 'Peeling',
     title: 'Renovação celular',
     description: 'Tratamento intensivo para uniformizar o tom.',
-    imageSrc: '/service-peeling.jpg', // Adicione esta imagem em /public
-    linkHref: '/servicos/renovacao-celular',
+    imageSrc: '/service-peeling.jpg',
+    linkHref: '/agendar',
   },
   {
     category: 'Hidratação',
     title: 'Nutrição profunda',
     description: 'Recupere a luminosidade e maciez da pele.',
-    imageSrc: '/service-nutricao.jpg', // Adicione esta imagem em /public
-    linkHref: '/servicos/nutricao-profunda',
+    imageSrc: '/service-nutricao.jpg',
+    linkHref: '/agendar',
   },
 ];
 

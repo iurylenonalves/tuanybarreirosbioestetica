@@ -21,7 +21,7 @@ export function AboutHeroSection() {
           
           {/* Reutilizando nossos componentes de Botão e Link */}
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/contato">
+            <Link href="/agendar">
               <Button variant="primary">Agendar</Button>
             </Link>
             <Link href="#minha-jornada"> {/* Link para a próxima seção desta página */}

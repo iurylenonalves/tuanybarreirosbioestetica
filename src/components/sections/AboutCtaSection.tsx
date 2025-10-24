@@ -17,7 +17,7 @@ export function AboutCtaSection() {
 
           {/* Botões - usando os estilos da seção "Sobre" */}
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-6">
-            <Link href="/contato">
+            <Link href="/agendar">
               <Button variant="primary">Agendar</Button>
             </Link>
             <Link href="/contato">

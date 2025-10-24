@@ -29,7 +29,7 @@ export function ServiceListSection() {
               <span className="text-sm font-semibold uppercase text-brand-dark-nude">Facial</span>
               <h3 className="font-serif text-3xl font-bold mt-2 text-gray-800">Limpeza profunda e revitalização</h3>
               <p className="mt-2 text-gray-600 text-sm">Tratamento que limpa, renova e restaura a saúde da pele.</p>
-              <Link href="/contato" className="flex items-center gap-1 font-semibold text-gray-800 hover:text-brand-brown transition-colors mt-4 text-sm">
+              <Link href="/agendar" className="flex items-center gap-1 font-semibold text-gray-800 hover:text-brand-brown transition-colors mt-4 text-sm">
                 Agendar <ChevronRight size={16} />
               </Link>
             </div>
@@ -51,7 +51,7 @@ export function ServiceListSection() {
                 <span className="text-sm font-semibold uppercase text-brand-dark-nude">Corporal</span>
                 <h3 className="font-serif text-2xl font-bold mt-2 text-gray-800">Modelagem e bem-estar</h3>
                 <p className="mt-2 text-gray-600 text-sm">Técnicas avançadas para esculpir e tonificar seu corpo.</p>
-                <Link href="/contato" className="flex items-center gap-1 font-semibold text-gray-800 hover:text-brand-brown transition-colors mt-4 text-sm">
+                <Link href="/agendar" className="flex items-center gap-1 font-semibold text-gray-800 hover:text-brand-brown transition-colors mt-4 text-sm">
                   Agendar <ChevronRight size={16} />
                 </Link>
               </div>
@@ -71,7 +71,7 @@ export function ServiceListSection() {
                 <span className="text-sm font-semibold uppercase text-brand-dark-nude">Estética</span>
                 <h3 className="font-serif text-2xl font-bold mt-2 text-gray-800">Tratamentos especializados</h3>
                 <p className="mt-2 text-gray-600 text-sm">Procedimentos precisos para realçar sua beleza natural.</p>
-                <Link href="/contato" className="flex items-center gap-1 font-semibold text-gray-800 hover:text-brand-brown transition-colors mt-4 text-sm">
+                <Link href="/agendar" className="flex items-center gap-1 font-semibold text-gray-800 hover:text-brand-brown transition-colors mt-4 text-sm">
                   Agendar <ChevronRight size={16} />
                 </Link>
               </div>
