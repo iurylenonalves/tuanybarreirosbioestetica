@@ -4,9 +4,9 @@ import { ResultsCarousel, ResultSlide } from '@/components/ui/ResultsCarousel';
 const resultsData: ResultSlide[] = [
   { src: '/result-1.jpg', alt: 'Resultado de tratamento facial 1' },
   { src: '/result-1.jpg', alt: 'Resultado de tratamento corporal 2' },
-  { src: '/result-3.jpg', alt: 'Resultado de tratamento de pele 3' },
-  { src: '/result-4.jpg', alt: 'Resultado de tratamento facial 4' },
-  { src: '/result-5.jpg', alt: 'Resultado de tratamento corporal 5' },
+  { src: '/service-nutricao.jpg', alt: 'Resultado de tratamento de pele 3' },
+  { src: '/service-limpeza.jpg', alt: 'Resultado de tratamento facial 4' },
+  { src: '/service-peeling.jpg', alt: 'Resultado de tratamento corporal 5' },
 ];
 
 export function ResultsSection() {
