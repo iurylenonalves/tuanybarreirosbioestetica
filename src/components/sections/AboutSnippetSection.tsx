@@ -38,7 +38,7 @@ export function AboutSnippetSection() {
 
           {/* Coluna de Texto */}
           <div className="text-center md:text-left">
-            <h2 className="font-serif text-3xl md:text-4xl font-bold mt-2">
+            <h2 className="font-serif text-3xl md:text-4xl font-bold mt-2 text-gray-800">
               Tuany Barreiros: Especialista em Bioestética
             </h2>
             <p className="mt-4 text-gray-600">
