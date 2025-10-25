@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display, Dancing_Script } from "next/font/google";
+import { Inter, Dancing_Script } from "next/font/google";
+import localFont from 'next/font/local';
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -10,9 +11,21 @@ const inter = Inter({
   variable: '--font-inter' 
 });
 
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-playfair'
+const garet = localFont({
+  src: [
+    {
+      path: '../assets/fonts/Garet-Regular.woff2', // Caminho relativo ao arquivo layout.tsx
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../assets/fonts/Garet-Bold.woff2',
+      weight: '700',
+      style: 'normal',
+    },
+    // Adicione outros pesos/estilos aqui se tiver
+  ],
+  variable: '--font-garet', // <<< DEFINIR A VARIÁVEL CSS
 });
 
 const dancingScript = Dancing_Script({
@@ -46,7 +59,7 @@ export const metadata: Metadata = {
     locale: 'pt_BR',
     type: 'website',
   },
-  
+
   colorScheme: 'light',
 };
 
@@ -57,7 +70,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className={`${inter.variable} ${playfair.variable} ${dancingScript.variable} antialiased bg-brand-background`}>
+      <body className={`${inter.variable} ${garet.variable} ${dancingScript.variable} antialiased bg-brand-background`}>
         <Header />
         <main>
           {children}

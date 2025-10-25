@@ -24,11 +24,6 @@ html {
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  
   /* Mapeando nossas cores da marca */
   --color-brand-background: var(--color-brand-background);
   --color-brand-pink-light: var(--color-brand-pink-light);
@@ -42,29 +37,9 @@ html {
   --color-brand-light-nude: var(--color-brand-light-nude);
   --color-brand-dark-nude: var(--color-brand-dark-nude);
   --color-brand-brown: var(--color-brand-brown);
-}
 
-/* REGRA MÁGICA PARA AS SEÇÕES ALTERNADAS */
-/* Qualquer seção com a classe "alternating-section" seguirá este padrão de cores */
-.alternating-section:nth-of-type(3n+1) {
-    background-color: var(--color-brand-pink-light);
-}
-.alternating-section:nth-of-type(3n+2) {
-    background-color: var(--color-brand-off-white);
-}
-.alternating-section:nth-of-type(3n+3) {
-    background-color: var(--color-brand-background);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+   /* Mapeando fontes */
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-garet);
+  --font-signature: var(--font-dancing-script);
 }

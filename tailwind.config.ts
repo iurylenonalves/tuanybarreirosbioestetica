@@ -10,7 +10,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ['var(--font-inter)', 'sans-serif'],
-        serif: ['var(--font-playfair)', 'serif'],
+        serif: ['var(--font-garet)', 'serif'],
         signature: ['var(--font-dancing-script)', 'cursive'],
       },
     },
