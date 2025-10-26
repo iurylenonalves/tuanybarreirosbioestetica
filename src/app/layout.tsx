@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Dancing_Script } from "next/font/google";
 import localFont from 'next/font/local';
 import "./globals.css";
@@ -59,7 +59,10 @@ export const metadata: Metadata = {
     locale: 'pt_BR',
     type: 'website',
   },
+};
 
+export const viewport: Viewport = {
+  themeColor: '#FFFCFA',
   colorScheme: 'light',
 };
 
