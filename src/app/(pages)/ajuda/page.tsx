@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export default function AjudaPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-12">
@@ -26,13 +28,13 @@ export default function AjudaPage() {
                 <div className="font-semibold text-blue-900">🎨 Sanity Studio</div>
                 <div className="text-sm text-blue-700">Criar e editar posts</div>
               </a>
-              <a 
+              <Link 
                 href="/blog" 
                 className="bg-green-50 border border-green-200 rounded-lg p-4 hover:bg-green-100 transition-colors"
               >
                 <div className="font-semibold text-green-900">📰 Blog Público</div>
                 <div className="text-sm text-green-700">Ver posts publicados</div>
-              </a>
+              </Link>
             </div>
           </section>
 
@@ -45,9 +47,9 @@ export default function AjudaPage() {
                 <h3 className="text-lg font-semibold text-yellow-800 mb-3">📝 Para Rascunho (Draft)</h3>
                 <ol className="list-decimal list-inside space-y-2 text-yellow-700">
                   <li>Acesse o <strong>Studio</strong> (link acima)</li>
-                  <li>Clique em <strong>"Post"</strong> → <strong>"+ Create"</strong></li>
+                  <li>Clique em <strong>&quot;Post&quot;</strong> → <strong>&quot;+ Create&quot;</strong></li>
                   <li>Preencha: Título, Conteúdo, Imagem</li>
-                  <li><strong>NÃO preencha</strong> "Published At"</li>
+                  <li><strong>NÃO preencha</strong> &quot;Published At&quot;</li>
                   <li>Pressione <strong>Ctrl+S</strong> para salvar</li>
                 </ol>
                 <div className="mt-3 text-sm text-yellow-600">
@@ -59,7 +61,7 @@ export default function AjudaPage() {
                 <h3 className="text-lg font-semibold text-green-800 mb-3">🚀 Para Publicar</h3>
                 <ol className="list-decimal list-inside space-y-2 text-green-700">
                   <li>Crie o post normalmente</li>
-                  <li><strong>Preencha</strong> o campo "Published At" com a data atual</li>
+                  <li><strong>Preencha</strong> o campo &quot;Published At&quot; com a data atual</li>
                   <li>Pressione <strong>Ctrl+S</strong> para salvar</li>
                 </ol>
                 <div className="mt-3 text-sm text-green-600">
@@ -79,19 +81,19 @@ export default function AjudaPage() {
               <div className="space-y-4">
                 <div>
                   <p className="text-blue-700 mb-2"><strong>1. Crie o post como rascunho</strong></p>
-                  <p className="text-blue-700 mb-2"><strong>2. Copie o "slug" do post</strong> (campo URL no Studio)</p>
+                  <p className="text-blue-700 mb-2"><strong>2. Copie o &quot;slug&quot; do post</strong> (campo URL no Studio)</p>
                   <p className="text-blue-700 mb-2"><strong>3. Use esta URL:</strong></p>
                 </div>
                 
                 <div className="bg-blue-100 border border-blue-300 rounded p-3 font-mono text-sm break-all">
                   <span className="text-blue-600">
-                    {typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'}/api/draft?secret=tuany-preview-2024-secret&slug=/blog/
+                    /api/draft?secret=tuany-preview-2024-secret&slug=/blog/
                   </span>
                   <span className="bg-yellow-200 px-1">SEU-SLUG</span>
                 </div>
                 
                 <div className="text-sm text-blue-600">
-                  <strong>Exemplo:</strong> Se o slug for "minha-dica-de-skincare", a URL fica:<br/>
+                  <strong>Exemplo:</strong> Se o slug for &quot;minha-dica-de-skincare&quot;, a URL fica:<br/>
                   <code className="bg-blue-100 px-2 py-1 rounded">
                     .../api/draft?secret=tuany-preview-2024-secret&slug=/blog/minha-dica-de-skincare
                   </code>
@@ -140,7 +142,7 @@ export default function AjudaPage() {
                     <li>1. Escrever no Studio (sem data)</li>
                     <li>2. Testar no preview</li>
                     <li>3. Fazer ajustes</li>
-                    <li>4. Preencher "Published At"</li>
+                    <li>4. Preencher &quot;Published At&quot;</li>
                     <li>5. Post vai ao ar! 🚀</li>
                   </ol>
                 </div>
@@ -165,7 +167,7 @@ export default function AjudaPage() {
               <div className="border border-gray-200 rounded-lg p-4">
                 <h4 className="font-semibold text-gray-800">❓ Post não aparece no blog</h4>
                 <ul className="text-sm text-gray-600 mt-2 space-y-1">
-                  <li>• Verifique se "Published At" está preenchido</li>
+                  <li>• Verifique se &quot;Published At&quot; está preenchido</li>
                   <li>• Aguarde alguns segundos e atualize a página</li>
                   <li>• Confirme se salvou o post (Ctrl+S)</li>
                 </ul>

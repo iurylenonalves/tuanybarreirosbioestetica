@@ -1,4 +1,5 @@
 import type {StructureResolver} from 'sanity/structure'
+import React from 'react'
 
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -13,8 +14,6 @@ export const structure: StructureResolver = (S) =>
             .id('guia-component') // ID para o componente também
             .component(() => {
               // Criar um componente React simples
-              const React = require('react')
-              
               return React.createElement('div', {
                 style: {
                   padding: '40px',

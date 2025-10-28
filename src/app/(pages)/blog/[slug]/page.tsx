@@ -1,9 +1,10 @@
 import { draftMode } from 'next/headers'
 import { notFound } from 'next/navigation'
-import { PortableText } from 'next-sanity'
-import { client, clientWithToken } from '@/sanity/lib/client'
+import { PortableText, type PortableTextBlock } from 'next-sanity'
+import { clientWithToken } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
 import Link from 'next/link'
+import Image from 'next/image'
 
 interface Post {
   _id: string
@@ -11,7 +12,7 @@ interface Post {
   slug: string
   publishedAt: string
   _createdAt: string
-  body?: any
+  body?: PortableTextBlock[]
   mainImage?: {
     asset: {
       _ref: string
@@ -72,7 +73,7 @@ export default async function PostPage({
     
     console.log(`=== TODOS OS POSTS COM TOKEN (${allPosts.length}) ===`)
     
-    allPosts.forEach((post: any, index: number) => {
+    allPosts.forEach((post: Post, index: number) => {
       const isMatch = post.slug === slug
       console.log(`${index + 1}. ${post.title}`)
       console.log(`   slug: "${post.slug}"`)
@@ -197,15 +198,17 @@ export default async function PostPage({
 
         {post.mainImage?.asset && (
           <div className="mb-8">
-            <img 
+            <Image 
               src={urlFor(post.mainImage.asset).url()} 
               alt={post.mainImage.asset.alt || post.title}
+              width={800}
+              height={400}
               className="w-full h-96 object-cover rounded-lg"
             />
           </div>
         )}
 
-        {post.body && (
+        {post.body && Array.isArray(post.body) && (
           <div className="prose prose-lg max-w-none prose-headings:font-bold prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-p:mb-4 prose-p:leading-relaxed">
             <PortableText 
               value={post.body}
@@ -258,9 +261,11 @@ export default async function PostPage({
                       
                       return (
                         <figure className="my-8">
-                          <img 
+                          <Image 
                             src={imageUrl} 
                             alt={value.alt || 'Imagem do post'} 
+                            width={800}
+                            height={400}
                             className="rounded-lg w-full shadow-lg"
                           />
                           {value.alt && (
