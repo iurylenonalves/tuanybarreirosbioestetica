@@ -9,8 +9,12 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@portabletext/react": "^4.0.3",
     "@sanity/image-url": "^1.2.0",
+    "@sanity/presentation": "^2.0.0",
+    "@sanity/react-loader": "^2.0.0",
     "@sanity/vision": "^4.11.0",
+    "@tailwindcss/typography": "^0.5.19",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "lucide-react": "^0.546.0",

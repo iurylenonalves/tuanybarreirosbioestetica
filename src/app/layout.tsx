@@ -1,31 +1,14 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Dancing_Script } from "next/font/google";
-import localFont from 'next/font/local';
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import  WhatsAppButton from "@/components/ui/WhatsAppButton";
+import { SanityLive } from '@/sanity/lib/live';
 
 const inter = Inter({ 
   subsets: ["latin"],
   variable: '--font-inter' 
-});
-
-const garet = localFont({
-  src: [
-    {
-      path: '../assets/fonts/Garet-Regular.woff2', // Caminho relativo ao arquivo layout.tsx
-      weight: '400',
-      style: 'normal',
-    },
-    {
-      path: '../assets/fonts/Garet-Bold.woff2',
-      weight: '700',
-      style: 'normal',
-    },
-    // Adicione outros pesos/estilos aqui se tiver
-  ],
-  variable: '--font-garet', // <<< DEFINIR A VARIÁVEL CSS
 });
 
 const dancingScript = Dancing_Script({
@@ -73,13 +56,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className={`${inter.variable} ${garet.variable} ${dancingScript.variable} antialiased bg-brand-background`}>
+      <body className={`${inter.variable} ${dancingScript.variable} antialiased bg-brand-background`}>
         <Header />
         <main>
           {children}
         </main>
         <WhatsAppButton />
         <Footer />
+        <SanityLive />
       </body>
     </html>
   );
