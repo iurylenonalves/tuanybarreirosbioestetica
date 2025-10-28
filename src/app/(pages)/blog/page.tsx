@@ -1,27 +1,25 @@
-import Link from 'next/link';
-import Image from 'next/image';
-import { client } from '@/sanity/lib/client';
-import { urlFor } from '@/sanity/lib/image';
-import { ChevronRight } from 'lucide-react';
+import Link from 'next/link'
+import Image from 'next/image'
+import { client } from '@/sanity/lib/client'
+import { urlFor } from '@/sanity/lib/image'
+import { ChevronRight } from 'lucide-react'
 
-// Interface para os dados dos posts
 interface Post {
-  _id: string;
-  title: string;
-  slug: string;
-  publishedAt: string;
-  body?: unknown;
+  _id: string
+  title: string
+  slug: string
+  publishedAt: string
+  body?: unknown
   mainImage?: {
     asset: {
-      _ref: string;
-      _type: string;
-      url?: string;
-      alt?: string;
+      _ref: string
+      _type: string
+      url?: string
+      alt?: string
     }
   }
 }
 
-// Função para buscar os posts PUBLICADOS
 async function getPosts() {
   try {
     const query = `*[_type == "post" && defined(publishedAt)] | order(publishedAt desc) {
@@ -39,18 +37,31 @@ async function getPosts() {
           alt
         }
       }
-    }`;
+    }`
     
-    const posts = await client.fetch<Post[]>(query);
-    return posts;
+    // ✨ Forçar dados frescos do Sanity
+    const posts = await client.fetch<Post[]>(
+      query,
+      {},
+      {
+        cache: 'no-store', // Não usar cache do Next.js
+        next: { 
+          revalidate: 60, // Revalidar a cada 60 segundos
+          tags: ['posts'] // Tag para revalidação on-demand
+        }
+      }
+    )
+    
+    console.log(`✅ Posts carregados: ${posts.length}`)
+    return posts
   } catch (error) {
-    console.error('Erro ao buscar posts:', error);
-    return [];
+    console.error('Erro ao buscar posts:', error)
+    return []
   }
 }
 
 export default async function BlogPage() {
-  const posts = await getPosts();
+  const posts = await getPosts()
 
   return (
     <div className="min-h-screen bg-brand-pink-light py-16 md:py-20">
@@ -154,11 +165,14 @@ export default async function BlogPage() {
 
       </div>
     </div>
-  );
+  )
 }
+
+// ✨ Configuração de revalidação
+export const revalidate = 60 // Revalidar a cada 60 segundos
 
 // Metadata da página
 export const metadata = {
   title: 'Blog - Tuany Barreiros Bioestética',
   description: 'Dicas, novidades e tudo sobre o universo da bioestética e cuidados com a pele',
-};
+}
