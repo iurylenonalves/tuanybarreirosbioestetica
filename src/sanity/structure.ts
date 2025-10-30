@@ -3,17 +3,16 @@ import React from 'react'
 
 export const structure: StructureResolver = (S) =>
   S.list()
-    .title('Content')
+    .title('Tuany Bioestetica CMS')
     .items([
       // Link para Ajuda
       S.listItem()
         .title('📚 Guia do Blog')
-        .id('guia-do-blog') // ID obrigatório adicionado
+        .id('guia-do-blog')
         .child(
           S.component()
-            .id('guia-component') // ID para o componente também
+            .id('guia-component')
             .component(() => {
-              // Criar um componente React simples
               return React.createElement('div', {
                 style: {
                   padding: '40px',
@@ -69,6 +68,55 @@ export const structure: StructureResolver = (S) =>
       
       S.divider(),
       
-      // Items normais do CMS
-      ...S.documentTypeListItems(),
+      // Seção Blog
+      S.listItem()
+        .title('📝 Blog')
+        .child(
+          S.list()
+            .title('Blog')
+            .items([
+              S.listItem()
+                .title('Posts')
+                .schemaType('post')
+                .child(S.documentTypeList('post')),
+            ])
+        ),
+      
+      S.divider(),
+      
+      // Seção E-commerce
+      S.listItem()
+        .title('🛒 Loja')
+        .child(
+          S.list()
+            .title('Loja')
+            .items([
+              S.listItem()
+                .title('Produtos')
+                .schemaType('product')
+                .child(S.documentTypeList('product')),
+              
+              S.listItem()
+                .title('Pacotes de Serviços')
+                .schemaType('servicePackage')
+                .child(S.documentTypeList('servicePackage')),
+              
+              S.listItem()
+                .title('Categorias')
+                .schemaType('category')
+                .child(S.documentTypeList('category')),
+              
+              S.listItem()
+                .title('Avaliações')
+                .schemaType('review')
+                .child(S.documentTypeList('review')),
+            ])
+        ),
+      
+      S.divider(),
+      
+      // Items restantes (se houver)
+      ...S.documentTypeListItems().filter(listItem => 
+        !['post', 'product', 'servicePackage', 'category', 'review'].includes(listItem.getId() || '')
+      ),
     ])

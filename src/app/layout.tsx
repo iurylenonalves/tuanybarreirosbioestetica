@@ -5,6 +5,8 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import  WhatsAppButton from "@/components/ui/WhatsAppButton";
 import { SanityLive } from '@/sanity/lib/live';
+import { CartProvider } from '@/contexts/CartContext';
+import { Cart } from '@/components/ui/Cart';
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -57,13 +59,16 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={`${inter.variable} ${dancingScript.variable} antialiased bg-brand-background`}>
-        <Header />
-        <main>
-          {children}
-        </main>
-        <WhatsAppButton />
-        <Footer />
-        <SanityLive />
+        <CartProvider>
+          <Header />
+          <main>
+            {children}
+          </main>
+          <WhatsAppButton />
+          <Footer />
+          <Cart />
+          <SanityLive />
+        </CartProvider>
       </body>
     </html>
   );

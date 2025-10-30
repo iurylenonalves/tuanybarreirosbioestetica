@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { useState } from "react";
+import { CartIcon } from "@/components/ui/CartIcon";
 
 export function Header() {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -47,8 +48,9 @@ export function Header() {
           </ul>
         </nav>
 
-        {/* 3. Botão à Direita */}
-        <div className="hidden md:flex flex-1 justify-end">
+        {/* 3. Botões à Direita */}
+        <div className="hidden md:flex flex-1 justify-end items-center gap-3">
+          <CartIcon />
           <Link 
             href="/agendar" // Ou link direto do Calendly
             className="bg-brand-background text-brand-text-button px-6 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-shadow"
@@ -57,8 +59,9 @@ export function Header() {
           </Link>
         </div>
 
-        {/* 5. Botão Hambúrguer para Mobile */}
-        <div className="md:hidden flex items-center">
+        {/* 5. Carrinho e Botão Hambúrguer para Mobile */}
+        <div className="md:hidden flex items-center gap-2">
+          <CartIcon />
           <button onClick={() => setMobileMenuOpen(!isMobileMenuOpen)} className="z-50">
             {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
