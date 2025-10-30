@@ -14,12 +14,12 @@ export function Button({
 }: ButtonProps) {
   
   // Estilos base, comuns a todos os botões
-  const baseStyles = 'px-8 py-3 rounded-lg font-semibold transition-all duration-300';
+  const baseStyles = 'px-8 py-3 rounded-lg font-semibold transition-colors duration-300';
 
   // Estilos específicos para cada variante
   const variantStyles = {
-    primary: 'bg-brand-background text-brand-text-button shadow-md cursor-pointer hover:shadow-lg hover:brightness-95',
-    secondary: 'bg-[#0C0B0B]/5 text-brand-text-button cursor-pointer hover:bg-[#0C0B0B]/10',
+    primary: 'bg-brand-text-button hover:bg-brand-brown text-white',
+    secondary: 'bg-brand-off-white text-brand-text-button border-2 border-brand-text-button hover:bg-brand-pink-light',
   };
 
   // Combinamos os estilos base, os da variante e qualquer outra classe que for passada

@@ -73,9 +73,9 @@ export default async function ServicePackageDetailPage({ params }: Props) {
       <div className="min-h-screen bg-brand-background">
         {/* Header */}
         <div className="bg-brand-pink-light border-b border-brand-dark-nude/20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             {/* Breadcrumb */}
-            <nav className="flex text-sm text-gray-600 mb-6">
+            <nav className="flex text-sm text-gray-600">
               <Link href="/" className="hover:text-brand-text-button">Início</Link>
               <span className="mx-2">/</span>
               <Link href="/produtos" className="hover:text-brand-text-button">Produtos</Link>
@@ -97,7 +97,7 @@ export default async function ServicePackageDetailPage({ params }: Props) {
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Galeria de Imagens */}
             <div>
-              <div className="aspect-[4/3] bg-gray-100 rounded-2xl overflow-hidden mb-4">
+              <div className="aspect-4/3 bg-gray-100 rounded-2xl overflow-hidden mb-4">
                 <Image
                   src={urlFor(servicePackage.image).width(600).height(450).url()}
                   alt={servicePackage.image.alt || servicePackage.name}
@@ -134,12 +134,12 @@ export default async function ServicePackageDetailPage({ params }: Props) {
                   </span>
                 )}
                 {servicePackage.popular && (
-                  <span className="text-sm text-yellow-600 bg-yellow-100 px-2 py-1 rounded">
+                  <span className="text-sm text-yellow-600 px-2 py-1 rounded">
                     🔥 Mais Procurado
                   </span>
                 )}
                 {servicePackage.featured && (
-                  <span className="text-sm text-purple-600 bg-purple-100 px-2 py-1 rounded">
+                  <span className="text-sm text-purple-600 px-2 py-1 rounded">
                     ⭐ Destaque
                   </span>
                 )}
@@ -267,12 +267,12 @@ export default async function ServicePackageDetailPage({ params }: Props) {
           {/* Benefícios */}
           {servicePackage.benefits && servicePackage.benefits.length > 0 && (
             <div className="mt-16">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Benefícios</h2>
-              <div className="bg-gradient-to-r from-pink-50 to-rose-50 rounded-2xl p-8">
+              <h2 className="text-2xl font-serif font-bold text-gray-900 mb-6">Benefícios</h2>
+              <div className="bg-brand-pink-light rounded-2xl p-8 border border-brand-dark-nude/20">
                 <div className="grid md:grid-cols-2 gap-4">
                   {servicePackage.benefits.map((benefit, index) => (
                     <div key={index} className="flex items-center gap-3">
-                      <span className="text-pink-600 text-xl">✓</span>
+                      <span className="text-brand-text-button text-xl">✓</span>
                       <span className="text-gray-700">{benefit}</span>
                     </div>
                   ))}
@@ -284,12 +284,12 @@ export default async function ServicePackageDetailPage({ params }: Props) {
           {/* Público-Alvo */}
           {servicePackage.targetAudience && servicePackage.targetAudience.length > 0 && (
             <div className="mt-16">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Para quem é indicado</h2>
-              <div className="bg-blue-50 rounded-2xl p-8">
+              <h2 className="text-2xl font-serif font-bold text-gray-900 mb-6">Para quem é indicado</h2>
+              <div className="bg-brand-off-white rounded-2xl p-8 border border-brand-dark-nude/20">
                 <div className="grid md:grid-cols-2 gap-4">
                   {servicePackage.targetAudience.map((audience, index) => (
                     <div key={index} className="flex items-center gap-3">
-                      <span className="text-blue-600 text-xl">👤</span>
+                      <span className="text-brand-text-button text-xl">👤</span>
                       <span className="text-gray-700">{audience}</span>
                     </div>
                   ))}
@@ -301,8 +301,8 @@ export default async function ServicePackageDetailPage({ params }: Props) {
           {/* Contraindicações */}
           {servicePackage.contraindications && servicePackage.contraindications.length > 0 && (
             <div className="mt-16">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Contraindicações</h2>
-              <div className="bg-red-50 rounded-2xl p-8">
+              <h2 className="text-2xl font-serif font-bold text-gray-900 mb-6">Contraindicações</h2>
+              <div className="bg-red-50 rounded-2xl p-8 border border-red-200">
                 <div className="grid gap-3">
                   {servicePackage.contraindications.map((contraindication, index) => (
                     <div key={index} className="flex items-center gap-3">
@@ -319,7 +319,7 @@ export default async function ServicePackageDetailPage({ params }: Props) {
           {servicePackage.description && (
             <div className="mt-16">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Sobre o Tratamento</h2>
-              <div className="prose prose-pink max-w-none bg-white rounded-2xl p-8 shadow-lg">
+              <div className="prose max-w-none bg-white rounded-2xl p-8 shadow-lg border border-brand-dark-nude/20">
                 <PortableText 
                   value={servicePackage.description}
                   components={{
@@ -337,7 +337,7 @@ export default async function ServicePackageDetailPage({ params }: Props) {
                         <h4 className="text-lg font-semibold text-gray-900 mt-4 mb-2">{children}</h4>
                       ),
                       blockquote: ({ children }) => (
-                        <blockquote className="border-l-4 border-pink-500 pl-4 my-6 italic text-gray-600 bg-pink-50 py-2">
+                        <blockquote className="border-l-4 border-brand-text-button pl-4 my-6 italic text-gray-600 bg-brand-pink-light py-2">
                           {children}
                         </blockquote>
                       )
@@ -468,7 +468,7 @@ export default async function ServicePackageDetailPage({ params }: Props) {
                     className="group"
                   >
                     <div className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-                      <div className="aspect-[4/3]">
+                      <div className="aspect-4/3">
                         <Image
                           src={urlFor(relatedPackage.image).width(300).height(225).url()}
                           alt={relatedPackage.image.alt || relatedPackage.name}
@@ -478,15 +478,15 @@ export default async function ServicePackageDetailPage({ params }: Props) {
                         />
                       </div>
                       <div className="p-4">
-                        <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+                        <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-brand-text-button transition-colors">
                           {relatedPackage.name}
                         </h3>
                         <div className="flex items-center justify-between">
-                          <span className="text-lg font-bold text-pink-600">
+                          <span className="text-lg font-bold text-brand-text-button">
                             {formatPrice(relatedPackage.price)}
                           </span>
                           {relatedPackage.popular && (
-                            <span className="text-xs bg-yellow-100 text-yellow-600 px-2 py-1 rounded">
+                            <span className="text-xs text-yellow-600 px-2 py-1 rounded">
                               Popular
                             </span>
                           )}
@@ -501,23 +501,23 @@ export default async function ServicePackageDetailPage({ params }: Props) {
 
           {/* Call to Action Final */}
           <div className="text-center mt-16">
-            <div className="bg-gradient-to-r from-pink-600 to-rose-600 rounded-2xl p-8 text-white">
-              <h3 className="text-2xl font-bold mb-4">
+            <div className="bg-brand-brown rounded-2xl p-8 text-white">
+              <h3 className="text-2xl font-serif font-bold mb-4">
                 Pronta para transformar sua pele?
               </h3>
-              <p className="text-pink-100 mb-6 max-w-2xl mx-auto">
+              <p className="text-white/90 mb-6 max-w-2xl mx-auto">
                 Agende sua consulta e descubra como este tratamento pode realçar sua beleza natural
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   href="/agendar"
-                  className="inline-block bg-white text-pink-600 px-8 py-3 rounded-lg font-semibold hover:bg-pink-50 transition-colors"
+                  className="inline-block bg-white text-brand-text-button px-8 py-3 rounded-lg font-semibold hover:bg-brand-pink-light transition-colors"
                 >
                   Agendar Consulta
                 </Link>
                 <Link
                   href="/contato"
-                  className="inline-block border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-pink-600 transition-colors"
+                  className="inline-block border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-brand-text-button transition-colors"
                 >
                   Tirar Dúvidas
                 </Link>

@@ -73,9 +73,9 @@ export default async function ProductDetailPage({ params }: Props) {
       <div className="min-h-screen bg-brand-background">
         {/* Header */}
         <div className="bg-brand-pink-light border-b border-brand-dark-nude/20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             {/* Breadcrumb */}
-            <nav className="flex text-sm text-gray-600 mb-6">
+            <nav className="flex text-sm text-gray-600">
               <Link href="/" className="hover:text-brand-text-button">Início</Link>
               <span className="mx-2">/</span>
               <Link href="/produtos" className="hover:text-brand-text-button">Produtos</Link>
