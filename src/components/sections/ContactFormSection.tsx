@@ -2,35 +2,110 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { contactSchema, sanitizeString } from '@/lib/validations/schemas';
+import { ZodError } from 'zod';
 
 export function ContactFormSection() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     message: '',
     agreedToTerms: false,
   });
 
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
-    // Lida com a checkbox de forma especial
     const isCheckbox = type === 'checkbox';
+    
     setFormData(prev => ({
       ...prev,
       [name]: isCheckbox ? (e.target as HTMLInputElement).checked : value,
     }));
+
+    // Limpar erro do campo quando usuário começar a digitar
+    if (errors[name]) {
+      setErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[name];
+        return newErrors;
+      });
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!formData.agreedToTerms) {
-      alert('Você precisa aceitar os termos de serviço.');
-      return;
+    setErrors({});
+    setSubmitSuccess(false);
+    setIsSubmitting(true);
+
+    try {
+      // Validar dados com Zod no frontend primeiro
+      const validatedData = contactSchema.parse(formData);
+
+      // Enviar para API com rate limiting
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: validatedData.name,
+          email: validatedData.email,
+          phone: validatedData.phone,
+          message: validatedData.message,
+          agreedToTerms: validatedData.agreedToTerms,
+        }),
+      });
+
+      const data = await response.json();
+
+      // Verificar rate limiting
+      if (response.status === 429) {
+        setErrors({ 
+          submit: 'Você está enviando mensagens muito rápido. Aguarde alguns minutos e tente novamente.' 
+        });
+        return;
+      }
+
+      // Erro de validação no backend
+      if (response.status === 400) {
+        setErrors({ submit: data.error || 'Dados inválidos. Verifique os campos.' });
+        return;
+      }
+
+      // Erro do servidor
+      if (!response.ok) {
+        setErrors({ submit: 'Erro ao enviar mensagem. Tente novamente mais tarde.' });
+        return;
+      }
+
+      // Sucesso!
+      setSubmitSuccess(true);
+      setFormData({ name: '', email: '', phone: '', message: '', agreedToTerms: false });
+
+      // Limpar mensagem de sucesso após 5 segundos
+      setTimeout(() => setSubmitSuccess(false), 5000);
+
+    } catch (error) {
+      if (error instanceof ZodError) {
+        const fieldErrors: Record<string, string> = {};
+        error.issues.forEach((err) => {
+          if (err.path[0]) {
+            fieldErrors[err.path[0] as string] = err.message;
+          }
+        });
+        setErrors(fieldErrors);
+      } else {
+        setErrors({ submit: 'Erro ao enviar mensagem. Tente novamente.' });
+      }
+    } finally {
+      setIsSubmitting(false);
     }
-    // Lógica de envio do formulário (ex: para uma API)
-    alert(`Formulário enviado!\nNome: ${formData.name}\nEmail: ${formData.email}`);
-    // Resetar o formulário
-    setFormData({ name: '', email: '', message: '', agreedToTerms: false });
   };
 
   return (
@@ -52,62 +127,129 @@ export function ContactFormSection() {
             </p>
 
             <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+              {/* Mensagem de sucesso */}
+              {submitSuccess && (
+                <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                  <p className="text-green-800 font-medium">✓ Mensagem enviada com sucesso!</p>
+                  <p className="text-green-600 text-sm mt-1">Entraremos em contato em breve.</p>
+                </div>
+              )}
+
+              {/* Erro geral de submissão */}
+              {errors.submit && (
+                <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+                  <p className="text-red-800">{errors.submit}</p>
+                </div>
+              )}
+
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">Nome</label>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                  Nome completo *
+                </label>
                 <input
                   type="text"
                   name="name"
                   id="name"
                   value={formData.name}
                   onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 rounded-lg bg-gray-100 border-transparent focus:outline-none focus:ring-2 focus:ring-brand-dark-nude"
+                  className={`w-full px-4 py-3 rounded-lg bg-gray-100 border-transparent focus:outline-none focus:ring-2 ${
+                    errors.name ? 'ring-2 ring-red-500' : 'focus:ring-brand-dark-nude'
+                  }`}
+                  placeholder="Seu nome completo"
                 />
+                {errors.name && (
+                  <p className="mt-1 text-sm text-red-600">{errors.name}</p>
+                )}
               </div>
+
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                  Email *
+                </label>
                 <input
                   type="email"
                   name="email"
                   id="email"
                   value={formData.email}
                   onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 rounded-lg bg-gray-100 border-transparent focus:outline-none focus:ring-2 focus:ring-brand-dark-nude"
+                  className={`w-full px-4 py-3 rounded-lg bg-gray-100 border-transparent focus:outline-none focus:ring-2 ${
+                    errors.email ? 'ring-2 ring-red-500' : 'focus:ring-brand-dark-nude'
+                  }`}
+                  placeholder="seu@email.com"
                 />
+                {errors.email && (
+                  <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+                )}
               </div>
+
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">Mensagem</label>
+                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                  Telefone/WhatsApp *
+                </label>
+                <input
+                  type="tel"
+                  name="phone"
+                  id="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className={`w-full px-4 py-3 rounded-lg bg-gray-100 border-transparent focus:outline-none focus:ring-2 ${
+                    errors.phone ? 'ring-2 ring-red-500' : 'focus:ring-brand-dark-nude'
+                  }`}
+                  placeholder="(11) 98765-4321"
+                />
+                {errors.phone && (
+                  <p className="mt-1 text-sm text-red-600">{errors.phone}</p>
+                )}
+              </div>
+
+              <div>
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                  Mensagem *
+                </label>
                 <textarea
                   name="message"
                   id="message"
                   rows={4}
                   value={formData.message}
                   onChange={handleChange}
-                  required
                   placeholder="Escreva sua mensagem aqui..."
-                  className="w-full px-4 py-3 rounded-lg bg-gray-100 border-transparent focus:outline-none focus:ring-2 focus:ring-brand-dark-nude"
+                  className={`w-full px-4 py-3 rounded-lg bg-gray-100 border-transparent focus:outline-none focus:ring-2 ${
+                    errors.message ? 'ring-2 ring-red-500' : 'focus:ring-brand-dark-nude'
+                  }`}
                 />
+                {errors.message && (
+                  <p className="mt-1 text-sm text-red-600">{errors.message}</p>
+                )}
               </div>
-              <div className="flex items-center">
+
+              <div className="flex items-start">
                 <input
                   type="checkbox"
                   name="agreedToTerms"
                   id="agreedToTerms"
                   checked={formData.agreedToTerms}
                   onChange={handleChange}
-                  className="h-4 w-4 rounded border-gray-300 text-brand-brown focus:ring-brand-dark-nude"
+                  className="h-4 w-4 mt-1 rounded border-gray-300 text-brand-brown focus:ring-brand-dark-nude"
                 />
                 <label htmlFor="agreedToTerms" className="ml-2 block text-sm text-gray-800">
-                  Aceito os termos de serviço
+                  Aceito os termos de serviço e autorizo o uso dos meus dados para contato *
                 </label>
               </div>
+              {errors.agreedToTerms && (
+                <p className="text-sm text-red-600 -mt-4">{errors.agreedToTerms}</p>
+              )}
+
               <div>
                 <button
                   type="submit"
-                  className="bg-white text-brand-text-button px-6 py-3 rounded-lg font-semibold shadow-md hover:shadow-lg transition-shadow"
+                  disabled={isSubmitting}
+                  className={`bg-white text-brand-text-button px-6 py-3 rounded-lg font-semibold shadow-md transition-all ${
+                    isSubmitting 
+                      ? 'opacity-50 cursor-not-allowed' 
+                      : 'hover:shadow-lg hover:scale-105'
+                  }`}
                 >
-                  Enviar
+                  {isSubmitting ? 'Enviando...' : 'Enviar mensagem'}
                 </button>
               </div>
             </form>

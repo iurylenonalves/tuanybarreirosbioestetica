@@ -5,6 +5,8 @@ import { useCart } from '@/contexts/CartContext';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
+import { checkoutSchema, formatZodError, sanitizeString, type CheckoutFormData } from '@/lib/validations/schemas';
+import { z } from 'zod';
 
 function formatPrice(price: number): string {
   return new Intl.NumberFormat('pt-BR', {
@@ -23,6 +25,8 @@ export function CheckoutPage() {
     city: '',
     zipCode: ''
   });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (state.items.length === 0) {
     return (
@@ -45,16 +49,40 @@ export function CheckoutPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setErrors({});
+    setIsSubmitting(true);
     
-    // Criar mensagem para WhatsApp
-    const itemsList = state.items.map(item => 
-      `• ${item.name} (${item.quantity}x) - ${formatPrice(item.price * item.quantity)}`
-    ).join('\n');
-    
-    const message = `*Pedido de Compra*\n\n*Itens:*\n${itemsList}\n\n*Total: ${formatPrice(state.total)}*\n\n*Dados do Cliente:*\nNome: ${customerInfo.name}\nEmail: ${customerInfo.email}\nTelefone: ${customerInfo.phone}\nEndereço: ${customerInfo.address}\nCidade: ${customerInfo.city}\nCEP: ${customerInfo.zipCode}`;
+    try {
+      // Validar dados com Zod
+      const validatedData = checkoutSchema.parse(customerInfo);
+      
+      // Sanitizar dados para segurança
+      const sanitizedData = {
+        name: sanitizeString(validatedData.name),
+        email: sanitizeString(validatedData.email),
+        phone: validatedData.phone, // Já foi transformado pelo schema
+        address: sanitizeString(validatedData.address),
+        city: sanitizeString(validatedData.city),
+        zipCode: validatedData.zipCode // Já foi transformado pelo schema
+      };
+      
+      // Criar mensagem para WhatsApp
+      const itemsList = state.items.map(item => 
+        `• ${sanitizeString(item.name)} (${item.quantity}x) - ${formatPrice(item.price * item.quantity)}`
+      ).join('\n');
+      
+      const message = `*Pedido de Compra*\n\n*Itens:*\n${itemsList}\n\n*Total: ${formatPrice(state.total)}*\n\n*Dados do Cliente:*\nNome: ${sanitizedData.name}\nEmail: ${sanitizedData.email}\nTelefone: ${sanitizedData.phone}\nEndereço: ${sanitizedData.address}\nCidade: ${sanitizedData.city}\nCEP: ${sanitizedData.zipCode}`;
 
-    const whatsappUrl = `https://api.whatsapp.com/send?phone=5511954474237&text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
+      const whatsappUrl = `https://api.whatsapp.com/send?phone=5511954474237&text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, '_blank');
+      
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        setErrors(formatZodError(error));
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -159,9 +187,14 @@ export function CheckoutPage() {
                     type="text"
                     required
                     value={customerInfo.name}
-                    onChange={(e) => setCustomerInfo({...customerInfo, name: e.target.value})}
-                    className="w-full px-4 py-3 border border-brand-dark-nude/20 rounded-lg focus:ring-2 focus:ring-brand-text-button focus:border-transparent"
+                    onChange={(e) => {
+                      setCustomerInfo({...customerInfo, name: e.target.value});
+                      if (errors.name) setErrors({...errors, name: ''});
+                    }}
+                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-text-button focus:border-transparent ${errors.name ? 'border-red-500' : 'border-brand-dark-nude/20'}`}
+                    placeholder="João da Silva"
                   />
+                  {errors.name && <p className="text-red-600 text-sm mt-1">{errors.name}</p>}
                 </div>
 
                 <div>
@@ -172,9 +205,14 @@ export function CheckoutPage() {
                     type="email"
                     required
                     value={customerInfo.email}
-                    onChange={(e) => setCustomerInfo({...customerInfo, email: e.target.value})}
-                    className="w-full px-4 py-3 border border-brand-dark-nude/20 rounded-lg focus:ring-2 focus:ring-brand-text-button focus:border-transparent"
+                    onChange={(e) => {
+                      setCustomerInfo({...customerInfo, email: e.target.value});
+                      if (errors.email) setErrors({...errors, email: ''});
+                    }}
+                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-text-button focus:border-transparent ${errors.email ? 'border-red-500' : 'border-brand-dark-nude/20'}`}
+                    placeholder="seuemail@exemplo.com"
                   />
+                  {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email}</p>}
                 </div>
 
                 <div>
@@ -185,9 +223,14 @@ export function CheckoutPage() {
                     type="tel"
                     required
                     value={customerInfo.phone}
-                    onChange={(e) => setCustomerInfo({...customerInfo, phone: e.target.value})}
-                    className="w-full px-4 py-3 border border-brand-dark-nude/20 rounded-lg focus:ring-2 focus:ring-brand-text-button focus:border-transparent"
+                    onChange={(e) => {
+                      setCustomerInfo({...customerInfo, phone: e.target.value});
+                      if (errors.phone) setErrors({...errors, phone: ''});
+                    }}
+                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-text-button focus:border-transparent ${errors.phone ? 'border-red-500' : 'border-brand-dark-nude/20'}`}
+                    placeholder="(11) 99999-9999"
                   />
+                  {errors.phone && <p className="text-red-600 text-sm mt-1">{errors.phone}</p>}
                 </div>
 
                 <div>
@@ -197,9 +240,14 @@ export function CheckoutPage() {
                   <input
                     type="text"
                     value={customerInfo.address}
-                    onChange={(e) => setCustomerInfo({...customerInfo, address: e.target.value})}
-                    className="w-full px-4 py-3 border border-brand-dark-nude/20 rounded-lg focus:ring-2 focus:ring-brand-text-button focus:border-transparent"
+                    onChange={(e) => {
+                      setCustomerInfo({...customerInfo, address: e.target.value});
+                      if (errors.address) setErrors({...errors, address: ''});
+                    }}
+                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-text-button focus:border-transparent ${errors.address ? 'border-red-500' : 'border-brand-dark-nude/20'}`}
+                    placeholder="Rua Exemplo, 123"
                   />
+                  {errors.address && <p className="text-red-600 text-sm mt-1">{errors.address}</p>}
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
@@ -210,9 +258,14 @@ export function CheckoutPage() {
                     <input
                       type="text"
                       value={customerInfo.city}
-                      onChange={(e) => setCustomerInfo({...customerInfo, city: e.target.value})}
-                      className="w-full px-4 py-3 border border-brand-dark-nude/20 rounded-lg focus:ring-2 focus:ring-brand-text-button focus:border-transparent"
+                      onChange={(e) => {
+                        setCustomerInfo({...customerInfo, city: e.target.value});
+                        if (errors.city) setErrors({...errors, city: ''});
+                      }}
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-text-button focus:border-transparent ${errors.city ? 'border-red-500' : 'border-brand-dark-nude/20'}`}
+                      placeholder="São Paulo"
                     />
+                    {errors.city && <p className="text-red-600 text-sm mt-1">{errors.city}</p>}
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -221,16 +274,21 @@ export function CheckoutPage() {
                     <input
                       type="text"
                       value={customerInfo.zipCode}
-                      onChange={(e) => setCustomerInfo({...customerInfo, zipCode: e.target.value})}
-                      className="w-full px-4 py-3 border border-brand-dark-nude/20 rounded-lg focus:ring-2 focus:ring-brand-text-button focus:border-transparent"
+                      onChange={(e) => {
+                        setCustomerInfo({...customerInfo, zipCode: e.target.value});
+                        if (errors.zipCode) setErrors({...errors, zipCode: ''});
+                      }}
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-text-button focus:border-transparent ${errors.zipCode ? 'border-red-500' : 'border-brand-dark-nude/20'}`}
+                      placeholder="00000-000"
                     />
+                    {errors.zipCode && <p className="text-red-600 text-sm mt-1">{errors.zipCode}</p>}
                   </div>
                 </div>
               </div>
 
               <div className="mt-8 space-y-4">
-                <Button variant="primary" type="submit" className="w-full py-4 text-lg">
-                  Enviar Pedido via WhatsApp
+                <Button variant="primary" type="submit" className="w-full py-4 text-lg" disabled={isSubmitting}>
+                  {isSubmitting ? 'Validando...' : 'Enviar Pedido via WhatsApp'}
                 </Button>
                 
                 <Link href="/produtos" className="block">

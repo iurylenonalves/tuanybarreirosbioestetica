@@ -1,8 +1,29 @@
 import { draftMode } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
+import { checkRateLimit, getClientIP, RateLimitPresets } from '@/lib/rateLimit'
 
 export async function GET(request: NextRequest) {
+  // Rate limiting
+  const clientIP = getClientIP(request);
+  const rateLimitResult = checkRateLimit(clientIP, RateLimitPresets.PREVIEW);
+  
+  if (!rateLimitResult.success) {
+    return new Response(JSON.stringify({ 
+      error: 'Too many requests',
+      limit: rateLimitResult.limit,
+      reset: rateLimitResult.reset
+    }), {
+      status: 429,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-RateLimit-Limit': rateLimitResult.limit.toString(),
+        'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
+        'X-RateLimit-Reset': rateLimitResult.reset.toString(),
+      }
+    });
+  }
+  
   const { searchParams } = new URL(request.url)
   
   // Parâmetros possíveis
@@ -11,20 +32,12 @@ export async function GET(request: NextRequest) {
   const pathname = searchParams.get('pathname')
   
   // Token específico e fixo para preview
-  const PREVIEW_SECRET = process.env.SANITY_PREVIEW_SECRET || 'tuany-preview-2024-secret'
-  
-  // Log para debug
-  console.log('Preview request:', {
-    secret: secret?.substring(0, 10) + '...',
-    slug,
-    pathname
-  })
+  const PREVIEW_SECRET = process.env.SANITY_PREVIEW_SECRET
   
   // Verificar secret
-  if (!secret || secret !== PREVIEW_SECRET) {
+  if (!secret || !PREVIEW_SECRET || secret !== PREVIEW_SECRET) {
     return new Response(JSON.stringify({ 
-      error: 'Invalid or missing secret',
-      expected: PREVIEW_SECRET.substring(0, 10) + '...'
+      error: 'Invalid or missing secret'
     }), { 
       status: 401,
       headers: { 'Content-Type': 'application/json' }
@@ -44,8 +57,6 @@ export async function GET(request: NextRequest) {
     // Se começar com /, usar como está, senão adicionar /blog/
     redirectPath = slug.startsWith('/') ? slug : `/blog/${slug}`
   }
-  
-  console.log('Preview habilitado, redirecionando para:', redirectPath)
   
   // Redirecionar (não envolver em try/catch)
   redirect(redirectPath)

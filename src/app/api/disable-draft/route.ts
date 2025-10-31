@@ -6,8 +6,6 @@ export async function GET(request: NextRequest) {
   const draft = await draftMode()
   draft.disable()
 
-  console.log('Draft mode desabilitado')
-
   // Redirecionar para home ou para onde o usuário estava
   const referer = request.headers.get('referer')
   const redirectUrl = referer || '/'

@@ -5,6 +5,7 @@ import { clientWithToken } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
 import Link from 'next/link'
 import Image from 'next/image'
+import { devLog, errorLog } from '@/lib/logger'
 
 interface Post {
   _id: string
@@ -39,16 +40,9 @@ export default async function PostPage({
   const { slug } = await params
   const { isEnabled: isDraftMode } = await draftMode()
 
-  console.log('=== DEBUG POST ===')
-  console.log('Draft mode enabled:', isDraftMode)
-  
-  // Usar clientWithToken sempre para debug
-  const sanityClient = clientWithToken
-  console.log('Cliente usado: clientWithToken')
-  console.log('Token disponível:', process.env.SANITY_API_READ_TOKEN ? 'SIM' : 'NÃO')
-  console.log('Dataset:', process.env.NEXT_PUBLIC_SANITY_DATASET)
-  console.log('Project ID:', process.env.NEXT_PUBLIC_SANITY_PROJECT_ID)
-  console.log('Slug procurado:', `"${slug}"`)
+  devLog('=== DEBUG POST ===')
+  devLog('Draft mode enabled:', isDraftMode)
+  devLog('Slug procurado:', slug)
 
   try {
     // Query com cache forçadamente desabilitado
@@ -62,7 +56,7 @@ export default async function PostPage({
       _draft
     } | order(_createdAt desc)`
 
-    const allPosts = await sanityClient.fetch(
+    const allPosts = await clientWithToken.fetch(
       allPostsQuery, 
       {}, 
       { 
@@ -71,20 +65,7 @@ export default async function PostPage({
       }
     )
     
-    console.log(`=== TODOS OS POSTS COM TOKEN (${allPosts.length}) ===`)
-    
-    allPosts.forEach((post: Post, index: number) => {
-      const isMatch = post.slug === slug
-      console.log(`${index + 1}. ${post.title}`)
-      console.log(`   slug: "${post.slug}"`)
-      console.log(`   ID: ${post._id}`)
-      console.log(`   criado: ${post._createdAt}`)
-      console.log(`   publicado: ${post.publishedAt ? 'Sim (' + post.publishedAt + ')' : 'Não'}`)
-      console.log(`   _draft: ${post._draft}`)
-      console.log(`   _rev: ${post._rev}`)
-      console.log(`   match: ${isMatch ? '*** SIM ***' : 'não'}`)
-      console.log('   ---')
-    })
+    devLog(`Total de posts encontrados: ${allPosts.length}`)
 
     // Buscar o post específico SEM filtro de publishedAt
     const postQuery = `*[_type == "post" && slug.current == $slug][0] {
@@ -107,7 +88,7 @@ export default async function PostPage({
       _draft
     }`
 
-    const post: Post = await sanityClient.fetch(
+    const post: Post = await clientWithToken.fetch(
       postQuery, 
       { slug },
       { 
@@ -116,12 +97,12 @@ export default async function PostPage({
       }
     )
 
-    console.log('Post específico encontrado:', post ? 'Sim' : 'Não')
+    devLog('Post específico encontrado:', post ? 'Sim' : 'Não')
     if (post) {
-      console.log('Detalhes do post:')
-      console.log('- ID:', post._id)
-      console.log('- Título:', post.title)
-      console.log('- Slug:', post.slug)
+      devLog('Detalhes do post:')
+      devLog('- ID:', post._id)
+      devLog('- Título:', post.title)
+      devLog('- Slug:', post.slug)
       console.log('- Publicado em:', post.publishedAt || 'NÃO PUBLICADO')
       console.log('- _draft:', post._draft)
       console.log('- _rev:', post._rev)
@@ -155,7 +136,7 @@ export default async function PostPage({
       publishedAt
     }`
 
-    const allPublishedPosts: NavigationPost[] = await sanityClient.fetch(
+    const allPublishedPosts: NavigationPost[] = await clientWithToken.fetch(
       navigationQuery,
       {},
       { 
@@ -171,10 +152,10 @@ export default async function PostPage({
     const previousPost = currentPostIndex > 0 ? allPublishedPosts[currentPostIndex - 1] : null
     const nextPost = currentPostIndex < allPublishedPosts.length - 1 ? allPublishedPosts[currentPostIndex + 1] : null
 
-    console.log('=== NAVEGAÇÃO ===')
-    console.log('Post atual index:', currentPostIndex)
-    console.log('Post anterior (mais recente):', previousPost?.title || 'Nenhum')
-    console.log('Próximo post (mais antigo):', nextPost?.title || 'Nenhum')
+    devLog('=== NAVEGAÇÃO ===')
+    devLog('Post atual index:', currentPostIndex)
+    devLog('Post anterior (mais recente):', previousPost?.title || 'Nenhum')
+    devLog('Próximo post (mais antigo):', nextPost?.title || 'Nenhum')
 
     return (
       <article className="max-w-4xl mx-auto px-4 py-8">

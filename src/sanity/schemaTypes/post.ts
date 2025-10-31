@@ -38,7 +38,7 @@ export default defineType({
       name: 'slug',
       title: 'URL do Post (Slug)',
       type: 'slug',
-      description: '💡 Para preview: copie este slug e acesse http://localhost:3000/api/draft?secret=tuany-preview-2024-secret&slug=/blog/SEU-SLUG',
+      description: '💡 Para preview: copie este slug e acesse http://localhost:3000/api/draft?secret=SEU_SECRET&slug=/blog/SEU-SLUG (configure SEU_SECRET no .env.local)',
       options: {
         source: 'title', // Gera o slug automaticamente a partir do título
         maxLength: 96,

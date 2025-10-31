@@ -11,11 +11,8 @@ export const projectId = assertValue(
   'Missing environment variable: NEXT_PUBLIC_SANITY_PROJECT_ID'
 )
 
-// Token para operações no servidor
+// Token para operações no servidor (apenas server-side)
 export const SANITY_API_READ_TOKEN = process.env.SANITY_API_READ_TOKEN;
-
-// Token específico para preview
-export const SANITY_PREVIEW_SECRET = process.env.SANITY_PREVIEW_SECRET || 'tuany-preview-2024-secret';
 
 function assertValue<T>(v: T | undefined, errorMessage: string): T {
   if (v === undefined) {

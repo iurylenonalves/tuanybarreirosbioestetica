@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { client } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
 import { ChevronRight } from 'lucide-react'
+import { devLog, errorLog } from '@/lib/logger'
 
 interface Post {
   _id: string
@@ -52,10 +53,10 @@ async function getPosts() {
       }
     )
     
-    console.log(`✅ Posts carregados: ${posts.length}`)
+    devLog(`Posts carregados: ${posts.length}`)
     return posts
   } catch (error) {
-    console.error('Erro ao buscar posts:', error)
+    errorLog('Erro ao buscar posts', error)
     return []
   }
 }
