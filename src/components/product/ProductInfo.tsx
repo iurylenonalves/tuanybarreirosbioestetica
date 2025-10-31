@@ -37,7 +37,7 @@ export function ProductInfo({ product, reviews }: ProductInfoProps) {
           {product.category.name}
         </span>
         {product.featured && (
-          <span className="text-sm text-yellow-600 bg-yellow-100 px-2 py-1 rounded">
+          <span className="text-sm text-yellow-600 px-2 py-1 rounded">
             ⭐ Destaque
           </span>
         )}

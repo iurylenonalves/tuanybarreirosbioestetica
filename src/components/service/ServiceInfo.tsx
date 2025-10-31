@@ -39,12 +39,12 @@ export function ServiceInfo({ servicePackage, reviews }: ServiceInfoProps) {
           </span>
         )}
         {servicePackage.popular && (
-          <span className="text-sm text-yellow-600 bg-yellow-100 px-2 py-1 rounded">
+          <span className="text-sm text-yellow-600 px-2 py-1 rounded">
             🔥 Mais Procurado
           </span>
         )}
         {servicePackage.featured && (
-          <span className="text-sm text-purple-600 bg-purple-100 px-2 py-1 rounded">
+          <span className="text-sm text-purple-600 px-2 py-1 rounded">
             ⭐ Destaque
           </span>
         )}
