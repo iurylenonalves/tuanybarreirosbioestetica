@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { ProductCard } from '@/components/cards/ProductCard';
 import { CategoryFilter } from '@/components/ui/CategoryFilter';
@@ -53,7 +54,18 @@ interface ProductsPageClientProps {
 }
 
 export function ProductsPageClient({ products, servicePackages, categories }: ProductsPageClientProps) {
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const searchParams = useSearchParams();
+  
+  // Ler categoria da URL imediatamente no estado inicial
+  const [selectedCategory, setSelectedCategory] = useState<string>(() => {
+    return searchParams.get('category') || 'all';
+  });
+
+  // Atualizar categoria quando a URL mudar
+  useEffect(() => {
+    const categoryFromUrl = searchParams.get('category');
+    setSelectedCategory(categoryFromUrl || 'all');
+  }, [searchParams]);
 
   // Combinar produtos e serviços em um único array
   const allItems = useMemo(() => {

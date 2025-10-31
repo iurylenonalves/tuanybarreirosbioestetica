@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { ImageCarousel, Slide } from '@/components/ui/ImageCarousel';
 import { Button } from '@/components/ui/Button';
 import Link from 'next/dist/client/link';

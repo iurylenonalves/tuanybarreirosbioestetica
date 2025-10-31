@@ -52,8 +52,8 @@ export function CheckoutPage() {
     ).join('\n');
     
     const message = `*Pedido de Compra*\n\n*Itens:*\n${itemsList}\n\n*Total: ${formatPrice(state.total)}*\n\n*Dados do Cliente:*\nNome: ${customerInfo.name}\nEmail: ${customerInfo.email}\nTelefone: ${customerInfo.phone}\nEndereço: ${customerInfo.address}\nCidade: ${customerInfo.city}\nCEP: ${customerInfo.zipCode}`;
-    
-    const whatsappUrl = `https://wa.me/5511999999999?text=${encodeURIComponent(message)}`;
+
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=5511954474237&text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
 

@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 import { getProducts, getCategories, getServicePackages } from '@/sanity/shop';
 import { ProductsPageClient } from '@/components/pages/ProductsPageClient';
 
@@ -24,21 +25,25 @@ export default async function ShopPage() {
     ]);
 
     return (
-      <ProductsPageClient 
-        products={products}
-        servicePackages={servicePackages}
-        categories={categories}
-      />
+      <Suspense fallback={<div className="min-h-screen bg-brand-background flex items-center justify-center"><div className="animate-pulse text-2xl text-gray-600">Carregando...</div></div>}>
+        <ProductsPageClient 
+          products={products}
+          servicePackages={servicePackages}
+          categories={categories}
+        />
+      </Suspense>
     );
   } catch (error) {
     console.error('Erro ao carregar produtos:', error);
     
     return (
-      <ProductsPageClient 
-        products={[]}
-        servicePackages={[]}
-        categories={[]}
-      />
+      <Suspense fallback={<div className="min-h-screen bg-brand-background flex items-center justify-center"><div className="animate-pulse text-2xl text-gray-600">Carregando...</div></div>}>
+        <ProductsPageClient 
+          products={[]}
+          servicePackages={[]}
+          categories={[]}
+        />
+      </Suspense>
     );
   }
 }

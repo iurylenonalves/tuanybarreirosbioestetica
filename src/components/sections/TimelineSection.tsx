@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { TimelineCarousel, TimelineSlide } from '@/components/ui/TimelineCarousel';
 
 const timelineData: TimelineSlide[] = [

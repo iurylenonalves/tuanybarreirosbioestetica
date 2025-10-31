@@ -24,9 +24,16 @@ export function Header() {
         
         {/* 1. Logo à Esquerda */}
         <div className="flex-1 flex justify-start">
-          <Link href="/">
-            {/* Ajuste o src, width e height conforme o seu arquivo de logo */}
-            <Image src="/logo.png" alt="Tuany Barreiros Logo" width={180} height={40} />
+          <Link href="/" className="flex items-center">
+            {/* Logo com tamanho proporcional e espaçamento adequado */}
+            <Image 
+              src="/logo.png" 
+              alt="Tuany Barreiros Logo" 
+              width={120} 
+              height={65}
+              className="object-contain"
+              priority
+            />
           </Link>
         </div>
 

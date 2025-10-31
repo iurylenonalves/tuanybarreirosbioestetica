@@ -1,6 +1,5 @@
-import Image from 'next/image';
 import Link from 'next/link';
-import { Facebook, Instagram, Twitter, Linkedin, Youtube, Mail, Phone, MapPin } from 'lucide-react';
+import { Facebook, Instagram, Twitter, Linkedin, Youtube } from 'lucide-react';
 
 export function Footer() {
   const socialLinks = [

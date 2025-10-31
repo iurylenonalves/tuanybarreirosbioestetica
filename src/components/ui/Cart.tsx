@@ -144,13 +144,13 @@ export function Cart() {
               </div>
               
               <div className="space-y-3">
-                <Link href="/checkout" className="block">
+                <Link href="/checkout" className="block" onClick={closeCart}>
                   <Button variant="primary" className="w-full">
                     Finalizar Compra
                   </Button>
                 </Link>
-                <Link href="/produtos" className="block">
-                  <Button variant="secondary" className="w-full" onClick={closeCart}>
+                <Link href="/produtos" className="block" onClick={closeCart}>
+                  <Button variant="secondary" className="w-full">
                     Continuar Comprando
                   </Button>
                 </Link>

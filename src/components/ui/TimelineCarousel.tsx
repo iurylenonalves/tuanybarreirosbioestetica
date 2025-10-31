@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useCallback } from 'react';
-import Image from 'next/image';
 import useEmblaCarousel from 'embla-carousel-react';
 import type { EmblaOptionsType } from 'embla-carousel';
 import { ArrowLeft, ArrowRight, Image as ImageIcon } from 'lucide-react';
