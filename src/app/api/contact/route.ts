@@ -5,7 +5,25 @@ import { ZodError } from 'zod';
 
 export async function POST(request: NextRequest) {
   try {
-    // 1. Rate Limiting - PROTEÇÃO CONTRA SPAM
+    // 1. Verificação de Origem - PROTEÇÃO CSRF
+    const origin = request.headers.get('origin');
+    const host = request.headers.get('host');
+    
+    // Permitir apenas requisições do próprio site
+    const allowedOrigins = [
+      `http://${host}`,
+      `https://${host}`,
+      'http://localhost:3000', // Dev
+    ];
+    
+    if (!origin || !allowedOrigins.some(allowed => origin.startsWith(allowed))) {
+      return NextResponse.json(
+        { error: 'Origem não autorizada' },
+        { status: 403 }
+      );
+    }
+
+    // 2. Rate Limiting - PROTEÇÃO CONTRA SPAM
     const clientIP = getClientIP(request);
     const rateLimitResult = checkRateLimit(clientIP, RateLimitPresets.FORM_SUBMISSION);
     

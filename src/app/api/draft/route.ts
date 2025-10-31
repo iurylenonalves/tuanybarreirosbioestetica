@@ -4,7 +4,32 @@ import { NextRequest, NextResponse } from 'next/server'
 import { checkRateLimit, getClientIP, RateLimitPresets } from '@/lib/rateLimit'
 
 export async function GET(request: NextRequest) {
-  // Rate limiting
+  // 1. Verificação de Origem - PROTEÇÃO CSRF
+  const origin = request.headers.get('origin');
+  const referer = request.headers.get('referer');
+  const host = request.headers.get('host');
+  
+  // Permitir requisições do Sanity Studio e do próprio site
+  const allowedOrigins = [
+    `http://${host}`,
+    `https://${host}`,
+    'http://localhost:3000',
+    'http://localhost:3333', // Sanity Studio local
+  ];
+  
+  // Verificar origin OU referer (algumas ferramentas não enviam origin)
+  const sourceUrl = origin || referer;
+  if (sourceUrl && !allowedOrigins.some(allowed => sourceUrl.startsWith(allowed))) {
+    return new Response(
+      JSON.stringify({ error: 'Origem não autorizada' }),
+      { 
+        status: 403,
+        headers: { 'Content-Type': 'application/json' }
+      }
+    );
+  }
+
+  // 2. Rate limiting
   const clientIP = getClientIP(request);
   const rateLimitResult = checkRateLimit(clientIP, RateLimitPresets.PREVIEW);
   
