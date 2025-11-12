@@ -11,15 +11,14 @@ export function ContactDetailsSection() {
     {
       icon: <Phone size={24} className="text-brand-brown" />,
       title: 'Telefone',
-      value: '+55 (11) 98765-4321',
-      href: 'tel:+5511987654321',
+      value: '+55 (11) 95447-4237',
+      href: 'tel:+5511954474237',
     },
     {
       icon: <MapPin size={24} className="text-brand-brown" />,
       title: 'Endereço',
-      value: 'Rua Oscar Freire, 1234 - São Paulo, SP',
-      // TODO: Troque pelo link "Compartilhar" do Google Maps
-      href: '#',
+      value: 'Av. Guilherme Cotching, 1948 - sala 13 - Vila Maria, São Paulo - SP, 02113-014',
+      href: 'https://www.google.com/maps/search/?api=1&query=Av.+Guilherme+Cotching%2C+1948+-+sala+13+-+Vila+Maria%2C+S%C3%A3o+Paulo+-+SP%2C+02113-014',
       target: '_blank',
     },
   ];
@@ -44,7 +43,7 @@ export function ContactDetailsSection() {
             {/* Placeholder do Mapa do Google */}
             <div className="mt-8 aspect-video w-full overflow-hidden rounded-lg shadow-md">              
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30525.476516722898!2d-46.59747847045781!3d-23.51508555989273!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce5f365f75e849%3A0x2244bb10424d0f6e!2sPra%C3%A7a%20Santo%20Eduardo%20-%20Vila%20Maria%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2002120-005%2C%20Brasil!5e1!3m2!1spt-BR!2suk!4v1761240911394!5m2!1spt-BR!2suk" // <-- COLE O SRC DO GOOGLE MAPS AQUI
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7631.471647656955!2d-46.5879054869564!3d-23.513316578744693!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce5f37c77d742b%3A0xd64e5b6827bcef02!2sAv.%20Guilherme%20Cotching%2C%201948%20-%20sala%2013%20-%20Vila%20Maria%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2002113-014%2C%20Brazil!5e1!3m2!1sen!2suk!4v1762951789377!5m2!1sen!2suk" // <-- COLE O SRC DO GOOGLE MAPS AQUI
                 className="w-full h-full border-0"
                 allowFullScreen={false}
                 loading="lazy"

@@ -53,7 +53,7 @@ const nextConfig: NextConfig = {
               "img-src 'self' data: blob: https://cdn.sanity.io https://calendly.com",
               "font-src 'self' data:",
               "connect-src 'self' https://*.sanity.io https://calendly.com wss://*.sanity.io",
-              "frame-src 'self' https://calendly.com https://*.calendly.com",
+              "frame-src 'self' https://calendly.com https://*.calendly.com https://www.google.com",
               "media-src 'self' https://cdn.sanity.io",
               "object-src 'none'",
               "base-uri 'self'",

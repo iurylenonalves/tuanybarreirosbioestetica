@@ -20,14 +20,16 @@ export function Footer() {
           <div className="lg:col-span-2 space-y-6">
             <div>
               <h4 className="font-semibold text-brand-text-button mb-2">Endereço</h4>
-              <a href="#" target="_blank" rel="noopener noreferrer" className="hover:underline">
-                São Paulo, Brasil
+              <a href="https://www.google.com/maps/search/?api=1&query=Av.+Guilherme+Cotching%2C+1948+-+sala+13+-+Vila+Maria%2C+S%C3%A3o+Paulo+-+SP%2C+02113-014" target="_blank" rel="noopener noreferrer" className="hover:underline">
+                Av. Guilherme Cotching, 1948 - sala 13
+                <br />
+                Vila Maria, São Paulo - SP, 02113-014
               </a>
             </div>
             <div>
               <h4 className="font-semibold text-brand-text-button mb-2">Contato</h4>
               <div className="flex flex-col items-start gap-1">
-                <a href="tel:+5511912345678" className="hover:underline">+55 11 9 1234 5678</a>
+                <a href="tel:+5511954474237" className="hover:underline">+55 11 95447-4237</a>
                 <a href="mailto:contato@tuanybarreiros.com.br" className="hover:underline">contato@tuanybarreiros.com.br</a>
               </div>
             </div>
