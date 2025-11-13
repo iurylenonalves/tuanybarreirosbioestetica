@@ -118,6 +118,20 @@ export const productType = defineType({
       }
     }),
     defineField({
+      name: 'bundleWith',
+      title: 'Vender em Combo com',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'product' }] }],
+      description: 'Produtos que podem ser vendidos juntos (ex: Prolongador + Botox Intense)'
+    }),
+    defineField({
+      name: 'bundleDiscount',
+      title: 'Desconto no Combo (%)',
+      type: 'number',
+      description: 'Porcentagem de desconto quando comprado em combo',
+      validation: Rule => Rule.min(0).max(100)
+    }),
+    defineField({
       name: 'featured',
       title: 'Produto em Destaque',
       type: 'boolean',
