@@ -27,7 +27,7 @@ export function TimelineSection() {
   return (
     <section className="bg-brand-background py-16 md:py-20">
       <div className="container mx-auto px-4">
-        {/* Bloco de Título */}
+        {/* Title Block */}
         <div className="text-center max-w-3xl mx-auto">
           <span className="text-sm font-semibold uppercase text-brand-dark-nude">
             Trajetória
@@ -40,7 +40,7 @@ export function TimelineSection() {
           </p>
           {/* <div className="mt-8 flex items-center justify-center gap-6">
             <Link 
-              href="/servicos"
+              href="/procedimentos"
               className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold px-6 py-3 rounded-lg transition-colors"
             >
               Explorar
@@ -54,7 +54,7 @@ export function TimelineSection() {
           </div> */}
         </div>
 
-        {/* Carrossel da Timeline */}
+        {/* Timeline Carousel */}
         <div className="mt-20">
           <TimelineCarousel slides={timelineData} />
         </div>
