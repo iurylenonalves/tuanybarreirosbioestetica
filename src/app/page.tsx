@@ -1,5 +1,6 @@
 import { HeroSection } from "@/components/sections/HeroSection";
 import { AboutSnippetSection } from "@/components/sections/AboutSnippetSection";
+import { MethodologySection } from "@/components/sections/MethodologySection";
 import { ServicesSection } from "@/components/sections/ServicesSection";
 import { ResultsSection } from "@/components/sections/ResultsSection";
 import { CtaFormSection } from "@/components/sections/CtaFormSection";
@@ -12,6 +13,7 @@ export default function Home() {
     <main>
       <HeroSection />
       <AboutSnippetSection />
+      <MethodologySection />
       <ServicesSection />
       <ResultsSection />
       <CtaFormSection />

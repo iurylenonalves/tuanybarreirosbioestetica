@@ -2,32 +2,32 @@ import { FeatureRow } from '@/components/ui/FeatureRow';
 
 const featuresData = [
   {
-    eyebrow: 'Cuidado',
-    title: 'Abordagem personalizada',
-    description: 'Cada tratamento é único. Desenvolvemos estratégias individuais para suas necessidades específicas.',
+    eyebrow: 'DE DENTRO PARA FORA',
+    title: 'Beleza é reflexo de saúde',
+    description: 'Acreditamos que uma pele bonita é consequência de um corpo equilibrado. Unimos ciência e estética integrativa para tratar a causa, não apenas o sintoma.',
     imageSrc: '/service-limpeza.jpg',
-    tags: [{ text: 'Saiba mais', href: '#' }, { text: 'Detalhes', href: '#' }],
+    tags: [],
   },
   {
-    eyebrow: 'Técnicas profissionais',
-    title: 'Utilizamos métodos avançados e equipamentos de última geração para resultados excepcionais.',
-    description: '',
+    eyebrow: 'DIAGNÓSTICO ÚNICO',
+    title: 'Avaliação detalhada e escuta ativa',
+    description: 'Analisamos seus exames, hábitos e queixas em profundidade. Seu plano de tratamento é desenhado exclusivamente para o seu momento e sua individualidade.',
     imageSrc: '/service-peeling.jpg',
-    tags: [{ text: 'Conforto', href: '#' }, { text: 'Ambiente acolhedor', href: '#' }],
+    tags: [],
   },
   {
-    eyebrow: 'Resultado',
-    title: 'Saiba mais',
-    description: 'Criamos um espaço de bem-estar onde você se sente segura e relaxada. Nosso objetivo é realçar sua beleza única, não modificá-la.',
+    eyebrow: 'RESULTADOS REAIS',
+    title: 'Realce sua melhor versão',
+    description: 'Nossos protocolos fogem dos exageros. Buscamos a harmonia e a naturalidade, devolvendo sua autoconfiança e preservando a essência de quem você é.',
     imageSrc: '/result-1.jpg',
-    tags: [{ text: 'Transformação natural', href: '#' }],
+    tags: [],
   },
   {
-    eyebrow: 'Acompanhamento contínuo',
-    title: 'Compromisso',
-    description: 'Oferecemos suporte e orientação mesmo após o tratamento.',
+    eyebrow: 'EXPERIÊNCIA',
+    title: 'Mais do que estética, acolhimento',
+    description: 'Um ambiente seguro e acolhedor, onde você encontra suporte contínuo. Cuidar de si mesma deve ser uma jornada leve e prazerosa.',
     imageSrc: '/service-nutricao.jpg',
-    tags: [{ text: 'Saiba mais', href: '#' }],
+    tags: [],
   },
 ];
 
@@ -35,7 +35,7 @@ export function FeaturesListSection() {
   return (
     <section className="bg-brand-pink-light py-16 md:py-20">
       <div className="container mx-auto px-4">
-        {/* Bloco de Título */}
+        {/* Title Block */}
         <div className="text-center max-w-3xl mx-auto">
           <span className="text-sm font-semibold uppercase text-brand-dark-nude">
             Benefícios
@@ -48,7 +48,7 @@ export function FeaturesListSection() {
           </p>
         </div>
 
-        {/* Lista de Features */}
+        {/* Features List */}
         <div className="mt-16 space-y-16">
           {featuresData.map((feature, index) => (
             <FeatureRow
@@ -58,7 +58,6 @@ export function FeaturesListSection() {
               description={feature.description}
               imageSrc={feature.imageSrc}
               tags={feature.tags}
-              // Lógica para alternar a posição da imagem
               imagePosition={index % 2 === 0 ? 'right' : 'left'}
             />
           ))}
