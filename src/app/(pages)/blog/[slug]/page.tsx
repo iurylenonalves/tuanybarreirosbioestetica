@@ -5,7 +5,7 @@ import { clientWithToken } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
 import Link from 'next/link'
 import Image from 'next/image'
-import { devLog, errorLog } from '@/lib/logger'
+import { devLog } from '@/lib/logger'
 
 interface Post {
   _id: string

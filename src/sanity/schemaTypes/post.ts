@@ -1,14 +1,11 @@
 import {defineField, defineType} from 'sanity'
 
 export default defineType({
-  // O nome interno do schema (não pode ter espaços)
-  name: 'post',
-  // O nome que aparecerá no painel do Sanity Studio
-  title: 'Post do Blog',
-  // O tipo de schema
+  
+  name: 'post',  
+  title: 'Post do Blog',  
   type: 'document',
 
-  // Configuração de preview personalizada
   preview: {
     select: {
       title: 'title',
@@ -26,13 +23,13 @@ export default defineType({
     },
   },
 
-  // Aqui definimos os campos que cada "Post" terá
+  // Define the fields that each "Post" will have
   fields: [
     defineField({
       name: 'title',
       title: 'Título do Post',
       type: 'string',
-      validation: Rule => Rule.required(), // Campo obrigatório
+      validation: Rule => Rule.required(), // Required field
     }),
     defineField({
       name: 'slug',
@@ -40,7 +37,7 @@ export default defineType({
       type: 'slug',
       description: '💡 Para preview: copie este slug e acesse http://localhost:3000/api/draft?secret=SEU_SECRET&slug=/blog/SEU-SLUG (configure SEU_SECRET no .env.local)',
       options: {
-        source: 'title', // Gera o slug automaticamente a partir do título
+        source: 'title', // Automatically generates the slug from the title
         maxLength: 96,
       },
       validation: Rule => Rule.required(),
@@ -50,9 +47,9 @@ export default defineType({
       title: 'Imagem de Capa',
       type: 'image',
       options: {
-        hotspot: true, // Permite ajustar o foco da imagem
+        hotspot: true, // Allows adjusting the focus of the image
       },
-      fields: [ // Adicionando um campo de 'alt' text para acessibilidade
+      fields: [ // Adding an 'alt' text field for accessibility
         {
           name: 'alt',
           type: 'string',
@@ -69,12 +66,12 @@ export default defineType({
       type: 'datetime',
       description: 'Quando este post deve ser publicado',
       validation: Rule => Rule.required(),
-      initialValue: () => new Date().toISOString(), // Data atual por padrão
+      initialValue: () => new Date().toISOString(), // Date defaults to now
     }),
     defineField({
       name: 'body',
       title: 'Conteúdo do Post',
-      type: 'blockContent', // Um tipo customizado para o editor de texto rico
+      type: 'blockContent', // A custom type for the rich text editor
       description: 'Escreva o conteúdo do seu post aqui',
       validation: Rule => Rule.required(),
     }),

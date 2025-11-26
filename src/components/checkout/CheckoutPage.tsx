@@ -5,7 +5,7 @@ import { useCart } from '@/contexts/CartContext';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
-import { checkoutSchema, formatZodError, sanitizeString, type CheckoutFormData } from '@/lib/validations/schemas';
+import { checkoutSchema, formatZodError, sanitizeString } from '@/lib/validations/schemas';
 import { z } from 'zod';
 
 function formatPrice(price: number): string {
@@ -52,21 +52,19 @@ export function CheckoutPage() {
     setErrors({});
     setIsSubmitting(true);
     
-    try {
-      // Validar dados com Zod
-      const validatedData = checkoutSchema.parse(customerInfo);
+    try {      
+      const validatedData = checkoutSchema.parse(customerInfo);      
       
-      // Sanitizar dados para segurança
       const sanitizedData = {
         name: sanitizeString(validatedData.name),
         email: sanitizeString(validatedData.email),
-        phone: validatedData.phone, // Já foi transformado pelo schema
+        phone: validatedData.phone,
         address: sanitizeString(validatedData.address),
         city: sanitizeString(validatedData.city),
-        zipCode: validatedData.zipCode // Já foi transformado pelo schema
+        zipCode: validatedData.zipCode
       };
       
-      // Criar mensagem para WhatsApp
+      // Create WhatsApp message
       const itemsList = state.items.map(item => 
         `• ${sanitizeString(item.name)} (${item.quantity}x) - ${formatPrice(item.price * item.quantity)}`
       ).join('\n');
@@ -98,7 +96,7 @@ export function CheckoutPage() {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12">
-          {/* Resumo do Pedido */}
+          {/* Order Summary */}
           <div>
             <h2 className="text-xl font-serif font-bold text-gray-900 mb-6">
               Resumo do Pedido
@@ -171,7 +169,7 @@ export function CheckoutPage() {
             </div>
           </div>
 
-          {/* Formulário de Dados */}
+          {/* Customer Information */}
           <div>
             <h2 className="text-xl font-serif font-bold text-gray-900 mb-6">
               Seus Dados

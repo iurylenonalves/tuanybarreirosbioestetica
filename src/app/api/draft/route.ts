@@ -1,6 +1,6 @@
 import { draftMode } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 import { checkRateLimit, getClientIP, RateLimitPresets } from '@/lib/rateLimit'
 
 export async function GET(request: NextRequest) {

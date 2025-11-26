@@ -7,6 +7,11 @@ import { productType } from './product'
 import { categoryType } from './category'
 import { servicePackageType } from './servicePackage'
 import { reviewType } from './review'
+import { heroType } from './hero'
+import { aboutType } from './about'
+import { methodologyType } from './methodology'
+import { procedureType } from './procedure'
+import { servicesHeroType } from './servicesHero'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   // 2. Adicione seus schemas ao array 'types'
@@ -18,6 +23,12 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     productType,
     categoryType,
     servicePackageType,
-    reviewType
+    reviewType,
+    // Institucional
+    heroType,
+    aboutType,
+    methodologyType,
+    procedureType,
+    servicesHeroType
   ],
 }
