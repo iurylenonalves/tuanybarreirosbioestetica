@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { contactSchema, sanitizeString } from '@/lib/validations/schemas';
+import { contactSchema } from '@/lib/validations/schemas';
 import { ZodError } from 'zod';
 
 export function ContactFormSection() {

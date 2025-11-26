@@ -7,26 +7,29 @@ export function ContactHeroSection() {
       <div className="container mx-auto px-4">
         <div className="text-center max-w-3xl mx-auto">
           
-          <span className="text-sm font-semibold uppercase text-brand-dark-nude">
+          {/* <span className="text-sm font-semibold uppercase text-brand-dark-nude">
             Conexão
-          </span>
+          </span> */}
 
           <h1 className="font-serif text-4xl md:text-6xl font-bold mt-2 text-gray-800">
             Entre em contato
           </h1>
           
           <p className="mt-4 text-lg text-gray-600">
-            Estou aqui para ouvir suas dúvidas e ajudar você a alcançar seus objetivos de bem-estar.
+            Se você busca <strong>tratamentos personalizados</strong>, que respeitam a sua individualidade e valorizam a sua beleza natural, o primeiro passo é simples: <strong>vamos conversar.</strong>
+            <br />
+            <br />
+            Tire suas dúvidas, agende uma avaliação ou marque sua consultoria personalizada.
           </p>
           
           {/* BOTÃO ÚNICO E CENTRALIZADO, CONFORME SUA SUGESTÃO */}
           <div className="mt-8">
             <Link 
-              href="https://api.whatsapp.com/send?phone=5511954474237&text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20serviços."
+              href="https://api.whatsapp.com/send?phone=5511954474237&text=Olá!%20Gostaria%20de%20agendar%20uma%20consulta."
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Button variant="primary">Saiba mais</Button>
+              <Button variant="primary">Agendar Consulta</Button>
             </Link>
           </div>
 
