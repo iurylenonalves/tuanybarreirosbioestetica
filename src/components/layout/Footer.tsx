@@ -12,18 +12,18 @@ export function Footer() {
 
    return (
     <footer className="bg-white font-medium text-brand-brown">
-      <div className="container mx-auto px-4 py-16">
-        {/* Grid Principal do Footer */}
+      <div className="container mx-auto px-4 py-16">        
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-sm">
           
-          {/* Coluna 1: Endereço, Contato e Icones */}
+          {/* Column 1 */}
           <div className="lg:col-span-2 space-y-6">
             <div>
               <h4 className="font-semibold text-brand-text-button mb-2">Endereço</h4>
               <a href="https://www.google.com/maps/search/?api=1&query=Av.+Guilherme+Cotching%2C+1948+-+sala+13+-+Vila+Maria%2C+S%C3%A3o+Paulo+-+SP%2C+02113-014" target="_blank" rel="noopener noreferrer" className="hover:underline">
-                Av. Guilherme Cotching, 1948 - sala 13
-                <br />
-                Vila Maria, São Paulo - SP, 02113-014
+                Clínica Tuany Barreiros - Estética Integrativa e Avançada<br />
+                Av. Guilherme Cotching, 1948 - sala 13<br />
+                Vila Maria, São Paulo - SP<br />
+                CEP: 02113-014
               </a>
             </div>
             <div>
@@ -48,19 +48,19 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Coluna 2: Navegação Principal */}
+          {/* Column 2 */}
           <div className="space-y-4">
             <h4 className="font-semibold text-brand-text-button mb-2">Navegação</h4>
             <ul className="space-y-3">
               <li><Link href="/" className="hover:underline">Início</Link></li>
               <li><Link href="/sobre" className="hover:underline">Sobre mim</Link></li>
-              <li><Link href="/servicos" className="hover:underline">Serviços</Link></li>
+              <li><Link href="/procedimentos" className="hover:underline">Procedimentos</Link></li>
               <li><Link href="/resultados" className="hover:underline">Resultados</Link></li>
               <li><Link href="/blog" className="hover:underline">Blog</Link></li>
             </ul>
           </div>
 
-          {/* Coluna 3: Links Úteis/Legais */}
+          {/* Column 3 */}
           <div className="space-y-4">
             <h4 className="font-semibold text-brand-text-button mb-2">Informações</h4>
             <ul className="space-y-3">
@@ -72,11 +72,10 @@ export function Footer() {
             </ul>
           </div>
         </div>
-
-        {/* Linha Divisória */}
+        
         <div className="border-t text-brand-brown my-8"></div>
 
-        {/* Barra de Copyright */}
+        {/* Copyright Bar */}
         <div className="flex flex-col md:flex-row justify-between items-center text-center text-xs space-y-4 md:space-y-0">
           <p>&copy; {new Date().getFullYear()} Tuany Barreiros Bioestética. Todos os direitos reservados.</p>
           <div className="flex gap-x-6 gap-y-2 flex-wrap justify-center">

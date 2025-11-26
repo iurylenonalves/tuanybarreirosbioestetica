@@ -12,9 +12,10 @@ export function Header() {
   const navLinks = [
     { label: "Início", href: "/" },
     { label: "Sobre mim", href: "/sobre" },
-    { label: "Serviços", href: "/servicos" },
+    { label: "Procedimentos", href: "/procedimentos" },
     { label: "Produtos", href: "/produtos" },
     { label: "Blog", href: "/blog", hasDropdown: true },
+    { label: "Contato", href: "/contato" },
   ];
 
   return (
@@ -38,9 +39,9 @@ export function Header() {
         </div>
 
         {/* 2. Navegação Centralizada */}
-        {/* Escondemos em telas pequenas (md:) e usamos posicionamento absoluto para centralizar perfeitamente */}
-        <nav className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-          <ul className="flex items-center gap-10">
+        {/* Escondemos em telas pequenas (lg:) e usamos posicionamento absoluto para centralizar perfeitamente */}
+        <nav className="hidden lg:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <ul className="flex items-center gap-6 xl:gap-10">
             {navLinks.map((link) => (
               <li key={link.label}>
                 <Link 
@@ -56,7 +57,7 @@ export function Header() {
         </nav>
 
         {/* 3. Botões à Direita */}
-        <div className="hidden md:flex flex-1 justify-end items-center gap-3">
+        <div className="hidden lg:flex flex-1 justify-end items-center gap-3">
           <CartIcon />
           <Link 
             href="/agendar" // Ou link direto do Calendly
@@ -67,7 +68,7 @@ export function Header() {
         </div>
 
         {/* 5. Carrinho e Botão Hambúrguer para Mobile */}
-        <div className="md:hidden flex items-center gap-2">
+        <div className="lg:hidden flex items-center gap-2">
           <CartIcon />
           <button onClick={() => setMobileMenuOpen(!isMobileMenuOpen)} className="z-50">
             {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -76,7 +77,7 @@ export function Header() {
 
         {/* 6. Painel do Menu Mobile */}
         {isMobileMenuOpen && (
-          <div className="md:hidden absolute top-0 left-0 w-full h-screen bg-white pt-24">
+          <div className="lg:hidden absolute top-0 left-0 w-full h-screen bg-white pt-24">
             <nav className="flex flex-col items-center text-center gap-8 mt-8">
               <ul className="flex flex-col items-center gap-8">
                 {navLinks.map((link) => (
