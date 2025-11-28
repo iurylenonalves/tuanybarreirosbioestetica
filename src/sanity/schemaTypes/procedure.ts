@@ -20,7 +20,7 @@ export const procedureType = defineType({
           { title: 'Faciais', value: 'facial' },
           { title: 'Corporais', value: 'corporal' },
           { title: 'Terapias Manuais', value: 'terapias_manuais' },
-          { title: 'Consultoria Integrativa', value: 'consultoria' },
+          { title: 'Consultoria', value: 'consultoria' },
         ],
       },
       validation: (rule) => rule.required(),

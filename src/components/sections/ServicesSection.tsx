@@ -1,3 +1,5 @@
+import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
 import { ServiceCard } from '@/components/cards/ServiceCard';
 import { client } from '@/sanity/lib/client';
 import { urlFor } from '@/sanity/lib/image';
@@ -107,6 +109,13 @@ export async function ServicesSection() {
               />
             );
           })}
+        </div>
+
+        {/* View All Button */}
+        <div className="mt-12">
+          <Link href="/procedimentos">
+            <Button variant="primary">Ver todos os procedimentos</Button>
+          </Link>
         </div>
 
       </div>
