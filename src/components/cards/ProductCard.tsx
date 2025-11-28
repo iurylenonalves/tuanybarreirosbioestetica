@@ -40,7 +40,7 @@ function formatPrice(price: number): string {
 
 export function ProductCard({ item }: ProductCardProps) {
   const isService = item.type === 'servicePackage';
-  const link = isService ? `/produtos/servicos/${item.slug.current}` : `/produtos/${item.slug.current}`;
+  const link = isService ? `/produtos/pacotes/${item.slug.current}` : `/produtos/${item.slug.current}`;
   
   // Determinar imagem baseado no tipo
   const imageUrl = isService 

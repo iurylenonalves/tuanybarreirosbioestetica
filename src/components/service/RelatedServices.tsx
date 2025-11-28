@@ -30,7 +30,7 @@ export function RelatedServices({ services }: RelatedServicesProps) {
         {services.map((service) => (
           <Link
             key={service._id}
-            href={`/produtos/servicos/${service.slug.current}`}
+            href={`/produtos/pacotes/${service.slug.current}`}
             className="group"
           >
             <div className="bg-white border border-brand-dark-nude/20 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
