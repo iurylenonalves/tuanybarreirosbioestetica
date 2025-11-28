@@ -2,7 +2,7 @@ import { defineField, defineType } from 'sanity'
 
 export const procedureType = defineType({
   name: 'procedure',
-  title: 'Procedimentos (Serviços)',
+  title: 'Procedimentos',
   type: 'document',
   fields: [
     defineField({

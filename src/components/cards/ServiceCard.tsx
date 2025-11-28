@@ -2,7 +2,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
 
-// Definimos os dados que cada card vai precisar
 export interface ServiceCardProps {
   category: string;
   title: string;
@@ -24,7 +23,7 @@ export function ServiceCard({ category, title, description, imageSrc, linkHref }
         />
       </div>
       
-      {/* Conteúdo */}
+      {/* Content */}
       <div className="p-6">
         <span className="text-sm font-semibold uppercase text-brand-dark-nude">{category}</span>
         <h3 className="font-serif text-2xl font-bold mt-2 text-gray-800">{title}</h3>

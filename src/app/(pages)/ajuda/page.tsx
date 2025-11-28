@@ -16,7 +16,7 @@ export default function AjudaPage() {
 
         <div className="bg-white rounded-lg shadow-lg p-8 space-y-12">
           
-          {/* Acesso rápido */}
+          {/* Quick Access */}
           <section className="border-l-4 border-blue-500 pl-6">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">🚀 Acesso Rápido</h2>
             <div className="grid md:grid-cols-2 gap-4">
@@ -38,7 +38,7 @@ export default function AjudaPage() {
             </div>
           </section>
 
-          {/* Como criar posts */}
+          {/* How to Create Posts */}
           <section>
             <h2 className="text-2xl font-bold text-gray-900 mb-6">✍️ Como Criar Posts</h2>
             
@@ -71,7 +71,7 @@ export default function AjudaPage() {
             </div>
           </section>
 
-          {/* Sistema de Preview */}
+          {/* Preview System */}
           <section>
             <h2 className="text-2xl font-bold text-gray-900 mb-6">👁️ Sistema de Preview</h2>
             
@@ -110,7 +110,7 @@ export default function AjudaPage() {
             </div>
           </section>
 
-          {/* URLs úteis */}
+          {/* Useful Links */}
           <section>
             <h2 className="text-2xl font-bold text-gray-900 mb-6">🔗 Links Úteis</h2>
             
@@ -159,7 +159,7 @@ export default function AjudaPage() {
             </div>
           </section>
 
-          {/* Solução de problemas */}
+          {/* Error Solving */}
           <section>
             <h2 className="text-2xl font-bold text-gray-900 mb-6">🆘 Se Algo Der Errado</h2>
             

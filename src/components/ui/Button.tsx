@@ -8,21 +8,21 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 export function Button({ 
   children, 
-  variant = 'primary', // O padrão será sempre 'primary'
+  variant = 'primary', // Default button variant
   className, 
   ...props 
 }: ButtonProps) {
   
-  // Estilos base, comuns a todos os botões
+  // Base styles, common to all buttons
   const baseStyles = 'px-8 py-3 rounded-lg font-semibold transition-colors duration-300';
 
-  // Estilos específicos para cada variante
+  // Styles specific to each variant
   const variantStyles = {
     primary: 'bg-brand-text-button hover:bg-brand-brown text-white',
     secondary: 'bg-brand-off-white text-brand-text-button border-2 border-brand-text-button hover:bg-brand-pink-light',
   };
 
-  // Combinamos os estilos base, os da variante e qualquer outra classe que for passada
+  // Bases, variant and additional classes combined
   const combinedClasses = `${baseStyles} ${variantStyles[variant]} ${className}`;
 
   return (

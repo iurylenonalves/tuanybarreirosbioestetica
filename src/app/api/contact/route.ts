@@ -5,15 +5,14 @@ import { ZodError } from 'zod';
 
 export async function POST(request: NextRequest) {
   try {
-    // 1. Verificação de Origem - PROTEÇÃO CSRF
+    // Origin Check - CSRF PROTECTION
     const origin = request.headers.get('origin');
     const host = request.headers.get('host');
     
-    // Permitir apenas requisições do próprio site
     const allowedOrigins = [
       `http://${host}`,
       `https://${host}`,
-      'http://localhost:3000', // Dev
+      'http://localhost:3000', 
     ];
     
     if (!origin || !allowedOrigins.some(allowed => origin.startsWith(allowed))) {
@@ -23,7 +22,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 2. Rate Limiting - PROTEÇÃO CONTRA SPAM
+    // Rate Limiting
     const clientIP = getClientIP(request);
     const rateLimitResult = checkRateLimit(clientIP, RateLimitPresets.FORM_SUBMISSION);
     
@@ -45,16 +44,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 2. Parse e validação do body
+    // Parse and validate the body
     const body = await request.json();
 
-    // 3. Validação com Zod
+    //  Zod Validation
     const validatedData = contactSchema.parse(body);
 
-    // 4. TODO: INTEGRAÇÃO COM SERVIÇO DE EMAIL
-    // Aqui você vai integrar com o serviço que a cliente escolher:
+    //  TODO: EMAIL SERVICE INTEGRATION
     // 
-    // Opção 1 - Resend (Recomendado, fácil e profissional):
+    // Option 1 - Resend:
     // const resend = new Resend(process.env.RESEND_API_KEY);
     // await resend.emails.send({
     //   from: 'contato@seudominio.com',
@@ -70,7 +68,7 @@ export async function POST(request: NextRequest) {
     //   `
     // });
     //
-    // Opção 2 - SendGrid:
+    // Option 2 - SendGrid:
     // const msg = {
     //   to: 'tuany@email.com',
     //   from: 'contato@seudominio.com',
@@ -95,7 +93,7 @@ export async function POST(request: NextRequest) {
     //   html: '...'
     // });
 
-    // Por enquanto, apenas logamos (em desenvolvimento)
+    // Development Logging
     if (process.env.NODE_ENV === 'development') {
       console.log('[DEV] Contato recebido:', {
         name: validatedData.name,
@@ -105,7 +103,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // 5. Resposta de sucesso
+    // Success response
     return NextResponse.json(
       { 
         success: true,
@@ -115,7 +113,7 @@ export async function POST(request: NextRequest) {
     );
 
   } catch (error) {
-    // Erro de validação Zod
+    // Zod Validation Error
     if (error instanceof ZodError) {
       return NextResponse.json(
         { 
@@ -129,7 +127,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Erro genérico
+    // Generic Error
     console.error('[ERROR] Erro ao processar contato:', error);
     return NextResponse.json(
       { error: 'Erro ao enviar mensagem. Tente novamente.' },

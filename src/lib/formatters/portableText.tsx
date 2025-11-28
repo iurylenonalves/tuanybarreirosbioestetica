@@ -1,8 +1,8 @@
 import { PortableTextComponents } from 'next-sanity';
 
 /**
- * Componentes customizados para PortableText
- * Mantém consistência visual em todo o projeto
+ * Custom components for PortableText
+ * Maintains visual consistency throughout the project
  */
 export const portableTextComponents: PortableTextComponents = {
   block: {

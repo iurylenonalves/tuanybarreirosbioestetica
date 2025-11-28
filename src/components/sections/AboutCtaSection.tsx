@@ -15,7 +15,6 @@ export function AboutCtaSection() {
             Sua jornada para a beleza natural e bem-estar começa com um passo único e confiante.
           </p>
 
-          {/* Botões - usando os estilos da seção "Sobre" */}
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-6">
             <Link href="/agendar">
               <Button variant="primary">Agendar</Button>

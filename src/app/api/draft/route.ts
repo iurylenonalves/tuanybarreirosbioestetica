@@ -4,12 +4,11 @@ import { NextRequest } from 'next/server'
 import { checkRateLimit, getClientIP, RateLimitPresets } from '@/lib/rateLimit'
 
 export async function GET(request: NextRequest) {
-  // 1. Verificação de Origem - PROTEÇÃO CSRF
+  // Origin check - CSRF PROTECTION
   const origin = request.headers.get('origin');
   const referer = request.headers.get('referer');
   const host = request.headers.get('host');
   
-  // Permitir requisições do Sanity Studio e do próprio site
   const allowedOrigins = [
     `http://${host}`,
     `https://${host}`,
@@ -17,7 +16,7 @@ export async function GET(request: NextRequest) {
     'http://localhost:3333', // Sanity Studio local
   ];
   
-  // Verificar origin OU referer (algumas ferramentas não enviam origin)
+  // Check origin OR referer (some tools don't send origin)
   const sourceUrl = origin || referer;
   if (sourceUrl && !allowedOrigins.some(allowed => sourceUrl.startsWith(allowed))) {
     return new Response(
@@ -29,7 +28,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  // 2. Rate limiting
+  // Rate limiting
   const clientIP = getClientIP(request);
   const rateLimitResult = checkRateLimit(clientIP, RateLimitPresets.PREVIEW);
   
@@ -49,17 +48,16 @@ export async function GET(request: NextRequest) {
     });
   }
   
-  const { searchParams } = new URL(request.url)
+  const { searchParams } = new URL(request.url)  
   
-  // Parâmetros possíveis
   const secret = searchParams.get('secret')
   const slug = searchParams.get('slug')
   const pathname = searchParams.get('pathname')
   
-  // Token específico e fixo para preview
+  // Specific and fixed token for preview
   const PREVIEW_SECRET = process.env.SANITY_PREVIEW_SECRET
   
-  // Verificar secret
+  // Check secret
   if (!secret || !PREVIEW_SECRET || secret !== PREVIEW_SECRET) {
     return new Response(JSON.stringify({ 
       error: 'Invalid or missing secret'
@@ -69,20 +67,19 @@ export async function GET(request: NextRequest) {
     })
   }
 
-  // Habilitar draft mode
+  // Enable draft mode
   const draft = await draftMode()
   draft.enable()
 
-  // Determinar caminho de redirecionamento
+  // Determine redirect path
   let redirectPath = '/'
   
   if (pathname) {
     redirectPath = pathname
   } else if (slug) {
-    // Se começar com /, usar como está, senão adicionar /blog/
+    // If it starts with /, use as is, otherwise add /blog/
     redirectPath = slug.startsWith('/') ? slug : `/blog/${slug}`
   }
   
-  // Redirecionar (não envolver em try/catch)
   redirect(redirectPath)
 }

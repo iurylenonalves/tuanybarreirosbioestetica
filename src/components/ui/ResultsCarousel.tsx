@@ -6,7 +6,6 @@ import useEmblaCarousel from 'embla-carousel-react';
 import type { EmblaOptionsType } from 'embla-carousel';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
-// Dados que cada slide da galeria vai precisar
 export interface ResultSlide {
   src: string;
   alt: string;
@@ -17,7 +16,7 @@ interface ResultsCarouselProps {
 }
 
 const emblaOptions: EmblaOptionsType = {
-  align: 'start', // Alinha os slides a partir do início
+  align: 'start', 
   loop: true,
   containScroll: 'trimSnaps',
 };
@@ -39,11 +38,11 @@ export function ResultsCarousel({ slides }: ResultsCarouselProps) {
 
   return (
     <div>
-      {/* O Carrossel */}
+      {/* Carousel */}
       <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex -ml-4"> {/* Margem negativa para alinhar com o grid */}
+        <div className="flex -ml-4"> {/* Negative margin to align with the grid */}
           {slides.map((slide, index) => (
-            // A largura de cada slide é controlada aqui para responsividade
+            
             <div className="relative shrink-0 grow-0 basis-11/12 md:basis-4/5 pl-4" key={index}>
               <div className="relative h-96 w-full overflow-hidden rounded-lg">
                 <Image
@@ -58,7 +57,7 @@ export function ResultsCarousel({ slides }: ResultsCarouselProps) {
         </div>
       </div>
 
-      {/* Controles de Navegação */}
+      {/* Navigation Controls */}
       <div className="flex justify-between items-center mt-6">
         <div className="flex gap-2">
           <button onClick={scrollPrev} className="p-2 rounded-full cursor-pointer hover:bg-gray-100 transition-colors">

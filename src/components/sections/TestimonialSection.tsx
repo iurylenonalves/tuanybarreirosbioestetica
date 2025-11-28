@@ -1,6 +1,6 @@
 import { TestimonialsCarousel, TestimonialSlide } from '@/components/ui/TestimonialsCarousel';
 
-// Dados de exemplo para os depoimentos (futuramente virão do Sanity.io)
+// Sample testimonial data
 const testimonialsData: TestimonialSlide[] = [
   {
     quote: "Nunca imaginei que poderia me sentir tão confiante após um tratamento.",

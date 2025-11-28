@@ -2,7 +2,7 @@ import { draftMode } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
-  // Verificação de Origem - PROTEÇÃO CSRF
+  // Origin check - CSRF PROTECTION
   const origin = request.headers.get('origin');
   const referer = request.headers.get('referer');
   const host = request.headers.get('host');
@@ -18,11 +18,11 @@ export async function GET(request: NextRequest) {
     return new Response('Origem não autorizada', { status: 403 });
   }
 
-  // Desabilitar draft mode
+  // Disable draft mode
   const draft = await draftMode();
   draft.disable();
 
-  // Redirecionar para home ou para onde o usuário estava
+  // Redirect to home or where the user was
   const redirectUrl = referer || '/'
   
   return NextResponse.redirect(new URL(redirectUrl, request.url))

@@ -12,19 +12,19 @@ export function AboutHeroSection() {
           </span> */}
 
           <h1 className="font-serif text-4xl md:text-6xl font-bold mt-2 text-gray-800">
-            Conheça Dra. Tuany Barreiros
+            Conheça Dra Tuany Barreiros
           </h1>
           
           <p className="mt-4 text-lg text-gray-600">
             Transformando a beleza com precisão, cuidado e um profundo entendimento da elegância natural.
           </p>
           
-          {/* Reutilizando nossos componentes de Botão e Link */}
+          {/* Reusing our Button and Link components */}
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/agendar">
               <Button variant="primary">Agendar</Button>
             </Link>
-            <Link href="#minha-jornada"> {/* Link para a próxima seção desta página */}
+            <Link href="#minha-jornada">
               <Button variant="secondary">Saiba mais</Button>
             </Link>
           </div>

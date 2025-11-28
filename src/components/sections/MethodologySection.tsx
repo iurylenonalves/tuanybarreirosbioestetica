@@ -52,7 +52,7 @@ export async function MethodologySection() {
     <section className="bg-brand-pink-light py-16 md:py-24">
       <div className="container mx-auto px-4">
         
-        {/* Cabeçalho da Seção */}
+        {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="text-sm font-semibold uppercase text-brand-dark-nude">
             Metodologia
@@ -65,7 +65,7 @@ export async function MethodologySection() {
           </p>
         </div>
 
-        {/* Grid de Passos */}
+        {/* Steps Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
           {steps.map((step: Step, index: number) => (
             <div key={index} className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-brand-light-nude">
@@ -82,7 +82,7 @@ export async function MethodologySection() {
           ))}
         </div>
 
-        {/* Fechamento e CTA */}
+        {/* Closing and CTA */}
         <div className="text-center max-w-2xl mx-auto">
           <p className="text-xl font-serif text-gray-800 italic mb-8">
             &quot;{closingText}&quot;

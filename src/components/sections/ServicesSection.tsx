@@ -16,7 +16,7 @@ interface Procedure {
 }
 
 async function getProcedures() {
-  // Filtra apenas os destacados (featured == true) e limita a 3 itens
+  // Filter only featured procedures (featured == true) and limit to 3 items
   const query = `*[_type == "procedure" && featured == true][0...3] | order(_createdAt desc) {
     name,
     category,
@@ -71,7 +71,7 @@ export async function ServicesSection() {
     <section className="bg-brand-pink-light py-16 md:py-20">
       <div className="container mx-auto px-4 text-center">
         
-        {/* Bloco de Título */}
+        {/* Title Block */}
         <span className="text-sm font-semibold uppercase text-brand-dark-nude">
           Procedimentos
         </span>
@@ -82,17 +82,17 @@ export async function ServicesSection() {
           Protocolos completos para estimular colágeno, redefinir contornos e preservar a firmeza.
         </p>
 
-        {/* Grid de Serviços */}
+        {/* Services Grid */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {displayProcedures.map((proc: Procedure, index: number) => {
-            // Lógica segura para resolver a URL da imagem
-            let imageUrl = '/service-limpeza.jpg'; // Fallback padrão
+            
+            let imageUrl = '/service-limpeza.jpg'; // Default fallback
             
             if (proc.image?.asset?._ref) {
-              // Se tiver referência do Sanity, usa o urlFor
+                // If it has a Sanity reference, use urlFor
               imageUrl = urlFor(proc.image.asset).url();
             } else if (proc.image?.asset?.url) {
-              // Se for o fallback local (que tem a propriedade .url direta)
+                // If it's the local fallback (which has the direct .url property)
               imageUrl = proc.image.asset.url;
             }
 

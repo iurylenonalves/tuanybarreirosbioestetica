@@ -5,7 +5,7 @@ export const structure: StructureResolver = (S) =>
   S.list()
     .title('Tuany Bioestetica CMS')
     .items([
-      // Link para Ajuda
+      // Link to Blog Guide
       S.listItem()
         .title('📚 Guia do Blog')
         .id('guia-do-blog')
@@ -68,7 +68,7 @@ export const structure: StructureResolver = (S) =>
       
       S.divider(),
       
-      // Seção Blog
+      // Blog Section
       S.listItem()
         .title('📝 Blog')
         .child(
@@ -84,7 +84,7 @@ export const structure: StructureResolver = (S) =>
       
       S.divider(),
       
-      // Seção E-commerce
+      // E-commerce Section
       S.listItem()
         .title('🛒 Loja')
         .child(
@@ -115,7 +115,7 @@ export const structure: StructureResolver = (S) =>
       
       S.divider(),
       
-      // Items restantes (se houver)
+      // Remaining items (if any)
       ...S.documentTypeListItems().filter(listItem => 
         !['post', 'product', 'servicePackage', 'category', 'review'].includes(listItem.getId() || '')
       ),

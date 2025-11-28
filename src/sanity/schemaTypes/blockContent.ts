@@ -8,7 +8,7 @@ export default defineType({
     defineArrayMember({
       title: 'Block',
       type: 'block',
-      // Estilos de parágrafo (Normal, Título 1, etc.)
+      // Block style options
       styles: [
         {title: 'Normal', value: 'normal'},
         {title: 'H2', value: 'h2'},
@@ -16,9 +16,9 @@ export default defineType({
         {title: 'Quote', value: 'blockquote'},
         {title: 'Texto Justificado', value: 'justify'},
       ],
-      // Estilos de lista (Bala, Numerada)
+      // List styles (Bullet, Numbered)
       lists: [{title: 'Bullet', value: 'bullet'}, {title: 'Numbered', value: 'number'}],
-      // Estilos de texto (Negrito, Itálico)
+      // Text styles (Bold, Italic)
       marks: {
         decorators: [
           {title: 'Strong', value: 'strong'},
@@ -26,7 +26,7 @@ export default defineType({
         ],
       },
     }),
-    // Você pode adicionar outros tipos aqui, como imagens no meio do texto
+    
     defineArrayMember({
       type: 'image',
       options: {hotspot: true},

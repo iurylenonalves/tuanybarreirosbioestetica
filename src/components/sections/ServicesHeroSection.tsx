@@ -38,12 +38,11 @@ export async function ServicesHeroSection() {
             {description}
           </p>
           
-          {/* Reutilizando nosso componente de Botão padronizado */}
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/agendar">
               <Button variant="primary">Agendar</Button>
             </Link>
-            <Link href="#detalhes-servicos"> {/* Link para uma futura seção na mesma página */}
+            <Link href="#detalhes-servicos">
               <Button variant="secondary">Saiba mais</Button>
             </Link>
           </div>

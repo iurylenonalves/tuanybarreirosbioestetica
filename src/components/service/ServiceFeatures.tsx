@@ -19,7 +19,7 @@ export function ServiceFeatures({
 }: ServiceFeaturesProps) {
   return (
     <>
-      {/* Serviços Inclusos */}
+      {/* Included Services */}
       {includedServices && includedServices.length > 0 && (
         <div className="mt-16">
           <h2 className="text-2xl font-serif font-bold text-gray-900 mb-6">O que está incluído</h2>
@@ -41,7 +41,7 @@ export function ServiceFeatures({
         </div>
       )}
 
-      {/* Benefícios */}
+      {/* Benefits */}
       {benefits && benefits.length > 0 && (
         <div className="mt-16">
           <h2 className="text-2xl font-serif font-bold text-gray-900 mb-6">Benefícios</h2>
@@ -58,7 +58,7 @@ export function ServiceFeatures({
         </div>
       )}
 
-      {/* Público-Alvo */}
+      {/* Target Audience */}
       {targetAudience && targetAudience.length > 0 && (
         <div className="mt-16">
           <h2 className="text-2xl font-serif font-bold text-gray-900 mb-6">Para quem é indicado</h2>
@@ -75,7 +75,7 @@ export function ServiceFeatures({
         </div>
       )}
 
-      {/* Contraindicações */}
+      {/* Contraindications */}
       {contraindications && contraindications.length > 0 && (
         <div className="mt-16">
           <h2 className="text-2xl font-serif font-bold text-gray-900 mb-6">Contraindicações</h2>

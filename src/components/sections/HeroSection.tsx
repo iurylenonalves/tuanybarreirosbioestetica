@@ -38,7 +38,7 @@ async function getHeroData() {
 export async function HeroSection() {
   const data = await getHeroData();
 
-  // Fallback data if Sanity is empty (so the site doesn't break while empty)
+  // Fallback data if Sanity is empty
   const fallbackSlides: Slide[] = [
     {
       src: '/hero-image.jpg',
@@ -61,7 +61,7 @@ export async function HeroSection() {
   ];
 
   const slides: Slide[] = data?.carouselImages?.map((img: SanityImage) => {
-    let imageUrl = '/hero-image.jpg'; // Fallback padrão
+    let imageUrl = '/hero-image.jpg'; // Default fallback
 
     if (img.asset?._ref) {
       imageUrl = urlFor(img.asset).url();
@@ -88,7 +88,7 @@ export async function HeroSection() {
     <section className="bg-brand-pink-light py-16 md:py-20">
       <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         
-        {/* Coluna de Texto */}
+        {/* Text Column */}
         <div className="text-center md:text-left">
             <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-gray-800">
                 {title}
@@ -106,7 +106,7 @@ export async function HeroSection() {
             </div>
         </div>
         
-        {/* Coluna da Direita */}
+        {/* Right Column */}
         <div>
           <ImageCarousel slides={slides} />
         </div>

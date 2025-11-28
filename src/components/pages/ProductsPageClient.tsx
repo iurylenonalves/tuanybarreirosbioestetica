@@ -56,25 +56,25 @@ interface ProductsPageClientProps {
 export function ProductsPageClient({ products, servicePackages, categories }: ProductsPageClientProps) {
   const searchParams = useSearchParams();
   
-  // Ler categoria da URL imediatamente no estado inicial
+  // Read selected category from URL query parameter
   const [selectedCategory, setSelectedCategory] = useState<string>(() => {
     return searchParams.get('category') || 'all';
   });
 
-  // Atualizar categoria quando a URL mudar
+  // Update category when URL changes
   useEffect(() => {
     const categoryFromUrl = searchParams.get('category');
     setSelectedCategory(categoryFromUrl || 'all');
   }, [searchParams]);
 
-  // Combinar produtos e serviços em um único array
+  // Combine products and services into a single array
   const allItems = useMemo(() => {
     const productsWithType = products.map(product => ({ ...product, type: 'product' as const }));
     const servicesWithType = servicePackages.map(service => ({ ...service, type: 'servicePackage' as const }));
     return [...productsWithType, ...servicesWithType];
   }, [products, servicePackages]);
 
-  // Filtrar itens baseado na categoria selecionada
+  // Filter items based on selected category
   const filteredItems = useMemo(() => {
     if (selectedCategory === 'all') {
       return allItems;
@@ -109,7 +109,7 @@ export function ProductsPageClient({ products, servicePackages, categories }: Pr
 
   return (
     <div className="min-h-screen bg-brand-background">
-      {/* Hero minimalista */}
+      {/* Hero */}
       <div className="bg-brand-pink-light border-b border-brand-dark-nude/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center max-w-3xl mx-auto">
@@ -124,7 +124,7 @@ export function ProductsPageClient({ products, servicePackages, categories }: Pr
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {/* Filtro de categorias */}
+        {/* Category filter */}
         {categories.length > 0 && (
           <CategoryFilter
             categories={categories}
@@ -133,7 +133,7 @@ export function ProductsPageClient({ products, servicePackages, categories }: Pr
           />
         )}
 
-        {/* Grid unificado de produtos e serviços */}
+        {/* Unified grid of products and services */}
         {filteredItems.length > 0 ? (
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-16">
             {filteredItems.map((item) => (
@@ -158,7 +158,7 @@ export function ProductsPageClient({ products, servicePackages, categories }: Pr
           </div>
         )}
 
-        {/* Call to Action */}
+        {/* CTA */}
         <div className="text-center">
           <div className="bg-brand-brown rounded-2xl p-8 text-white">
             <h3 className="text-2xl font-serif font-bold mb-4">

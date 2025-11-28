@@ -17,12 +17,12 @@ export function FeatureRow({ eyebrow, title, description, imageSrc, imagePositio
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 items-center">
-      {/* Coluna da Imagem */}
+      {/* Image Column */}
       <div className={`relative w-full h-80 rounded-lg overflow-hidden ${imageOrderClass}`}>
         <Image src={imageSrc} alt={title} fill className="object-cover" />
       </div>
 
-      {/* Coluna de Texto */}
+      {/* Text Column */}
       <div className={`text-center md:text-left ${textOrderClass}`}>
         <span className="text-sm font-semibold uppercase text-brand-dark-nude">{eyebrow}</span>
         <h3 className="font-serif text-3xl md:text-4xl font-bold mt-2 text-gray-800">{title}</h3>

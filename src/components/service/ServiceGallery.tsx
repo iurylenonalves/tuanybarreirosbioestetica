@@ -14,7 +14,7 @@ interface ServiceGalleryProps {
 export function ServiceGallery({ image, gallery, name }: ServiceGalleryProps) {
   return (
     <div>
-      {/* Imagem principal */}
+      {/* Main image */}
       <div className="aspect-4/3 bg-gray-100 rounded-2xl overflow-hidden mb-4">
         <Image
           src={urlFor(image).width(600).height(450).url()}
@@ -26,7 +26,7 @@ export function ServiceGallery({ image, gallery, name }: ServiceGalleryProps) {
         />
       </div>
       
-      {/* Galeria de thumbnails */}
+      {/* Thumbnail gallery */}
       {gallery && gallery.length > 0 && (
         <div className="grid grid-cols-3 gap-3">
           {gallery.slice(0, 3).map((galleryImage, index) => (

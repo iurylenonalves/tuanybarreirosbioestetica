@@ -21,7 +21,7 @@ export function ProductGallery({ images, name }: ProductGalleryProps) {
 
   return (
     <div>
-      {/* Imagem principal */}
+      {/* Main image */}
       <div className="aspect-square bg-gray-100 rounded-2xl overflow-hidden mb-4">
         <Image
           src={urlFor(images[0]).width(600).height(600).url()}
@@ -33,7 +33,7 @@ export function ProductGallery({ images, name }: ProductGalleryProps) {
         />
       </div>
       
-      {/* Galeria de thumbnails */}
+      {/* Thumbnail gallery */}
       {images.length > 1 && (
         <div className="grid grid-cols-4 gap-3">
           {images.slice(1, 5).map((image, index) => (

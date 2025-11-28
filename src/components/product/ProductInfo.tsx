@@ -43,12 +43,12 @@ export function ProductInfo({ product, reviews }: ProductInfoProps) {
         )}
       </div>
 
-      {/* Nome do produto */}
+      {/* Product name */}
       <h1 className="text-3xl font-serif font-bold text-gray-900 mb-4">
         {product.name}
       </h1>
 
-      {/* Avaliações */}
+      {/* Reviews */}
       {reviews.length > 0 && (
         <div className="flex items-center gap-2 mb-4">
           <RatingStars rating={averageRating} />
@@ -58,7 +58,7 @@ export function ProductInfo({ product, reviews }: ProductInfoProps) {
         </div>
       )}
 
-      {/* Preço */}
+      {/* Price */}
       <div className="mb-6">
         <PriceDisplay 
           price={product.price} 
@@ -67,7 +67,7 @@ export function ProductInfo({ product, reviews }: ProductInfoProps) {
         />
       </div>
 
-      {/* Informações adicionais */}
+      {/* Additional information */}
       <div className="grid grid-cols-2 gap-4 mb-6 text-sm">
         {product.brand && (
           <div>

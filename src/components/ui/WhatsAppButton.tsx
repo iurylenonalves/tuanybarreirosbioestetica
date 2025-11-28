@@ -7,7 +7,7 @@ export default function WhatsAppButton() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Evita erro no SSR
+    // Prevents SSR error
     setIsVisible(true);
   }, []);
 
@@ -24,7 +24,7 @@ export default function WhatsAppButton() {
       className="fixed bottom-5 left-5 z-50 flex items-center justify-center w-14 h-14 bg-brand-whatsapp text-white rounded-full shadow-lg hover:bg-green-600 transition-all duration-300"
     >
       <FaWhatsapp size={28} />
-      {/* 🔴 bolinha de notificação */}
+      {/* 🔴 notification dot */}
       <span className="absolute top-1 right-1 w-3 h-3 bg-brand-notification rounded-full border border-white"></span>
     </a>
   );

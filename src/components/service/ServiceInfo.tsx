@@ -50,12 +50,12 @@ export function ServiceInfo({ servicePackage, reviews }: ServiceInfoProps) {
         )}
       </div>
 
-      {/* Nome do serviço */}
+      {/* Service name */}
       <h1 className="text-3xl font-serif font-bold text-gray-900 mb-4">
         {servicePackage.name}
       </h1>
 
-      {/* Avaliações */}
+      {/* Reviews */}
       {reviews.length > 0 && (
         <div className="flex items-center gap-2 mb-4">
           <RatingStars rating={averageRating} />
@@ -65,7 +65,7 @@ export function ServiceInfo({ servicePackage, reviews }: ServiceInfoProps) {
         </div>
       )}
 
-      {/* Preço */}
+      {/* Price */}
       <div className="mb-6">
         <PriceDisplay 
           price={servicePackage.price} 
@@ -74,7 +74,7 @@ export function ServiceInfo({ servicePackage, reviews }: ServiceInfoProps) {
         />
       </div>
 
-      {/* Informações do Pacote */}
+      {/* Package Information */}
       <div className="grid grid-cols-2 gap-4 mb-6 text-sm">
         {servicePackage.sessions && (
           <div>
@@ -90,7 +90,7 @@ export function ServiceInfo({ servicePackage, reviews }: ServiceInfoProps) {
         )}
       </div>
 
-      {/* Descrição Curta */}
+      {/* Short Description */}
       {servicePackage.shortDescription && (
         <p className="text-gray-700 mb-6 text-lg leading-relaxed">
           {servicePackage.shortDescription}

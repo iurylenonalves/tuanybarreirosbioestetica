@@ -18,15 +18,13 @@ export function Header() {
     { label: "Contato", href: "/contato" },
   ];
 
-  return (
-    // O 'relative' no container principal é crucial para o posicionamento do menu
+  return (    
     <header className="w-full h-24 bg-white sticky top-0 z-50 shadow-sm">
       <div className="container mx-auto px-4 h-full flex items-center justify-between relative">
         
-        {/* 1. Logo à Esquerda */}
+        {/* Logo */}
         <div className="flex-1 flex justify-start">
           <Link href="/" className="flex items-center">
-            {/* Logo com tamanho proporcional e espaçamento adequado */}
             <Image 
               src="/logo.png" 
               alt="Tuany Barreiros Logo" 
@@ -38,8 +36,7 @@ export function Header() {
           </Link>
         </div>
 
-        {/* 2. Navegação Centralizada */}
-        {/* Escondemos em telas pequenas (lg:) e usamos posicionamento absoluto para centralizar perfeitamente */}
+        {/* Navigation */}
         <nav className="hidden lg:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <ul className="flex items-center gap-6 xl:gap-10">
             {navLinks.map((link) => (
@@ -56,7 +53,7 @@ export function Header() {
           </ul>
         </nav>
 
-        {/* 3. Botões à Direita */}
+        {/* Buttons */}
         <div className="hidden lg:flex flex-1 justify-end items-center gap-3">
           <CartIcon />
           <Link 
@@ -67,7 +64,7 @@ export function Header() {
           </Link>
         </div>
 
-        {/* 5. Carrinho e Botão Hambúrguer para Mobile */}
+        {/* Mobile Menu Toggle */}
         <div className="lg:hidden flex items-center gap-2">
           <CartIcon />
           <button onClick={() => setMobileMenuOpen(!isMobileMenuOpen)} className="z-50">
@@ -75,7 +72,7 @@ export function Header() {
           </button>
         </div>
 
-        {/* 6. Painel do Menu Mobile */}
+        {/* Mobile Menu Panel */}
         {isMobileMenuOpen && (
           <div className="lg:hidden absolute top-0 left-0 w-full h-screen bg-white pt-24">
             <nav className="flex flex-col items-center text-center gap-8 mt-8">

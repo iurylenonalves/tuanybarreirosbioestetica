@@ -1,6 +1,6 @@
 /**
  * Simple in-memory rate limiter
- * Para produção com múltiplos servers, considere usar @upstash/ratelimit com Redis
+ * For production with multiple servers, consider using @upstash/ratelimit with Redis
  */
 
 interface RateLimitRecord {
@@ -8,10 +8,10 @@ interface RateLimitRecord {
   resetTime: number;
 }
 
-// Map para armazenar tentativas por IP
+// Map to store attempts per IP
 const rateLimitMap = new Map<string, RateLimitRecord>();
 
-// Limpar registros expirados a cada 10 minutos
+// Cleanup expired records periodically (every 10 minutes)
 setInterval(() => {
   const now = Date.now();
   for (const [key, record] of rateLimitMap.entries()) {
@@ -22,9 +22,9 @@ setInterval(() => {
 }, 10 * 60 * 1000);
 
 export interface RateLimitConfig {
-  /** Número máximo de requisições permitidas */
+  /** Maximum number of allowed requests */
   maxRequests: number;
-  /** Janela de tempo em segundos */
+  /** Time window in seconds */
   windowSeconds: number;
 }
 
@@ -36,10 +36,10 @@ export interface RateLimitResult {
 }
 
 /**
- * Verifica se uma requisição está dentro do limite de taxa
- * @param identifier - Identificador único (geralmente IP do usuário)
- * @param config - Configuração do rate limit
- * @returns Resultado com informações do rate limit
+ * Checks and updates rate limit for a given identifier (e.g., IP)
+ * @param identifier - Unique identifier (usually user IP)
+ * @param config - Rate limit configuration
+ * @returns Result with rate limit information
  */
 export function checkRateLimit(
   identifier: string,
@@ -50,7 +50,7 @@ export function checkRateLimit(
   
   let record = rateLimitMap.get(identifier);
   
-  // Se não existe registro ou expirou, criar novo
+  // If no record exists or it has expired, create a new one
   if (!record || now > record.resetTime) {
     record = {
       count: 0,
@@ -59,7 +59,7 @@ export function checkRateLimit(
     rateLimitMap.set(identifier, record);
   }
   
-  // Incrementar contador
+  // Increment counter
   record.count++;
   
   const remaining = Math.max(0, config.maxRequests - record.count);
@@ -69,18 +69,18 @@ export function checkRateLimit(
     success,
     limit: config.maxRequests,
     remaining,
-    reset: Math.ceil(record.resetTime / 1000), // Unix timestamp em segundos
+    reset: Math.ceil(record.resetTime / 1000), // Unix timestamp in seconds
   };
 }
 
 /**
- * Extrai IP do cliente da requisição
- * Considera proxies e load balancers (Vercel, Cloudflare, etc)
+ * Extracts client IP from the request
+ * Considers proxies and load balancers (Vercel, Cloudflare, etc)
  */
 export function getClientIP(request: Request): string {
   const headers = request.headers;
   
-  // Tenta vários headers comuns
+  // Tries several common headers
   const forwardedFor = headers.get('x-forwarded-for');
   if (forwardedFor) {
     return forwardedFor.split(',')[0].trim();
@@ -96,18 +96,18 @@ export function getClientIP(request: Request): string {
     return cfConnectingIP.trim();
   }
   
-  // Fallback para 'unknown' se não conseguir determinar
+  // Fallback to 'unknown' if unable to determine
   return 'unknown';
 }
 
 /**
- * Presets de rate limiting para diferentes casos de uso
+ * Rate limiting presets for different use cases
  */
 export const RateLimitPresets = {
-  /** Formulários de contato: 5 req/min */
+  /** Contact forms: 5 req/min */
   FORM_SUBMISSION: { maxRequests: 5, windowSeconds: 60 },
   
-  /** APIs públicas: 30 req/min */
+  /** Public APIs: 30 req/min */
   API_PUBLIC: { maxRequests: 30, windowSeconds: 60 },
   
   /** Preview/Draft: 10 req/min */

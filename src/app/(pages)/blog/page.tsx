@@ -40,15 +40,15 @@ async function getPosts() {
       }
     }`
     
-    // ✨ Forçar dados frescos do Sanity
+    // ✨ Setup fetch with no-cache and revalidation
     const posts = await client.fetch<Post[]>(
       query,
       {},
       {
-        cache: 'no-store', // Não usar cache do Next.js
+        cache: 'no-store',
         next: { 
-          revalidate: 60, // Revalidar a cada 60 segundos
-          tags: ['posts'] // Tag para revalidação on-demand
+          revalidate: 60,
+          tags: ['posts']
         }
       }
     )
@@ -68,7 +68,7 @@ export default async function BlogPage() {
     <div className="min-h-screen bg-brand-pink-light py-16 md:py-20">
       <div className="container mx-auto px-4">
         
-        {/* Header da página */}
+        {/* Page Header */}
         <div className="text-center mb-16">
           <span className="text-sm font-semibold uppercase text-brand-dark-nude">
             Blog
@@ -81,7 +81,7 @@ export default async function BlogPage() {
           </p>
         </div>
 
-        {/* Verificar se há posts */}
+        {/* Check if there are posts */}
         {posts.length === 0 ? (
           <div className="text-center py-16">
             <div className="text-6xl mb-4">📝</div>
@@ -93,7 +93,7 @@ export default async function BlogPage() {
             </p>
           </div>
         ) : (
-          /* Grid de Posts */
+          /* Posts Grid */
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {posts.map((post) => (
               <Link 
@@ -103,7 +103,7 @@ export default async function BlogPage() {
               >
                 <div className="bg-brand-off-white rounded-lg shadow-sm overflow-hidden transition-all duration-300 hover:shadow-xl h-full flex flex-col">
                   
-                  {/* Imagem do Post */}
+                  {/* Post Image */}
                   <div className="relative w-full h-56 bg-gray-200">
                     {post.mainImage?.asset ? (
                       <Image
@@ -113,17 +113,17 @@ export default async function BlogPage() {
                         className="object-cover transition-transform duration-300 group-hover:scale-105"
                       />
                     ) : (
-                      /* Placeholder quando não há imagem */
+                      /* Placeholder */
                       <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-brand-pink-light to-brand-dark-nude/20">
                         <div className="text-4xl text-brand-dark-nude/60">✨</div>
                       </div>
                     )}
                   </div>
                   
-                  {/* Conteúdo do Card */}
+                  {/* Card Content */}
                   <div className="p-6 flex flex-col grow">
                     
-                    {/* Data de publicação */}
+                    {/* Publication Date */}
                     <div className="flex items-center gap-4 text-xs text-gray-500 mb-3">
                       <span className="font-semibold">
                         {new Date(post.publishedAt).toLocaleDateString('pt-BR', {
@@ -134,7 +134,7 @@ export default async function BlogPage() {
                       </span>
                     </div>
                     
-                    {/* Título */}
+                    {/* Title */}
                     <h2 className="font-serif text-xl font-bold text-gray-800 mb-3 line-clamp-2 group-hover:text-brand-brown transition-colors">
                       {post.title}
                     </h2>
@@ -151,7 +151,7 @@ export default async function BlogPage() {
           </div>
         )}
 
-        {/* Botão para voltar à home */}
+        {/* Home Button */}
         <div className="text-center mt-16">
           <Link 
             href="/"
@@ -169,10 +169,10 @@ export default async function BlogPage() {
   )
 }
 
-// ✨ Configuração de revalidação
-export const revalidate = 60 // Revalidar a cada 60 segundos
+// Revalidation Configuration
+export const revalidate = 60 // seconds
 
-// Metadata da página
+// Page Metadata
 export const metadata = {
   title: 'Blog - Tuany Barreiros Bioestética',
   description: 'Dicas, novidades e tudo sobre o universo da bioestética e cuidados com a pele',

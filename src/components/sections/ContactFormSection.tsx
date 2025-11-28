@@ -27,7 +27,7 @@ export function ContactFormSection() {
       [name]: isCheckbox ? (e.target as HTMLInputElement).checked : value,
     }));
 
-    // Limpar erro do campo quando usuário começar a digitar
+    // Clear error on field change
     if (errors[name]) {
       setErrors(prev => {
         const newErrors = { ...prev };
@@ -43,11 +43,9 @@ export function ContactFormSection() {
     setSubmitSuccess(false);
     setIsSubmitting(true);
 
-    try {
-      // Validar dados com Zod no frontend primeiro
+    try {      
       const validatedData = contactSchema.parse(formData);
 
-      // Enviar para API com rate limiting
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
@@ -64,7 +62,7 @@ export function ContactFormSection() {
 
       const data = await response.json();
 
-      // Verificar rate limiting
+      // Check rate limiting
       if (response.status === 429) {
         setErrors({ 
           submit: 'Você está enviando mensagens muito rápido. Aguarde alguns minutos e tente novamente.' 
@@ -72,23 +70,23 @@ export function ContactFormSection() {
         return;
       }
 
-      // Erro de validação no backend
+      // Backend validation error
       if (response.status === 400) {
         setErrors({ submit: data.error || 'Dados inválidos. Verifique os campos.' });
         return;
       }
 
-      // Erro do servidor
+      // Server error
       if (!response.ok) {
         setErrors({ submit: 'Erro ao enviar mensagem. Tente novamente mais tarde.' });
         return;
       }
 
-      // Sucesso!
+      // Success!
       setSubmitSuccess(true);
       setFormData({ name: '', email: '', phone: '', message: '', agreedToTerms: false });
 
-      // Limpar mensagem de sucesso após 5 segundos
+      // Clear success message after 5 seconds
       setTimeout(() => setSubmitSuccess(false), 5000);
 
     } catch (error) {
@@ -109,12 +107,11 @@ export function ContactFormSection() {
   };
 
   return (
-    // Esta é a última seção, vamos usar a cor 'bg-brand-off-white'
     <section className="bg-brand-off-white py-16 md:py-20">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10 items-center">
 
-          {/* Coluna do Formulário */}
+          {/* Form Column */}
           <div className="text-left">
             <span className="text-sm font-semibold uppercase text-brand-dark-nude">
               Contato
@@ -127,7 +124,7 @@ export function ContactFormSection() {
             </p>
 
             <form onSubmit={handleSubmit} className="mt-8 space-y-6">
-              {/* Mensagem de sucesso */}
+              {/* Success Message */}
               {submitSuccess && (
                 <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
                   <p className="text-green-800 font-medium">✓ Mensagem enviada com sucesso!</p>
@@ -135,7 +132,7 @@ export function ContactFormSection() {
                 </div>
               )}
 
-              {/* Erro geral de submissão */}
+              {/* General submission error */}
               {errors.submit && (
                 <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
                   <p className="text-red-800">{errors.submit}</p>
@@ -255,10 +252,10 @@ export function ContactFormSection() {
             </form>
           </div>
 
-          {/* Coluna do Logo */}
+          {/* Logo Column */}
           <div className="hidden md:flex justify-center items-center">
             <Image
-              src="/logo.png" // Garanta que o logo está em /public
+              src="/logo.png"
               alt="Logo Tuany Barreiros Bioestética"
               width={750}
               height={750}

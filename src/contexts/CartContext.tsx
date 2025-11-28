@@ -3,7 +3,6 @@
 import React, { createContext, useContext, useEffect, useReducer } from 'react';
 import { errorLog } from '@/lib/logger';
 
-// Tipos
 export interface CartItem {
   id: string;
   name: string;
@@ -32,7 +31,6 @@ type CartAction =
   | { type: 'CLOSE_CART' }
   | { type: 'LOAD_CART'; payload: CartItem[] };
 
-// Estado inicial
 const initialState: CartState = {
   items: [],
   total: 0,
@@ -48,10 +46,10 @@ function cartReducer(state: CartState, action: CartAction): CartState {
       
       let newItems: CartItem[];
       if (existingItem) {
-        // Verificar estoque se for produto
+        // Check stock if it's a product
         if (action.payload.type === 'product' && action.payload.stock !== undefined) {
           if (existingItem.quantity >= action.payload.stock) {
-            return state; // Não adiciona se não há estoque
+            return state; // Do not add if out of stock
           }
         }
         
@@ -95,7 +93,7 @@ function cartReducer(state: CartState, action: CartAction): CartState {
 
       const newItems = state.items.map(item => {
         if (item.id === action.payload.id) {
-          // Verificar estoque se for produto
+          // Check stock if it's a product
           if (item.type === 'product' && item.stock !== undefined) {
             const quantity = Math.min(action.payload.quantity, item.stock);
             return { ...item, quantity };
@@ -175,7 +173,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(cartReducer, initialState);
 
-  // Persistir carrinho no localStorage
+  // Persist cart in localStorage
   useEffect(() => {
     const savedCart = localStorage.getItem('cart');
     if (savedCart) {

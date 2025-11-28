@@ -39,7 +39,7 @@ export function FaqSection() {
     <section className="bg-brand-background py-16 md:py-20">
       <div className="container mx-auto px-4">
         
-        {/* Bloco de Título */}
+        {/* Tittle Block */}
         <div className="text-center max-w-3xl mx-auto">
           <h2 className="font-serif text-4xl md:text-5xl font-bold text-gray-800">
             Perguntas
@@ -49,7 +49,7 @@ export function FaqSection() {
           </p>
         </div>
 
-        {/* Accordion de Perguntas */}
+        {/* Accordion */}
         <div className="mt-12 max-w-3xl mx-auto">
           {faqData.map((faq, index) => (
             <AccordionItem
@@ -62,7 +62,7 @@ export function FaqSection() {
           ))}
         </div>
 
-        {/* Bloco Final de CTA */}
+        {/* CTA Block */}
         <div className="text-center mt-16">
           <h3 className="text-2xl font-semibold text-gray-800">Ainda tem dúvidas?</h3>
           <p className="mt-2 text-gray-600">Entre em contato para um atendimento personalizado.</p>

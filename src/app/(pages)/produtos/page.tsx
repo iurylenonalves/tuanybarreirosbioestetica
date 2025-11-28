@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { getProducts, getCategories, getServicePackages } from '@/sanity/shop';
 import { ProductsPageClient } from '@/components/pages/ProductsPageClient';
 
-export const revalidate = 60; // ISR - revalida a cada 60 segundos
+export const revalidate = 60; // ISR - 60 seconds
 
 export const metadata: Metadata = {
   title: 'Produtos e Serviços | Tuany Barreiros Bioestetica',
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 export default async function ShopPage() {
   try {
-    // Buscar dados em paralelo
+    // Fetch data in parallel
     const [products, servicePackages, categories] = await Promise.all([
       getProducts(),
       getServicePackages(),

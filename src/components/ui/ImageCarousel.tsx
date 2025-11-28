@@ -5,7 +5,6 @@ import Image from 'next/image';
 import useEmblaCarousel from 'embla-carousel-react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
-// Definimos o formato de cada "slide" que o carrossel vai receber
 export type Slide = {
   src: string;
   alt: string;
@@ -21,14 +20,14 @@ export function ImageCarousel({ slides }: ImageCarouselProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  // Funções para navegar para o slide anterior e próximo
+  // previous and next navigation
   const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
 
-  // Função para navegar ao clicar nos pontos
+  // Function to navigate when clicking on the dots
   const scrollTo = useCallback((index: number) => emblaApi && emblaApi.scrollTo(index), [emblaApi]);
 
-  // Atualiza o ponto ativo quando o slide muda
+  // Updates the active dot when the slide changes
   useEffect(() => {
     if (!emblaApi) return;
     const onSelect = () => {
@@ -42,7 +41,7 @@ export function ImageCarousel({ slides }: ImageCarouselProps) {
 
   return (
     <div className="bg-brand-off-white p-6 rounded-lg shadow-lg w-full max-w-xl mx-auto">
-      {/* O Carrossel em si */}
+      {/* Carousel */}
       <div className="overflow-hidden rounded-md" ref={emblaRef}>
         <div className="flex">
           {slides.map((slide, index) => (
@@ -58,13 +57,13 @@ export function ImageCarousel({ slides }: ImageCarouselProps) {
         </div>
       </div>
 
-      {/* Conteúdo Abaixo do Carrossel */}
+      {/* Content Below the Carousel */}
       <div className="mt-4">
         <h3 className="font-serif text-xl font-semibold text-gray-800">{currentSlide.title}</h3>
         <p className="text-gray-500 mt-1 text-sm">{currentSlide.description}</p>
         
         <div className="flex justify-between items-center mt-4">
-          {/* Pontos de Paginação */}
+          {/* Pagination Dots */}
           <div className="flex gap-2">
             {slides.map((_, index) => (
               <button
@@ -77,7 +76,7 @@ export function ImageCarousel({ slides }: ImageCarouselProps) {
             ))}
           </div>
 
-          {/* Setas de Navegação */}
+          {/* Navigation Arrows */}
           <div className="flex gap-2">
             <button onClick={scrollPrev} className="p-2 rounded-full hover:bg-gray-100">
               <ArrowLeft size={20} className="text-gray-600" />

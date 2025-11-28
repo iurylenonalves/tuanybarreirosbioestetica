@@ -15,7 +15,7 @@ interface CategoryFilterProps {
 export function CategoryFilter({ categories, selectedCategory, onCategoryChange }: CategoryFilterProps) {
   return (
     <div className="flex flex-wrap justify-center gap-3 mb-12">
-      {/* Botão "Todos" */}
+      {/* "All" button */}
       <button
         onClick={() => onCategoryChange('all')}
         className={`px-4 py-2 rounded-full font-medium transition-all duration-200 ${
@@ -27,7 +27,7 @@ export function CategoryFilter({ categories, selectedCategory, onCategoryChange 
         Todos
       </button>
       
-      {/* Botões das categorias */}
+      {/* Category buttons */}
       {categories.map((category) => (
         <button
           key={category._id}

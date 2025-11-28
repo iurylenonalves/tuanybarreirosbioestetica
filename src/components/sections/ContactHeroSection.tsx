@@ -20,9 +20,8 @@ export function ContactHeroSection() {
             <br />
             <br />
             Tire suas dúvidas, agende uma avaliação ou marque sua consultoria personalizada.
-          </p>
+          </p>          
           
-          {/* BOTÃO ÚNICO E CENTRALIZADO, CONFORME SUA SUGESTÃO */}
           <div className="mt-8">
             <Link 
               href="https://api.whatsapp.com/send?phone=5511954474237&text=Olá!%20Gostaria%20de%20agendar%20uma%20consulta."

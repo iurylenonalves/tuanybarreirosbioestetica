@@ -12,7 +12,7 @@ export function CartIcon() {
       className="relative p-2 hover:bg-brand-pink-light rounded-full transition-colors group"
       aria-label="Abrir carrinho"
     >
-      {/* Ícone de sacola de compras mais elegante */}
+      {/* Bag icon */}
       <svg 
         className="w-6 h-6 text-brand-text-button group-hover:text-brand-brown transition-colors" 
         fill="none" 
@@ -27,7 +27,7 @@ export function CartIcon() {
         />
       </svg>
       
-      {/* Badge de quantidade */}
+      {/* Quantity badge */}
       {state.itemCount > 0 && (
         <span className="absolute -top-1 -right-1 bg-brand-notification text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
           {state.itemCount > 99 ? '99+' : state.itemCount}

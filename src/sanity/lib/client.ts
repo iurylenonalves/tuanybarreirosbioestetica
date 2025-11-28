@@ -1,7 +1,7 @@
 import { createClient } from 'next-sanity'
 import { apiVersion, dataset, projectId } from '../env'
 
-// Cliente público (sem token) - para conteúdo publicado
+// Public client - without token (for published content)
 export const client = createClient({
   projectId,
   dataset,
@@ -9,12 +9,12 @@ export const client = createClient({
   useCdn: false, 
 })
 
-// Cliente com token (para drafts) - só no servidor
+// Client with token (for drafts) - server only
 export const clientWithToken = createClient({
   projectId,
   dataset,
   apiVersion,
   useCdn: false,
   token: process.env.SANITY_API_READ_TOKEN,
-  perspective: 'drafts', // Corrigido: 'drafts' em vez de 'previewDrafts'
+  perspective: 'drafts',
 })

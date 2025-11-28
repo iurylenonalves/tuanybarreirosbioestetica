@@ -2,7 +2,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
 
-// Definimos os dados que cada card de post vai precisar
 export interface BlogPostCardProps {
   category: string;
   readingTime: string;
@@ -26,7 +25,7 @@ export function BlogPostCard({ category, readingTime, title, excerpt, imageSrc, 
           />
         </div>
         
-        {/* Conteúdo */}
+        {/* Content */}
         <div className="p-6 flex flex-col grow">
           <div className="flex items-center gap-4 text-xs text-gray-500">
             <span className="font-semibold">{category}</span>

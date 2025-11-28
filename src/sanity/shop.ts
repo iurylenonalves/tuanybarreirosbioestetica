@@ -1,6 +1,6 @@
 import { client } from './lib/client';
 
-// Interface para Produtos
+// Product interface
 export interface Product {
   _id: string;
   name: string;
@@ -43,7 +43,7 @@ export interface Product {
   seoDescription?: string;
 }
 
-// Interface para Categorias
+// Category interface
 export interface Category {
   _id: string;
   name: string;
@@ -66,7 +66,7 @@ export interface Category {
   seoDescription?: string;
 }
 
-// Interface para Pacotes de Serviços
+// Service Package interface
 export interface ServicePackage {
   _id: string;
   name: string;
@@ -134,7 +134,7 @@ export interface ServicePackage {
   seoDescription?: string;
 }
 
-// Interface para Avaliações
+// Review interface
 export interface Review {
   _id: string;
   customerName: string;
@@ -168,7 +168,7 @@ export interface Review {
   createdAt: string;
 }
 
-// Função para buscar produtos
+// Function to fetch products
 export async function getProducts(options?: {
   category?: string;
   featured?: boolean;
@@ -224,7 +224,7 @@ export async function getProducts(options?: {
   return client.fetch(query);
 }
 
-// Função para buscar produto por slug
+// Function to fetch product by slug
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   const query = `
     *[_type == "product" && slug.current == $slug && active == true][0] {
@@ -263,7 +263,7 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   return client.fetch(query, { slug });
 }
 
-// Função para buscar categorias
+// Function to fetch categories
 export async function getCategories(): Promise<Category[]> {
   const query = `
     *[_type == "category" && active == true] | order(order asc, name asc) {
@@ -292,7 +292,7 @@ export async function getCategories(): Promise<Category[]> {
   return client.fetch(query);
 }
 
-// Função para buscar pacotes de serviços
+// Function to fetch service packages
 export async function getServicePackages(options?: {
   category?: string;
   featured?: boolean;
@@ -378,7 +378,7 @@ export async function getServicePackages(options?: {
   return client.fetch(query);
 }
 
-// Função para buscar pacote de serviço por slug
+// Function to fetch service package by slug
 export async function getServicePackageBySlug(slug: string): Promise<ServicePackage | null> {
   const query = `
     *[_type == "servicePackage" && slug.current == $slug && active == true][0] {
@@ -442,7 +442,7 @@ export async function getServicePackageBySlug(slug: string): Promise<ServicePack
   return client.fetch(query, { slug });
 }
 
-// Função para buscar avaliações
+// Function to fetch reviews
 export async function getReviews(options?: {
   productId?: string;
   servicePackageId?: string;
@@ -501,7 +501,7 @@ export async function getReviews(options?: {
   return client.fetch(query);
 }
 
-// Função para buscar produtos relacionados
+// Function to fetch related products
 export async function getRelatedProducts(productId: string, categoryId: string, limit = 4): Promise<Product[]> {
   const query = `
     *[_type == "product" && _id != $productId && category._ref == $categoryId && active == true] | order(featured desc, name asc) [0...$limit] {
@@ -530,7 +530,7 @@ export async function getRelatedProducts(productId: string, categoryId: string, 
   return client.fetch(query, { productId, categoryId, limit });
 }
 
-// Função para buscar pacotes relacionados
+// Function to fetch related service packages
 export async function getRelatedServicePackages(packageId: string, categoryId?: string, limit = 4): Promise<ServicePackage[]> {
   let query = `
     *[_type == "servicePackage" && _id != $packageId && active == true

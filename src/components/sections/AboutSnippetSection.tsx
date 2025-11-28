@@ -49,17 +49,15 @@ export async function AboutSnippetSection() {
   return (
     <section className="py-16 md:py-20 bg-brand-background">
       <div className="container mx-auto px-4">
-        {/* Bloco de Título centralizado */}
         <div className="text-center">
           <span className="text-sm font-semibold uppercase text-brand-dark-nude">
             Sobre mim
           </span>
         </div>
 
-        {/* Grid com as duas colunas */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mt-12">
         
-          {/* Coluna da Imagem */}
+          {/* Image column */}
           <div className="relative w-full h-[450px] rounded-lg overflow-hidden shadow-lg">
             <Image
               src={imageUrl}
@@ -70,7 +68,7 @@ export async function AboutSnippetSection() {
             />
           </div>
 
-          {/* Coluna de Texto */}
+          {/* Text column */}
           <div className="text-center md:text-left">
             <h2 className="font-serif text-3xl md:text-4xl font-bold mt-2 text-gray-800">
               {title}

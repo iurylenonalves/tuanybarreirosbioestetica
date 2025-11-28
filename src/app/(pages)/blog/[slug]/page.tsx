@@ -45,7 +45,7 @@ export default async function PostPage({
   devLog('Slug procurado:', slug)
 
   try {
-    // Query com cache forçadamente desabilitado
+    // Query with cache forcibly disabled
     const allPostsQuery = `*[_type == "post"] {
       _id,
       _rev,
@@ -67,7 +67,7 @@ export default async function PostPage({
     
     devLog(`Total de posts encontrados: ${allPosts.length}`)
 
-    // Buscar o post específico SEM filtro de publishedAt
+    // Fetch the specific post by slug
     const postQuery = `*[_type == "post" && slug.current == $slug][0] {
       _id,
       _rev,
@@ -108,7 +108,7 @@ export default async function PostPage({
       console.log('- _rev:', post._rev)
       console.log('- mainImage:', post.mainImage ? 'Existe' : 'Não existe')
       
-      // Debug da imagem principal
+      // Debug the main image
       if (post.mainImage) {
         console.log('=== DEBUG IMAGEM PRINCIPAL ===')
         console.log('asset completo:', JSON.stringify(post.mainImage.asset, null, 2))
@@ -129,7 +129,7 @@ export default async function PostPage({
       notFound()
     }
 
-    // ✨ Buscar posts para navegação (anterior e próximo)
+    // ✨ Fetch all published posts for navigation (previous and next)
     const navigationQuery = `*[_type == "post" && defined(publishedAt)] | order(publishedAt desc) {
       title,
       "slug": slug.current,
@@ -145,10 +145,10 @@ export default async function PostPage({
       }
     )
 
-    // Encontrar o índice do post atual
+    // Find current post index
     const currentPostIndex = allPublishedPosts.findIndex(p => p.slug === slug)
     
-    // Post anterior (mais recente) e próximo (mais antigo)
+    // Previous (newer) and next (older) posts
     const previousPost = currentPostIndex > 0 ? allPublishedPosts[currentPostIndex - 1] : null
     const nextPost = currentPostIndex < allPublishedPosts.length - 1 ? allPublishedPosts[currentPostIndex + 1] : null
 
@@ -194,13 +194,13 @@ export default async function PostPage({
             <PortableText 
               value={post.body}
               components={{
-                // Componentes para blocos
+                // Components for blocks
                 block: {
-                  // Parágrafos normais
+                  // Normal paragraphs
                   normal: ({ children }) => (
                     <p className="mb-4 leading-relaxed text-gray-700">{children}</p>
                   ),
-                  // ✨ Texto justificado
+                  // ✨ Justified text
                   justify: ({ children }) => (
                     <p className="mb-4 leading-relaxed text-gray-700 text-justify">{children}</p>
                   ),
@@ -225,7 +225,7 @@ export default async function PostPage({
                   ),
                 },
                 
-                // Componentes para tipos especiais
+                // Components for special types
                 types: {
                   image: ({ value }) => {
                     console.log('=== DEBUG IMAGEM PORTABLE TEXT ===')
@@ -267,7 +267,7 @@ export default async function PostPage({
                   }
                 },
                 
-                // Componentes para marcações (formatação)
+                // Components for marks (formatting)
                 marks: {
                   // Links
                   link: ({ children, value }) => (
@@ -280,15 +280,15 @@ export default async function PostPage({
                       {children}
                     </a>
                   ),
-                  // Texto em negrito
+                  // Bold text
                   strong: ({ children }) => (
                     <strong className="font-bold text-gray-900">{children}</strong>
                   ),
-                  // Texto em itálico
+                  // Italic text
                   em: ({ children }) => (
                     <em className="italic">{children}</em>
                   ),
-                  // Código inline
+                  // Inline code
                   code: ({ children }) => (
                     <code className="bg-gray-100 px-2 py-1 rounded text-sm font-mono text-gray-800">
                       {children}
@@ -296,7 +296,7 @@ export default async function PostPage({
                   )
                 },
                 
-                // Componentes para listas
+                // Components for lists
                 list: {
                   bullet: ({ children }) => (
                     <ul className="list-disc list-inside my-4 space-y-2 text-gray-700">
@@ -310,7 +310,7 @@ export default async function PostPage({
                   )
                 },
                 
-                // Itens de lista
+                // List items
                 listItem: {
                   bullet: ({ children }) => (
                     <li className="ml-4">{children}</li>
@@ -324,12 +324,12 @@ export default async function PostPage({
           </div>
         )}
 
-        {/* ✨ Navegação entre posts */}
+        {/* Navigation between posts */}
         {(previousPost || nextPost) && (
           <nav className="mt-12 pt-8 border-t border-gray-200">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
               
-              {/* Post Anterior (mais recente) */}
+              {/* Previous Post (newer) */}
               <div className="flex-1">
                 {previousPost ? (
                   <Link 
@@ -361,7 +361,7 @@ export default async function PostPage({
                 )}
               </div>
 
-              {/* Botão para voltar ao blog */}
+              {/* Button to go back to the blog */}
               <div className="shrink-0">
                 <Link 
                   href="/blog"
@@ -374,7 +374,7 @@ export default async function PostPage({
                 </Link>
               </div>
 
-              {/* Próximo Post (mais antigo) */}
+              {/* Next Post (older) */}
               <div className="flex-1">
                 {nextPost ? (
                   <Link 

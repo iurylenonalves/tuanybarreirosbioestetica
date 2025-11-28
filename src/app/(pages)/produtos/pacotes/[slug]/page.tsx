@@ -57,7 +57,7 @@ export default async function ServicePackageDetailPage({ params }: Props) {
       notFound();
     }
 
-    // Buscar pacotes relacionados e avaliações
+    // Fetch related packages and reviews
     const [relatedPackages, reviews] = await Promise.all([
       getRelatedServicePackages(servicePackage._id, servicePackage.category?._id, 3),
       getReviews({ servicePackageId: servicePackage._id, approved: true, limit: 5 })

@@ -54,7 +54,7 @@ export default async function ProductDetailPage({ params }: Props) {
       notFound();
     }
 
-    // Buscar produtos relacionados e avaliações
+    // Fetch related products and reviews
     const [relatedProducts, reviews] = await Promise.all([
       getRelatedProducts(product._id, product.category._id, 4),
       getReviews({ productId: product._id, approved: true, limit: 5 })

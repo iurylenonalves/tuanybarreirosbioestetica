@@ -1,6 +1,5 @@
 import { type SchemaTypeDefinition } from 'sanity'
 
-// 1. Importe seus novos schemas
 import blockContent from './blockContent'
 import post from './post'
 import { productType } from './product'
@@ -13,8 +12,7 @@ import { methodologyType } from './methodology'
 import { procedureType } from './procedure'
 import { servicesHeroType } from './servicesHero'
 
-export const schema: { types: SchemaTypeDefinition[] } = {
-  // 2. Adicione seus schemas ao array 'types'
+export const schema: { types: SchemaTypeDefinition[] } = {  
   types: [
     // Blog
     post, 

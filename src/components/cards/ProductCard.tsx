@@ -42,7 +42,7 @@ export function ProductCard({ item }: ProductCardProps) {
   const isService = item.type === 'servicePackage';
   const link = isService ? `/produtos/pacotes/${item.slug.current}` : `/produtos/${item.slug.current}`;
   
-  // Determinar imagem baseado no tipo
+  // Determine image based on type
   const imageUrl = isService 
     ? urlFor((item as ServicePackage).image).width(400).height(400).url()
     : urlFor((item as Product).images[0]).width(400).height(400).url();
@@ -51,13 +51,13 @@ export function ProductCard({ item }: ProductCardProps) {
     ? (item as ServicePackage).image.alt || item.name
     : (item as Product).images[0].alt || item.name;
 
-  // Determinar preços baseado no tipo
+  // Determine prices based on type
   const currentPrice = item.price;
   const originalPrice = isService 
     ? (item as ServicePackage).originalPrice 
     : (item as Product).compareAtPrice;
 
-  // Determinar badges
+  // Determine badges
   const isPopular = isService ? (item as ServicePackage).popular : (item as Product).featured;
   const stockInfo = !isService && (item as Product).stock !== undefined 
     ? (item as Product).stock 
@@ -66,7 +66,7 @@ export function ProductCard({ item }: ProductCardProps) {
   return (
     <Link href={link} className="group">
       <div className="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col">
-        {/* Imagem com aspect ratio fixo */}
+        {/* Image with fixed aspect ratio */}
         <div className="relative aspect-square w-full bg-gray-100">
           <Image 
             src={imageUrl}
@@ -75,14 +75,14 @@ export function ProductCard({ item }: ProductCardProps) {
             className="object-cover group-hover:scale-105 transition-transform duration-300" 
           />
           
-          {/* Badges no canto superior */}
+          {/* Badges in the top corner */}
           <div className="absolute top-3 left-3 flex flex-col gap-2">
-            {/* Badge de tipo */}
+            {/* Type badge */}
             <span className="bg-brand-pink-light text-brand-text-button px-2 py-1 rounded-full text-xs font-semibold border border-brand-dark-nude/20">
               {isService ? 'Pacote' : 'Produto'}
             </span>
             
-            {/* Badge de destaque */}
+            {/* Popular badge */}
             {isPopular && (
               <span className="bg-brand-text-button text-white px-2 py-1 rounded-full text-xs font-semibold">
                 {isService ? 'Mais Procurado' : 'Destaque'}
@@ -90,7 +90,7 @@ export function ProductCard({ item }: ProductCardProps) {
             )}
           </div>
 
-          {/* Badge de estoque baixo (apenas produtos) */}
+          {/* Low stock badge (products only) */}
           {stockInfo !== null && stockInfo !== undefined && stockInfo < 5 && (
             <div className="absolute top-3 right-3">
               <span className="bg-orange-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
@@ -100,7 +100,7 @@ export function ProductCard({ item }: ProductCardProps) {
           )}
         </div>
 
-        {/* Conteúdo do card */}
+        {/* Card content */}
         <div className="p-4 flex flex-col grow">
           <h3 className="font-bold text-gray-900 mb-2 group-hover:text-brand-text-button transition-colors line-clamp-2">
             {item.name}
@@ -112,7 +112,7 @@ export function ProductCard({ item }: ProductCardProps) {
             </p>
           )}
 
-          {/* Informações adicionais para serviços */}
+          {/* Additional information for services */}
           {isService && (item as ServicePackage).sessions && (
             <div className="mb-3">
               <span className="text-xs text-gray-500 bg-brand-off-white px-2 py-1 rounded border border-brand-dark-nude/20">
@@ -121,7 +121,7 @@ export function ProductCard({ item }: ProductCardProps) {
             </div>
           )}
           
-          {/* Preços sempre no final */}
+          {/* Prices always at the end */}
           <div className="mt-auto pt-2">
             <div className="flex items-center justify-between">
               <div className="flex flex-col">
@@ -135,7 +135,7 @@ export function ProductCard({ item }: ProductCardProps) {
                 )}
               </div>
               
-              {/* Indicador de ação */}
+              {/* Action indicator */}
               <div className="text-brand-text-button opacity-0 group-hover:opacity-100 transition-opacity">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

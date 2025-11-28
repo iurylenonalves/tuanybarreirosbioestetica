@@ -17,13 +17,11 @@ interface TestimonialsCarouselProps {
 }
 
 export function TestimonialsCarousel({ slides }: TestimonialsCarouselProps) {
-  // 2. Adicione o plugin Autoplay ao hook do Embla
-  // O segundo argumento do useEmblaCarousel é um array de plugins.
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
     Autoplay({
-      delay: 4000, // Tempo em milissegundos (4 segundos)
-      stopOnInteraction: false, // Continua o autoplay mesmo depois de uma interação manual
-      stopOnMouseEnter: true, // Pausa o autoplay quando o mouse está sobre o carrossel
+      delay: 4000, // milliseconds
+      stopOnInteraction: false, // Continues autoplay even after manual interaction
+      stopOnMouseEnter: true, // Pauses autoplay when mouse is over the carousel
     }),
   ]);
 
@@ -45,21 +43,21 @@ export function TestimonialsCarousel({ slides }: TestimonialsCarouselProps) {
           {slides.map((slide, index) => (
             <div className="relative shrink-0 grow-0 basis-full min-w-0" key={index}>
               <div className="text-center max-w-3xl mx-auto">
-                {/* Estrelas */}
+                {/* Stars */}
                 <div className="flex justify-center gap-1">
                   {Array(5).fill(0).map((_, i) => (
                     <Star key={i} size={20} fill="currentColor" className="text-gray-800" />
                   ))}
                 </div>
 
-                {/* Citação */}
+                {/* Quote */}
                 <blockquote className="mt-6">
                   <p className="font-serif text-2xl md:text-3xl font-medium text-gray-800">
                     &quot;{slide.quote}&quot;
                   </p>
                 </blockquote>
 
-                {/* Autor */}
+                {/* Author */}
                 <div className="mt-8 flex items-center justify-center gap-4">
                   <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
                     <User size={24} className="text-gray-500" />
@@ -76,7 +74,7 @@ export function TestimonialsCarousel({ slides }: TestimonialsCarouselProps) {
       </div>
 
 
-      {/* Pontos de Navegação */}
+      {/* Navigation Dots */}
       <div className="flex justify-center gap-3 mt-8">
         {slides.map((_, index) => (
           <button

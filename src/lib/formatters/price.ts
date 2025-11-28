@@ -1,5 +1,5 @@
 /**
- * Formata preços em Real brasileiro
+ * Formats prices in Brazilian Real
  */
 export function formatPrice(price: number): string {
   return new Intl.NumberFormat('pt-BR', {
@@ -9,7 +9,7 @@ export function formatPrice(price: number): string {
 }
 
 /**
- * Calcula e formata desconto
+ * Calculates discount amount and percentage
  */
 export function calculateDiscount(originalPrice: number, currentPrice: number): {
   amount: number;

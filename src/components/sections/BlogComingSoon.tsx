@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Feather } from 'lucide-react'; // Ícone que remete à escrita
+import { Feather } from 'lucide-react';
 
 export function BlogComingSoon() {
   return (

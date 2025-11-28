@@ -11,7 +11,7 @@ export const projectId = assertValue(
   'Missing environment variable: NEXT_PUBLIC_SANITY_PROJECT_ID'
 )
 
-// Token para operações no servidor (apenas server-side)
+// Token to read draft content from Sanity (server only)
 export const SANITY_API_READ_TOKEN = process.env.SANITY_API_READ_TOKEN;
 
 function assertValue<T>(v: T | undefined, errorMessage: string): T {
