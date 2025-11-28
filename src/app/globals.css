@@ -23,39 +23,35 @@ html {
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #171717;  
   
-  /* Nossas novas cores da marca */
-  --color-brand-background: #FFFCFA; /* O nosso "branco" principal */
-  --color-brand-pink-light: #FCEFEF;  /* A primeira cor de seção */
-  --color-brand-off-white: #FEFAFA;   /* A segunda cor de seção */
-  --color-brand-text-button: #4A3629; /* A cor de texto dos botões */
-  --color-brand-whatsapp: #25D366; /* Verde do WhatsApp */
-  --color-brand-notification: #EF4444; /* Vermelho para notificação */
-
-  /* Cores antigas que talvez ainda sejam úteis */
-  --color-brand-soft-beige: #EAE4DD;
+  --color-brand-background: #FFFCFA;
+  --color-brand-pink-light: #FCEFEF;
+  --color-brand-off-white: #FEFAFA;
+  --color-brand-text-button: #4A3629;
+  --color-brand-whatsapp: #25D366;
+  --color-brand-notification: #EF4444;
+  
+  --color-brand-baige: #EAE4DD;
+  --color-brand-soft-beige: #F5F2EE;
   --color-brand-light-nude: #FBE9E9;
   --color-brand-dark-nude: #D6C4C0;
   --color-brand-brown: #946C53;
 }
 
 @theme inline {
-  /* Mapeando nossas cores da marca */
   --color-brand-background: var(--color-brand-background);
   --color-brand-pink-light: var(--color-brand-pink-light);
   --color-brand-off-white: var(--color-brand-off-white);
   --color-brand-text-button: var(--color-brand-text-button);
   --color-brand-whatsapp: var(--color-brand-whatsapp);
-  --color-brand-notification: var(--color-brand-notification);
+  --color-brand-notification: var(--color-brand-notification);  
   
-  /* Mapeando as cores antigas */
   --color-brand-soft-beige: var(--color-brand-soft-beige);
   --color-brand-light-nude: var(--color-brand-light-nude);
   --color-brand-dark-nude: var(--color-brand-dark-nude);
   --color-brand-brown: var(--color-brand-brown);
-
-   /* Mapeando fontes */
+  
   --font-sans: var(--font-inter);
   --font-serif: var(--font-garet);
   --font-signature: var(--font-dancing-script);

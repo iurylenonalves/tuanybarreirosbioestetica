@@ -33,7 +33,7 @@ const featuresData = [
 
 export function FeaturesListSection() {
   return (
-    <section className="bg-brand-pink-light py-16 md:py-20">
+    <section className="bg-brand-off-white py-16 md:py-20">
       <div className="container mx-auto px-4">
         {/* Title Block */}
         <div className="text-center max-w-3xl mx-auto">

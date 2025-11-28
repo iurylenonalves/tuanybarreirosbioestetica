@@ -36,7 +36,7 @@ export function FaqSection() {
   };
 
   return (
-    <section className="bg-brand-background py-16 md:py-20">
+    <section className="bg-brand-light-nude py-16 md:py-20">
       <div className="container mx-auto px-4">
         
         {/* Tittle Block */}
@@ -68,7 +68,7 @@ export function FaqSection() {
           <p className="mt-2 text-gray-600">Entre em contato para um atendimento personalizado.</p>
           <div className="mt-6">
             <Link href="/contato">
-              <Button variant="secondary">Contato</Button>
+              <Button variant="primary">Contato</Button>
             </Link>
           </div>
         </div>

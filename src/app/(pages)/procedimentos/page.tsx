@@ -11,8 +11,8 @@ export default function ServicesPage() {
       <ServicesHeroSection />
       <ServiceListSection />
       <FeaturesListSection />
-      <TestimonialSection />
       <ServiceCtaSection />
+      <TestimonialSection />
       <FaqSection />
     </>
   );
