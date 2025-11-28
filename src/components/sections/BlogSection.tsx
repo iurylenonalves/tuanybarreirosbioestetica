@@ -60,7 +60,7 @@ export function BlogSection() {
         {/* Botão Ver Todos */}
         <div className="mt-12">
           <Link href="/blog">
-            <Button variant="secondary">Ver todos</Button>
+            <Button variant="primary">Ver todos</Button>
           </Link>
         </div>
 

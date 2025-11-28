@@ -4,6 +4,7 @@ import { ChevronRight } from 'lucide-react';
 import { client } from '@/sanity/lib/client';
 import { urlFor } from '@/sanity/lib/image';
 import { PortableText } from '@portabletext/react';
+import { Button } from '../ui/Button';
 
 interface Stat {
   label: string;
@@ -84,11 +85,8 @@ export async function AboutBioSection() {
 
             {/* Buttons */}
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center md:justify-start gap-6">
-              <Link 
-                href="/procedimentos"
-                className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold px-6 py-3 rounded-lg transition-colors"
-              >
-                Saiba mais
+              <Link href="/procedimentos">
+                <Button variant="secondary">Saiba mais</Button>
               </Link>
               <Link 
                 href="/contato" 

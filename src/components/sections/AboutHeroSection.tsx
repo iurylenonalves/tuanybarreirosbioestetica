@@ -7,12 +7,12 @@ export function AboutHeroSection() {
       <div className="container mx-auto px-4">
         <div className="text-center max-w-3xl mx-auto">
           
-          <span className="text-sm font-semibold uppercase text-brand-dark-nude">
+          {/* <span className="text-sm font-semibold uppercase text-brand-dark-nude">
             Bioestética
-          </span>
+          </span> */}
 
           <h1 className="font-serif text-4xl md:text-6xl font-bold mt-2 text-gray-800">
-            Conheça Tuany Barreiros
+            Conheça Dra. Tuany Barreiros
           </h1>
           
           <p className="mt-4 text-lg text-gray-600">
