@@ -12,11 +12,15 @@ export interface CartItem {
   type: 'product' | 'service';
   slug: string;
   stock?: number;
+  bundleWith?: string[]; // Array of product IDs that trigger a discount
+  bundleDiscount?: number; // Discount percentage
 }
 
 interface CartState {
   items: CartItem[];
   total: number;
+  subtotal: number;
+  discount: number;
   itemCount: number;
   isOpen: boolean;
 }
@@ -34,9 +38,51 @@ type CartAction =
 const initialState: CartState = {
   items: [],
   total: 0,
+  subtotal: 0,
+  discount: 0,
   itemCount: 0,
   isOpen: false,
 };
+
+// Helper to calculate total with bundle discounts
+function calculateTotals(items: CartItem[]): { total: number; subtotal: number; discount: number } {
+  let total = 0;
+  let subtotal = 0;
+
+  // Create a map of item quantities for quick lookup
+  const itemQuantities = new Map<string, number>();
+  items.forEach(item => {
+    itemQuantities.set(item.id, item.quantity);
+  });
+
+  items.forEach(item => {
+    let itemPrice = item.price;
+    const itemSubtotal = item.price * item.quantity;
+    subtotal += itemSubtotal;
+    
+    // Check for bundle discount
+    if (item.bundleWith && item.bundleDiscount && item.bundleWith.length > 0) {
+      // Check if ANY of the bundled products are in the cart
+      const hasBundlePartner = item.bundleWith.some(partnerId => {
+        const partnerQty = itemQuantities.get(partnerId);
+        return partnerQty && partnerQty > 0;
+      });
+
+      if (hasBundlePartner) {
+        // Apply discount
+        itemPrice = item.price * (1 - item.bundleDiscount / 100);
+      }
+    }
+
+    total += itemPrice * item.quantity;
+  });
+
+  return {
+    total,
+    subtotal,
+    discount: subtotal - total
+  };
+}
 
 // Reducer
 function cartReducer(state: CartState, action: CartAction): CartState {
@@ -62,26 +108,30 @@ function cartReducer(state: CartState, action: CartAction): CartState {
         newItems = [...state.items, { ...action.payload, quantity: 1 }];
       }
 
-      const total = newItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const { total, subtotal, discount } = calculateTotals(newItems);
       const itemCount = newItems.reduce((sum, item) => sum + item.quantity, 0);
 
       return {
         ...state,
         items: newItems,
         total,
+        subtotal,
+        discount,
         itemCount,
       };
     }
 
     case 'REMOVE_ITEM': {
       const newItems = state.items.filter(item => item.id !== action.payload);
-      const total = newItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const { total, subtotal, discount } = calculateTotals(newItems);
       const itemCount = newItems.reduce((sum, item) => sum + item.quantity, 0);
 
       return {
         ...state,
         items: newItems,
         total,
+        subtotal,
+        discount,
         itemCount,
       };
     }
@@ -103,13 +153,15 @@ function cartReducer(state: CartState, action: CartAction): CartState {
         return item;
       });
 
-      const total = newItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const { total, subtotal, discount } = calculateTotals(newItems);
       const itemCount = newItems.reduce((sum, item) => sum + item.quantity, 0);
 
       return {
         ...state,
         items: newItems,
         total,
+        subtotal,
+        discount,
         itemCount,
       };
     }
@@ -139,13 +191,15 @@ function cartReducer(state: CartState, action: CartAction): CartState {
       };
 
     case 'LOAD_CART': {
-      const total = action.payload.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const { total, subtotal, discount } = calculateTotals(action.payload);
       const itemCount = action.payload.reduce((sum, item) => sum + item.quantity, 0);
 
       return {
         ...state,
         items: action.payload,
         total,
+        subtotal,
+        discount,
         itemCount,
       };
     }

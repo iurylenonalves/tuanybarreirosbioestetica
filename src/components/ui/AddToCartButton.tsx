@@ -13,6 +13,8 @@ interface AddToCartButtonProps {
     type: 'product' | 'service';
     slug: string;
     stock?: number;
+    bundleWith?: string[];
+    bundleDiscount?: number;
   };
   disabled?: boolean;
   className?: string;

@@ -136,6 +136,18 @@ export function Cart() {
           {/* Footer */}
           {state.items.length > 0 && (
             <div className="border-t border-brand-dark-nude/20 p-6">
+              {state.discount > 0 && (
+                <div className="space-y-2 mb-4 text-sm">
+                  <div className="flex items-center justify-between text-gray-600">
+                    <span>Subtotal:</span>
+                    <span>{formatPrice(state.subtotal)}</span>
+                  </div>
+                  <div className="flex items-center justify-between text-green-600 font-medium">
+                    <span>Desconto:</span>
+                    <span>-{formatPrice(state.discount)}</span>
+                  </div>
+                </div>
+              )}
               <div className="flex items-center justify-between mb-4">
                 <span className="text-lg font-semibold text-gray-900">Total:</span>
                 <span className="text-2xl font-bold text-brand-text-button">

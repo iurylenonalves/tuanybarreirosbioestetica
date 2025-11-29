@@ -69,7 +69,12 @@ export function CheckoutPage() {
         `• ${sanitizeString(item.name)} (${item.quantity}x) - ${formatPrice(item.price * item.quantity)}`
       ).join('\n');
       
-      const message = `*Pedido de Compra*\n\n*Itens:*\n${itemsList}\n\n*Total: ${formatPrice(state.total)}*\n\n*Dados do Cliente:*\nNome: ${sanitizedData.name}\nEmail: ${sanitizedData.email}\nTelefone: ${sanitizedData.phone}\nEndereço: ${sanitizedData.address}\nCidade: ${sanitizedData.city}\nCEP: ${sanitizedData.zipCode}`;
+      let totalMessage = `*Total: ${formatPrice(state.total)}*`;
+      if (state.discount > 0) {
+        totalMessage = `*Subtotal: ${formatPrice(state.subtotal)}*\n*Desconto: -${formatPrice(state.discount)}*\n*Total: ${formatPrice(state.total)}*`;
+      }
+      
+      const message = `*Pedido de Compra*\n\n*Itens:*\n${itemsList}\n\n${totalMessage}\n\n*Dados do Cliente:*\nNome: ${sanitizedData.name}\nEmail: ${sanitizedData.email}\nTelefone: ${sanitizedData.phone}\nEndereço: ${sanitizedData.address}\nCidade: ${sanitizedData.city}\nCEP: ${sanitizedData.zipCode}`;
 
       const whatsappUrl = `https://api.whatsapp.com/send?phone=5511954474237&text=${encodeURIComponent(message)}`;
       window.open(whatsappUrl, '_blank');
@@ -159,6 +164,18 @@ export function CheckoutPage() {
               </div>
 
               <div className="border-t border-brand-dark-nude/20 mt-6 pt-6">
+                {state.discount > 0 && (
+                  <>
+                    <div className="flex items-center justify-between text-gray-600 mb-2">
+                      <span>Subtotal:</span>
+                      <span>{formatPrice(state.subtotal)}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-green-600 mb-4">
+                      <span>Desconto:</span>
+                      <span>-{formatPrice(state.discount)}</span>
+                    </div>
+                  </>
+                )}
                 <div className="flex items-center justify-between text-xl font-bold">
                   <span>Total:</span>
                   <span className="text-brand-text-button">
