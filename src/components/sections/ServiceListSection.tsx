@@ -55,7 +55,7 @@ export async function ServiceListSection() {
   // Category section configuration (Copywriting)
   const categoryConfig: Record<string, { title: string }> = {
     consultoria: {
-      title: 'Consultoria Integrativa',
+      title: 'Consultorias',
     },
     facial: {
       title: 'Tratamentos Faciais',
