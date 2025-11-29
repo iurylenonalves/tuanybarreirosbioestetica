@@ -6,7 +6,7 @@ interface Product {
   _id: string;
   name: string;
   slug: { current: string };
-  images: Array<{ alt?: string }>;
+  images: Array<{ asset?: { _ref: string; url?: string }; alt?: string }>;
   price: number;
   compareAtPrice?: number;
   shortDescription?: string;
@@ -18,7 +18,7 @@ interface ServicePackage {
   _id: string;
   name: string;
   slug: { current: string };
-  image: { alt?: string };
+  image: { asset?: { _ref: string; url?: string }; alt?: string };
   price: number;
   originalPrice?: number;
   shortDescription?: string;
@@ -43,9 +43,16 @@ export function ProductCard({ item }: ProductCardProps) {
   const link = isService ? `/produtos/pacotes/${item.slug.current}` : `/produtos/${item.slug.current}`;
   
   // Determine image based on type
-  const imageUrl = isService 
-    ? urlFor((item as ServicePackage).image).width(400).height(400).url()
-    : urlFor((item as Product).images[0]).width(400).height(400).url();
+  let imageUrl = '/images/placeholder.jpg'; // Fallback image
+  try {
+    if (isService && (item as ServicePackage).image?.asset) {
+      imageUrl = urlFor((item as ServicePackage).image).width(400).height(400).url();
+    } else if (!isService && (item as Product).images?.[0]?.asset) {
+      imageUrl = urlFor((item as Product).images[0]).width(400).height(400).url();
+    }
+  } catch (e) {
+    console.error('Error generating image URL:', e);
+  }
   
   const imageAlt = isService 
     ? (item as ServicePackage).image.alt || item.name

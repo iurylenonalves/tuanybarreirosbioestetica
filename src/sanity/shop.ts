@@ -41,6 +41,20 @@ export interface Product {
   active: boolean;
   seoTitle?: string;
   seoDescription?: string;
+  bundleWith?: Array<{
+    _id: string;
+    name: string;
+    slug: { current: string };
+    price: number;
+    images: Array<{
+      asset: {
+        _ref: string;
+        url?: string;
+      };
+      alt?: string;
+    }>;
+  }>;
+  bundleDiscount?: number;
 }
 
 // Category interface
@@ -194,7 +208,7 @@ export async function getProducts(options?: {
       slug,
       description,
       shortDescription,
-      images[] {
+      images[defined(asset)] {
         asset-> {
           _ref,
           url
@@ -233,7 +247,7 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
       slug,
       description,
       shortDescription,
-      images[] {
+      images[defined(asset)] {
         asset-> {
           _ref,
           url
@@ -256,7 +270,21 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
       featured,
       active,
       seoTitle,
-      seoDescription
+      seoDescription,
+      bundleWith[]->{
+        _id,
+        name,
+        slug,
+        price,
+        images[0...1] {
+          asset-> {
+            _ref,
+            url
+          },
+          alt
+        }
+      },
+      bundleDiscount
     }
   `;
 
@@ -330,7 +358,7 @@ export async function getServicePackages(options?: {
         },
         alt
       },
-      gallery[] {
+      gallery[defined(asset)] {
         asset-> {
           _ref,
           url
@@ -394,7 +422,7 @@ export async function getServicePackageBySlug(slug: string): Promise<ServicePack
         },
         alt
       },
-      gallery[] {
+      gallery[defined(asset)] {
         asset-> {
           _ref,
           url
@@ -509,7 +537,7 @@ export async function getRelatedProducts(productId: string, categoryId: string, 
       name,
       slug,
       shortDescription,
-      images[0] {
+      images[0...1] {
         asset-> {
           _ref,
           url

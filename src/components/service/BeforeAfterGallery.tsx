@@ -35,26 +35,38 @@ export function BeforeAfterGallery({ beforeAfterGallery }: BeforeAfterGalleryPro
             <div className="grid grid-cols-2 gap-4 mb-4">
               <div className="text-center">
                 <h4 className="text-sm font-semibold text-gray-600 mb-2">ANTES</h4>
-                <div className="aspect-square rounded-lg overflow-hidden">
-                  <Image
-                    src={urlFor(comparison.before).width(200).height(200).url()}
-                    alt="Antes do tratamento"
-                    width={200}
-                    height={200}
-                    className="w-full h-full object-cover"
-                  />
+                <div className="aspect-square rounded-lg overflow-hidden bg-gray-100">
+                  {comparison.before?.asset ? (
+                    <Image
+                      src={urlFor(comparison.before).width(200).height(200).url()}
+                      alt="Antes do tratamento"
+                      width={200}
+                      height={200}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-gray-400">
+                      <span className="text-xs">Sem imagem</span>
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="text-center">
                 <h4 className="text-sm font-semibold text-gray-600 mb-2">DEPOIS</h4>
-                <div className="aspect-square rounded-lg overflow-hidden">
-                  <Image
-                    src={urlFor(comparison.after).width(200).height(200).url()}
-                    alt="Depois do tratamento"
-                    width={200}
-                    height={200}
-                    className="w-full h-full object-cover"
-                  />
+                <div className="aspect-square rounded-lg overflow-hidden bg-gray-100">
+                  {comparison.after?.asset ? (
+                    <Image
+                      src={urlFor(comparison.after).width(200).height(200).url()}
+                      alt="Depois do tratamento"
+                      width={200}
+                      height={200}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-gray-400">
+                      <span className="text-xs">Sem imagem</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

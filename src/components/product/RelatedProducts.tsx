@@ -7,7 +7,7 @@ interface RelatedProduct {
   _id: string;
   name: string;
   slug: { current: string };
-  images: Array<{ alt?: string }>;
+  images: Array<{ asset?: { _ref: string; url?: string }; alt?: string }>;
   price: number;
   compareAtPrice?: number;
 }
@@ -34,14 +34,20 @@ export function RelatedProducts({ products }: RelatedProductsProps) {
             className="group"
           >
             <div className="bg-white border border-brand-dark-nude/20 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="aspect-square">
-                <Image
-                  src={urlFor(product.images[0]).width(250).height(250).url()}
-                  alt={product.images[0].alt || product.name}
-                  width={250}
-                  height={250}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
+              <div className="aspect-square bg-gray-100">
+                {product.images?.[0]?.asset ? (
+                  <Image
+                    src={urlFor(product.images[0]).width(250).height(250).url()}
+                    alt={product.images[0].alt || product.name}
+                    width={250}
+                    height={250}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-gray-400">
+                    <span className="text-2xl">🧴</span>
+                  </div>
+                )}
               </div>
               <div className="p-4">
                 <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-brand-text-button transition-colors">

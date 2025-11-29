@@ -7,7 +7,7 @@ interface RelatedService {
   _id: string;
   name: string;
   slug: { current: string };
-  image: { alt?: string };
+  image: { asset?: { _ref: string; url?: string }; alt?: string };
   price: number;
   popular?: boolean;
 }
@@ -34,14 +34,20 @@ export function RelatedServices({ services }: RelatedServicesProps) {
             className="group"
           >
             <div className="bg-white border border-brand-dark-nude/20 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="aspect-4/3">
-                <Image
-                  src={urlFor(service.image).width(300).height(225).url()}
-                  alt={service.image.alt || service.name}
-                  width={300}
-                  height={225}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
+              <div className="aspect-4/3 bg-gray-100">
+                {service.image?.asset ? (
+                  <Image
+                    src={urlFor(service.image).width(300).height(225).url()}
+                    alt={service.image.alt || service.name}
+                    width={300}
+                    height={225}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-gray-400">
+                    <span className="text-2xl">✨</span>
+                  </div>
+                )}
               </div>
               <div className="p-4">
                 <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-brand-text-button transition-colors">

@@ -3,6 +3,7 @@ import { AddToCartButton } from '@/components/ui/AddToCartButton';
 import { urlFor } from '@/sanity/lib/image';
 
 interface ServiceImage {
+  asset?: { _ref: string; url?: string };
   alt?: string;
 }
 
@@ -35,7 +36,7 @@ export function ServiceActions({ servicePackage }: ServiceActionsProps) {
             id: servicePackage._id,
             name: servicePackage.name,
             price: servicePackage.price,
-            image: urlFor(servicePackage.image).width(100).height(100).url(),
+            image: servicePackage.image?.asset ? urlFor(servicePackage.image).width(100).height(100).url() : '',
             type: 'service',
             slug: servicePackage.slug.current
           }}

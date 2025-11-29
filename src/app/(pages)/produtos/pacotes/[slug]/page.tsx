@@ -35,14 +35,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: servicePackage.seoTitle || servicePackage.name,
       description: servicePackage.seoDescription || servicePackage.shortDescription || '',
-      images: [
+      images: servicePackage.image?.asset ? [
         {
           url: urlFor(servicePackage.image).width(1200).height(630).url(),
           width: 1200,
           height: 630,
           alt: servicePackage.image.alt || servicePackage.name,
         },
-      ],
+      ] : [],
       type: 'website',
     },
   };
