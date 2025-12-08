@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
 import { client } from '@/sanity/lib/client';
 import { urlFor } from '@/sanity/lib/image';
+import { getWhatsAppLink, MESSAGES } from '@/lib/whatsapp';
 
 interface SanityImage {
   asset: {
@@ -81,6 +82,7 @@ export async function HeroSection() {
   const subtitle = data?.subtitle || 'Transforme sua pele com cuidados personalizados. Cada tratamento é uma jornada única de autoconfiança e bem-estar.';
   const ctaText = data?.ctaText || 'Agendar';
   const ctaLink = data?.ctaLink || '/agendar';
+  const finalCtaLink = ctaLink === '/agendar' ? getWhatsAppLink(MESSAGES.agendar) : ctaLink;
   const secondaryCtaText = data?.secondaryCtaText || 'Saiba mais';
   const secondaryCtaLink = data?.secondaryCtaLink || '/sobre';
 
@@ -97,7 +99,7 @@ export async function HeroSection() {
                 {subtitle}
             </p>
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
-              <Link href={ctaLink}>
+              <Link href={finalCtaLink} target={ctaLink === '/agendar' ? "_blank" : undefined} rel={ctaLink === '/agendar' ? "noopener noreferrer" : undefined}>
                 <Button variant="primary">{ctaText}</Button>
               </Link>
               <Link href={secondaryCtaLink}>

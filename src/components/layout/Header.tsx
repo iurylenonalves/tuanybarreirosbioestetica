@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { CartIcon } from "@/components/ui/CartIcon";
+import { getWhatsAppLink, MESSAGES } from "@/lib/whatsapp";
 
 export function Header() {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -57,7 +58,9 @@ export function Header() {
         <div className="hidden lg:flex flex-1 justify-end items-center gap-3">
           <CartIcon />
           <Link 
-            href="/agendar" // Ou link direto do Calendly
+            href={getWhatsAppLink(MESSAGES.agendar)}
+            target="_blank"
+            rel="noopener noreferrer"
             className="bg-brand-background text-brand-text-button px-6 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-shadow"
           >
             Agendar
@@ -89,7 +92,9 @@ export function Header() {
                   </li>
                 ))}
               </ul>
-              <Link href="/contato"
+              <Link href={getWhatsAppLink(MESSAGES.agendar)}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-brand-background text-brand-text-button px-8 py-3 rounded-lg font-semibold shadow-md mt-8"
                 onClick={() => setMobileMenuOpen(false)}
               >

@@ -12,7 +12,7 @@ const faqData = [
   },
   {
     question: 'Como funciona o agendamento?',
-    answer: 'Você pode agendar online através do nosso site ou entrar em contato pelo WhatsApp. Farei uma breve consulta para entender suas necessidades.',
+    answer: 'Você pode agendar diretamente pelo nosso WhatsApp. Farei uma breve consulta para entender suas necessidades.',
   },
   {
     question: 'Quais são os preços?',

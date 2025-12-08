@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
+import { getWhatsAppLink, MESSAGES } from '@/lib/whatsapp';
 
 export function CtaFormSection() {
   return (
@@ -13,7 +14,7 @@ export function CtaFormSection() {
         </p>
         
         <div className="mt-8">
-          <Link href="/agendar">
+          <Link href={getWhatsAppLink(MESSAGES.avaliacao)} target="_blank" rel="noopener noreferrer">
             <Button variant="primary">Agendar Avaliação</Button>
           </Link>
         </div>

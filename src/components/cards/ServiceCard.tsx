@@ -30,6 +30,8 @@ export function ServiceCard({ category, title, description, imageSrc, linkHref }
         <p className="mt-2 text-gray-600 text-sm">{description}</p>
         <Link 
           href={linkHref} 
+          target="_blank"
+          rel="noopener noreferrer"
           className="flex items-center gap-2 font-semibold text-gray-800 hover:text-brand-brown transition-colors mt-4"
         >
           Agendar

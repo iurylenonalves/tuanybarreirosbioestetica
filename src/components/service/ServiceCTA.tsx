@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { getWhatsAppLink, MESSAGES } from '@/lib/whatsapp';
 
 export function ServiceCTA() {
   return (
@@ -12,13 +13,17 @@ export function ServiceCTA() {
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
-            href="/agendar"
+            href={getWhatsAppLink(MESSAGES.agendar)}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-block bg-white text-brand-text-button px-8 py-3 rounded-lg font-semibold hover:bg-brand-pink-light transition-colors"
           >
             Agendar Consulta
           </Link>
           <Link
-            href="/contato"
+            href={getWhatsAppLink(MESSAGES.duvida)}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-block border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-brand-text-button transition-colors"
           >
             Tirar Dúvidas

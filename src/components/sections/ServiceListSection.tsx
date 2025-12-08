@@ -1,6 +1,7 @@
 import { client } from '@/sanity/lib/client';
 import { urlFor } from '@/sanity/lib/image';
 import { ServiceCarousel } from '@/components/ui/ServiceCarousel';
+import { getWhatsAppLink, MESSAGES } from '@/lib/whatsapp';
 
 interface Procedure {
   name: string;
@@ -109,7 +110,7 @@ export async function ServiceListSection() {
             title: proc.name,
             description: proc.shortDescription || '',
             imageSrc: imageUrl,
-            linkHref: "/agendar"
+            linkHref: getWhatsAppLink(MESSAGES.procedimento(proc.name))
           };
         });
 

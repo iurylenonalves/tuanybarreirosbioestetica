@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { AddToCartButton } from '@/components/ui/AddToCartButton';
 import { urlFor } from '@/sanity/lib/image';
+import { getWhatsAppLink, MESSAGES } from '@/lib/whatsapp';
 
 interface ServiceImage {
   asset?: { _ref: string; url?: string };
@@ -25,7 +26,9 @@ export function ServiceActions({ servicePackage }: ServiceActionsProps) {
     <div className="flex flex-col gap-3 mb-8">
       {servicePackage.bookingRequired ? (
         <Link
-          href="/agendar"
+          href={getWhatsAppLink(MESSAGES.procedimento(servicePackage.name))}
+          target="_blank"
+          rel="noopener noreferrer"
           className="w-full py-4 px-6 bg-brand-text-button hover:bg-brand-brown text-white rounded-lg font-semibold text-lg text-center transition-colors"
         >
           Agendar Consulta

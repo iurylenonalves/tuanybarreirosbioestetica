@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
+import { getWhatsAppLink, MESSAGES } from '@/lib/whatsapp';
 
 export function ContactHeroSection() {
   return (
@@ -24,7 +25,7 @@ export function ContactHeroSection() {
           
           <div className="mt-8">
             <Link 
-              href="https://api.whatsapp.com/send?phone=5511954474237&text=Olá!%20Gostaria%20de%20agendar%20uma%20consulta."
+              href={getWhatsAppLink(MESSAGES.agendar)}
               target="_blank"
               rel="noopener noreferrer"
             >

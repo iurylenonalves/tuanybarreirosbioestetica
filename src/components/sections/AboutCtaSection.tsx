@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
+import { getWhatsAppLink, MESSAGES } from '@/lib/whatsapp';
 
 export function AboutCtaSection() {
   return (
@@ -16,7 +17,7 @@ export function AboutCtaSection() {
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-6">
-            <Link href="/agendar">
+            <Link href={getWhatsAppLink(MESSAGES.agendar)} target="_blank" rel="noopener noreferrer">
               <Button variant="primary">Agendar</Button>
             </Link>
             <Link href="/contato">

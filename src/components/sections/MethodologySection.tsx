@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
 import { client } from '@/sanity/lib/client';
+import { getWhatsAppLink, MESSAGES } from '@/lib/whatsapp';
 
 interface Step {
   title: string;
@@ -47,6 +48,7 @@ export async function MethodologySection() {
   const closingText = data?.closingText || 'Na minha clínica, você encontra mais do que procedimentos: encontra acolhimento, escuta e resultados reais.';
   const ctaText = data?.ctaText || 'Agende sua avaliação';
   const ctaLink = data?.ctaLink || '/agendar';
+  const finalCtaLink = ctaLink === '/agendar' ? getWhatsAppLink(MESSAGES.avaliacao) : ctaLink;
 
   return (
     <section className="bg-brand-pink-light py-16 md:py-24">
@@ -87,7 +89,7 @@ export async function MethodologySection() {
           <p className="text-xl font-serif text-gray-800 italic mb-8">
             &quot;{closingText}&quot;
           </p>
-          <Link href={ctaLink}>
+          <Link href={finalCtaLink} target={ctaLink === '/agendar' ? "_blank" : undefined} rel={ctaLink === '/agendar' ? "noopener noreferrer" : undefined}>
             <Button variant="primary" className="px-8 py-4 text-lg">
               {ctaText}
             </Button>

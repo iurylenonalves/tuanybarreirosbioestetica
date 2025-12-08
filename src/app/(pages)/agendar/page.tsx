@@ -1,13 +1,13 @@
 'use client'; 
 
-import { InlineWidget } from "react-calendly";
+import { Button } from "@/components/ui/Button";
+import { getWhatsAppLink, MESSAGES } from "@/lib/whatsapp";
+import Link from "next/link";
 
 export default function SchedulePage() {
   
-  const calendlyUrl = "https://calendly.com/iuryalves-uk/avaliacao-online";
-
   return (
-    <div className="bg-brand-background py-16 md:py-20">
+    <div className="bg-brand-background py-16 md:py-20 min-h-[60vh] flex items-center">
       <div className="container mx-auto px-4">
         {/* Title Block */}
         <div className="text-center max-w-3xl mx-auto mb-12">
@@ -15,13 +15,16 @@ export default function SchedulePage() {
             Agende sua consulta
           </h1>
           <p className="mt-4 text-lg text-gray-600">
-            Escolha o melhor dia e horário para você. O agendamento é rápido, fácil e seguro.
+            Para oferecer um atendimento mais personalizado, agora realizamos nossos agendamentos diretamente pelo WhatsApp.
           </p>
-        </div>
-
-        {/* Calendly Widget */}
-        <div className="min-h-[700px]">
-          <InlineWidget url={calendlyUrl} />
+          
+          <div className="mt-8">
+            <Link href={getWhatsAppLink(MESSAGES.agendar)} target="_blank" rel="noopener noreferrer">
+              <Button variant="primary" className="text-lg px-8 py-4">
+                Agendar pelo WhatsApp
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

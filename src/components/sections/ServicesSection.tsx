@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/Button';
 import { ServiceCard } from '@/components/cards/ServiceCard';
 import { client } from '@/sanity/lib/client';
 import { urlFor } from '@/sanity/lib/image';
+import { getWhatsAppLink, MESSAGES } from '@/lib/whatsapp';
 
 interface Procedure {
   name: string;
@@ -105,7 +106,7 @@ export async function ServicesSection() {
                 title={proc.name}
                 description={proc.shortDescription || ''}
                 imageSrc={imageUrl}
-                linkHref="/agendar"
+                linkHref={getWhatsAppLink(MESSAGES.procedimento(proc.name))}
               />
             );
           })}
@@ -113,7 +114,8 @@ export async function ServicesSection() {
 
         {/* View All Button */}
         <div className="mt-12">
-          <Link href="/procedimentos">
+          <Link 
+            href="/procedimentos">
             <Button variant="primary">Ver todos os procedimentos</Button>
           </Link>
         </div>

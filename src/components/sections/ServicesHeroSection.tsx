@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
 import { client } from '@/sanity/lib/client';
+import { getWhatsAppLink, MESSAGES } from '@/lib/whatsapp';
 
 async function getServicesHeroData() {
   const query = `*[_type == "servicesHero"][0] {
@@ -39,7 +40,7 @@ export async function ServicesHeroSection() {
           </p>
           
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/agendar">
+            <Link href={getWhatsAppLink(MESSAGES.agendar)} target="_blank" rel="noopener noreferrer">
               <Button variant="primary">Agendar</Button>
             </Link>
             <Link href="#detalhes-servicos">
