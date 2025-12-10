@@ -10,6 +10,11 @@ export async function GET() {
       return NextResponse.json({ status: 'error', message: 'Token não encontrado nas variáveis de ambiente.' }, { status: 500 });
     }
 
+    // Debug info (seguro, mostra apenas o início)
+    const tokenStart = token.substring(0, 5);
+    const tokenLength = token.length;
+    console.log(`Testando Sanity com ProjectID: ${projectId}, Dataset: ${dataset}, Token: ${tokenStart}... (${tokenLength} chars)`);
+
     const client = createClient({
       projectId,
       dataset,
@@ -29,6 +34,15 @@ export async function GET() {
 
     return NextResponse.json({ status: 'success', message: 'Pedido de teste criado com sucesso!', docId: doc._id });
   } catch (error: any) {
-    return NextResponse.json({ status: 'error', message: error.message, stack: error.stack }, { status: 500 });
+    return NextResponse.json({ 
+      status: 'error', 
+      message: error.message, 
+      stack: error.stack,
+      debug: {
+        projectId,
+        dataset,
+        tokenPrefix: process.env.SANITY_API_WRITE_TOKEN ? process.env.SANITY_API_WRITE_TOKEN.substring(0, 4) : 'N/A'
+      }
+    }, { status: 500 });
   }
 }
