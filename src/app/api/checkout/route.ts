@@ -39,35 +39,44 @@ export async function POST(request: Request) {
     console.log('MP Checkout Origin:', origin);
 
     // 2. Cria o Pedido no Sanity (Status: Pendente)
-    let orderId = `ORDER-${Date.now()}`; // Fallback caso Sanity falhe ou sem token
+    // Opção B: Bloqueia a venda se o Sanity falhar para garantir integridade.
     
-    if (process.env.SANITY_API_WRITE_TOKEN) {
-      try {
-        const order = await writeClient.create({
-          _type: 'order',
-          orderNumber: orderId,
-          customerName: payer.name,
-          customerEmail: payer.email,
-          customerPhone: payer.phone,
-          items: items.map((item: any) => ({
-            _key: item.id,
-            title: item.name,
-            quantity: Number(item.quantity),
-            price: Number(item.price),
-            productId: item.id,
-          })),
-          total: items.reduce((acc: number, item: any) => acc + (Number(item.price) * Number(item.quantity)), 0),
-          status: 'pending',
-          createdAt: new Date().toISOString(),
-        });
-        orderId = order._id;
-        console.log('Pedido criado no Sanity:', orderId);
-      } catch (sanityError) {
-        console.error('Erro ao criar pedido no Sanity:', sanityError);
-        // Não bloqueia o checkout se o Sanity falhar, mas loga o erro
-      }
-    } else {
-      console.warn('SANITY_API_WRITE_TOKEN não configurado. Pedido não será salvo no Sanity.');
+    if (!process.env.SANITY_API_WRITE_TOKEN) {
+      console.error('SANITY_API_WRITE_TOKEN não configurado.');
+      return NextResponse.json(
+        { error: 'Erro interno: Sistema de pedidos indisponível.' },
+        { status: 500 }
+      );
+    }
+
+    let orderId;
+
+    try {
+      const order = await writeClient.create({
+        _type: 'order',
+        orderNumber: `ORDER-${Date.now()}`,
+        customerName: payer.name,
+        customerEmail: payer.email,
+        customerPhone: payer.phone,
+        items: items.map((item: any) => ({
+          _key: item.id,
+          title: item.name,
+          quantity: Number(item.quantity),
+          price: Number(item.price),
+          productId: item.id,
+        })),
+        total: items.reduce((acc: number, item: any) => acc + (Number(item.price) * Number(item.quantity)), 0),
+        status: 'pending',
+        createdAt: new Date().toISOString(),
+      });
+      orderId = order._id;
+      console.log('Pedido criado no Sanity:', orderId);
+    } catch (sanityError) {
+      console.error('Erro CRÍTICO ao criar pedido no Sanity:', sanityError);
+      return NextResponse.json(
+        { error: 'Erro ao registrar pedido. Tente novamente em instantes.' },
+        { status: 500 }
+      );
     }
 
     // 3. Cria a instância de Preferência
