@@ -28,6 +28,12 @@ export function CheckoutPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Check if cart has any services
+  const hasServices = state.items.some(item => item.type === 'service');
+  // If cart has services, we must use WhatsApp for scheduling. 
+  // If it has ONLY products, we can use Mercado Pago.
+  const isWhatsAppCheckout = hasServices;
+
   if (state.items.length === 0) {
     return (
       <div className="min-h-screen bg-brand-background flex items-center justify-center">
@@ -47,7 +53,7 @@ export function CheckoutPage() {
     );
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors({});
     setIsSubmitting(true);
@@ -63,25 +69,51 @@ export function CheckoutPage() {
         city: sanitizeString(validatedData.city),
         zipCode: validatedData.zipCode
       };
-      
-      // Create WhatsApp message
-      const itemsList = state.items.map(item => 
-        `• ${sanitizeString(item.name)} (${item.quantity}x) - ${formatPrice(item.price * item.quantity)}`
-      ).join('\n');
-      
-      let totalMessage = `*Total: ${formatPrice(state.total)}*`;
-      if (state.discount > 0) {
-        totalMessage = `*Subtotal: ${formatPrice(state.subtotal)}*\n*Desconto: -${formatPrice(state.discount)}*\n*Total: ${formatPrice(state.total)}*`;
-      }
-      
-      const message = `*Pedido de Compra*\n\n*Itens:*\n${itemsList}\n\n${totalMessage}\n\n*Dados do Cliente:*\nNome: ${sanitizedData.name}\nEmail: ${sanitizedData.email}\nTelefone: ${sanitizedData.phone}\nEndereço: ${sanitizedData.address}\nCidade: ${sanitizedData.city}\nCEP: ${sanitizedData.zipCode}`;
 
-      const whatsappUrl = `https://api.whatsapp.com/send?phone=5511954474237&text=${encodeURIComponent(message)}`;
-      window.open(whatsappUrl, '_blank');
+      if (isWhatsAppCheckout) {
+        // Create WhatsApp message
+        const itemsList = state.items.map(item => 
+          `• ${sanitizeString(item.name)} (${item.quantity}x) - ${formatPrice(item.price * item.quantity)}`
+        ).join('\n');
+        
+        let totalMessage = `*Total: ${formatPrice(state.total)}*`;
+        if (state.discount > 0) {
+          totalMessage = `*Subtotal: ${formatPrice(state.subtotal)}*\n*Desconto: -${formatPrice(state.discount)}*\n*Total: ${formatPrice(state.total)}*`;
+        }
+        
+        const message = `*Pedido de Compra*\n\n*Itens:*\n${itemsList}\n\n${totalMessage}\n\n*Dados do Cliente:*\nNome: ${sanitizedData.name}\nEmail: ${sanitizedData.email}\nTelefone: ${sanitizedData.phone}\nEndereço: ${sanitizedData.address}\nCidade: ${sanitizedData.city}\nCEP: ${sanitizedData.zipCode}`;
+
+        const whatsappUrl = `https://api.whatsapp.com/send?phone=5511954474237&text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
+      } else {
+        // Mercado Pago Checkout
+        const response = await fetch('/api/checkout', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            items: state.items,
+            payer: sanitizedData,
+          }),
+        });
+
+        const data = await response.json();
+
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          console.error('Erro ao criar pagamento:', data);
+          alert('Ocorreu um erro ao iniciar o pagamento. Tente novamente.');
+        }
+      }
       
     } catch (error) {
       if (error instanceof z.ZodError) {
         setErrors(formatZodError(error));
+      } else {
+        console.error('Erro no checkout:', error);
+        alert('Ocorreu um erro inesperado. Tente novamente.');
       }
     } finally {
       setIsSubmitting(false);
@@ -302,8 +334,20 @@ export function CheckoutPage() {
               </div>
 
               <div className="mt-8 space-y-4">
+                {isWhatsAppCheckout && (
+                  <div className="bg-blue-50 text-blue-800 p-4 rounded-lg text-sm mb-4">
+                    Seu carrinho contém serviços ou pacotes que requerem agendamento. 
+                    O pedido será finalizado via WhatsApp para combinarmos os detalhes.
+                  </div>
+                )}
+                
                 <Button variant="primary" type="submit" className="w-full py-4 text-lg" disabled={isSubmitting}>
-                  {isSubmitting ? 'Validando...' : 'Enviar Pedido via WhatsApp'}
+                  {isSubmitting 
+                    ? 'Processando...' 
+                    : isWhatsAppCheckout 
+                      ? 'Finalizar via WhatsApp' 
+                      : 'Ir para Pagamento (Mercado Pago)'
+                  }
                 </Button>
                 
                 <Link href="/produtos" className="block">

@@ -11,6 +11,7 @@ import { aboutType } from './about'
 import { methodologyType } from './methodology'
 import { procedureType } from './procedure'
 import { servicesHeroType } from './servicesHero'
+import { order } from './order'
 
 export const schema: { types: SchemaTypeDefinition[] } = {  
   types: [
@@ -18,6 +19,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     post, 
     blockContent,
     // E-commerce
+    order,
     productType,
     categoryType,
     servicePackageType,
