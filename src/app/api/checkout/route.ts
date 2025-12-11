@@ -54,7 +54,10 @@ export async function POST(request: Request) {
       email: sanitizeString(payer.email),
       phone: payer.phone.replace(/\D/g, ''), // Apenas números
       address: sanitizeString(payer.address),
+      number: sanitizeString(payer.number),
+      neighborhood: sanitizeString(payer.neighborhood),
       city: sanitizeString(payer.city),
+      state: sanitizeString(payer.state),
       zipCode: payer.zipCode.replace(/\D/g, '')
     };
 
@@ -143,6 +146,10 @@ export async function POST(request: Request) {
         customerName: safePayer.name,
         customerEmail: safePayer.email,
         customerPhone: safePayer.phone,
+        customerAddress: `${safePayer.address}, ${safePayer.number} - ${safePayer.neighborhood}`,
+        customerCity: safePayer.city,
+        customerState: safePayer.state,
+        customerZipCode: safePayer.zipCode,
         items: items.map((item: any) => ({
           _key: item.id,
           title: item.name,
@@ -186,6 +193,11 @@ export async function POST(request: Request) {
             area_code: safePayer.phone.substring(0, 2),
             number: safePayer.phone.substring(2),
           },
+          address: {
+            zip_code: safePayer.zipCode,
+            street_name: safePayer.address,
+            street_number: safePayer.number,
+          }
         },
         // Para onde o usuário volta depois de pagar
         back_urls: {

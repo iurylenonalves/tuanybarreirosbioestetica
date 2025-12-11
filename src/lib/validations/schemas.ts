@@ -25,11 +25,26 @@ export const checkoutSchema = z.object({
     .min(5, 'Endereço deve ter no mínimo 5 caracteres')
     .max(200, 'Endereço muito longo')
     .trim(),
+
+  number: z.string()
+    .min(1, 'Número é obrigatório')
+    .max(20, 'Número muito longo')
+    .trim(),
+
+  neighborhood: z.string()
+    .min(2, 'Bairro inválido')
+    .max(100, 'Bairro muito longo')
+    .trim(),
   
   city: z.string()
     .min(2, 'Cidade deve ter no mínimo 2 caracteres')
     .max(100, 'Cidade muito longa')
-    .regex(/^[a-zA-ZÀ-ÿ\s]+$/, 'Cidade deve conter apenas letras')
+    .regex(/^[a-zA-ZÀ-ÿ\s\-\']+$/, 'Cidade deve conter apenas letras, espaços, hífens ou apóstrofos')
+    .trim(),
+  
+  state: z.string()
+    .length(2, 'Estado deve ter 2 letras')
+    .toUpperCase()
     .trim(),
   
   zipCode: z.string()

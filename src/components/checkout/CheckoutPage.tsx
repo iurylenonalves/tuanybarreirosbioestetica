@@ -101,25 +101,18 @@ export function CheckoutPage() {
     setErrors({});
     setIsSubmitting(true);
     
-    try {
-      // Combine fields for validation/submission to match existing schema/API
-      const fullAddress = `${customerInfo.address}, ${customerInfo.number} - ${customerInfo.neighborhood}`;
-      const fullCity = `${customerInfo.city} - ${customerInfo.state}`;
-      
-      const dataToValidate = {
-        ...customerInfo,
-        address: fullAddress,
-        city: fullCity
-      };
-      
-      const validatedData = checkoutSchema.parse(dataToValidate);      
+    try {      
+      const validatedData = checkoutSchema.parse(customerInfo);      
       
       const sanitizedData = {
         name: sanitizeString(validatedData.name),
         email: sanitizeString(validatedData.email),
         phone: validatedData.phone,
         address: sanitizeString(validatedData.address),
+        number: sanitizeString(validatedData.number),
+        neighborhood: sanitizeString(validatedData.neighborhood),
         city: sanitizeString(validatedData.city),
+        state: sanitizeString(validatedData.state),
         zipCode: validatedData.zipCode
       };
 
@@ -134,7 +127,7 @@ export function CheckoutPage() {
           totalMessage = `*Subtotal: ${formatPrice(state.subtotal)}*\n*Desconto: -${formatPrice(state.discount)}*\n*Total: ${formatPrice(state.total)}*`;
         }
         
-        const message = `*Pedido de Compra*\n\n*Itens:*\n${itemsList}\n\n${totalMessage}\n\n*Dados do Cliente:*\nNome: ${sanitizedData.name}\nEmail: ${sanitizedData.email}\nTelefone: ${sanitizedData.phone}\nEndereço: ${sanitizedData.address}\nCidade: ${sanitizedData.city}\nCEP: ${sanitizedData.zipCode}`;
+        const message = `*Pedido de Compra*\n\n*Itens:*\n${itemsList}\n\n${totalMessage}\n\n*Dados do Cliente:*\nNome: ${sanitizedData.name}\nEmail: ${sanitizedData.email}\nTelefone: ${sanitizedData.phone}\nEndereço: ${sanitizedData.address}, ${sanitizedData.number} - ${sanitizedData.neighborhood}\nCidade: ${sanitizedData.city} - ${sanitizedData.state}\nCEP: ${sanitizedData.zipCode}`;
 
         const whatsappUrl = `https://api.whatsapp.com/send?phone=5511954474237&text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, '_blank');
