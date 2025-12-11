@@ -7,6 +7,7 @@ import  WhatsAppButton from "@/components/ui/WhatsAppButton";
 import { SanityLive } from '@/sanity/lib/live';
 import { CartProvider } from '@/contexts/CartContext';
 import { Cart } from '@/components/ui/Cart';
+import { CookieConsent } from '@/components/ui/CookieConsent';
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -57,7 +58,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className={`${inter.variable} ${dancingScript.variable} antialiased bg-brand-background`}>
+      <body 
+        className={`${inter.variable} ${dancingScript.variable} antialiased bg-brand-background`}
+        suppressHydrationWarning
+      >
         <CartProvider>
           <Header />
           <main>
@@ -66,6 +70,7 @@ export default function RootLayout({
           <WhatsAppButton />
           <Footer />
           <Cart />
+          <CookieConsent />
           <SanityLive />
         </CartProvider>
       </body>

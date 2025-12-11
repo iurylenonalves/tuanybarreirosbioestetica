@@ -23,7 +23,8 @@ export function Footer() {
                 Clínica Tuany Barreiros - Estética Integrativa e Avançada<br />
                 Av. Guilherme Cotching, 1948 - sala 13<br />
                 Vila Maria, São Paulo - SP<br />
-                CEP: 02113-014
+                CEP: 02113-014<br />
+                <span className="text-xs text-gray-500 mt-2 block">CNPJ: XX.XXX.XXX/0001-XX</span>
               </a>
             </div>
             <div>
@@ -67,7 +68,6 @@ export function Footer() {
               <li><Link href="/contato" className="hover:underline">Contato</Link></li>
               <li><Link href="/politica-de-privacidade" className="hover:underline">Política de privacidade</Link></li>
               <li><Link href="/termos-de-uso" className="hover:underline">Termos de uso</Link></li>
-              <li><Link href="/configuracoes-de-cookies" className="hover:underline">Configurações de cookies</Link></li>
               <li><Link href="/politica-de-cancelamento" className="hover:underline">Política de cancelamento</Link></li>
             </ul>
           </div>
@@ -80,8 +80,7 @@ export function Footer() {
           <p>&copy; {new Date().getFullYear()} Tuany Barreiros Bioestética. Todos os direitos reservados.</p>
           <div className="flex gap-x-6 gap-y-2 flex-wrap justify-center">
             <Link href="/politica-de-privacidade" className="hover:underline">Política de Privacidade</Link>
-            <Link href="/termos-de-uso" className="hover:underline">Termos de Serviço</Link>
-            <Link href="/configuracoes-de-cookies" className="hover:underline">Configurações de Cookies</Link>
+            <Link href="/termos-de-uso" className="hover:underline">Termos de Uso</Link>
           </div>
         </div>
       </div>
