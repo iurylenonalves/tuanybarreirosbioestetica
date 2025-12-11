@@ -4,13 +4,13 @@ import { MercadoPagoConfig, Payment } from 'mercadopago';
 import { createClient } from 'next-sanity';
 import { apiVersion, dataset, projectId } from '@/sanity/env';
 
-// Inicializa o cliente Mercado Pago
+// Initialize the Mercado Pago client
 const client = new MercadoPagoConfig({ 
   accessToken: process.env.MP_ACCESS_TOKEN!,
   options: { timeout: 5000 }
 });
 
-// Inicializa o cliente Sanity com permissão de escrita
+// Initialize the Sanity client with write permissions
 const writeClient = createClient({
   projectId,
   dataset,
@@ -21,7 +21,7 @@ const writeClient = createClient({
 
 export async function POST(request: Request) {
   try {
-    // 1. Validação da Assinatura (Segurança)
+    // 1. Validate the Signature
     const secret = process.env.MP_WEBHOOK_SECRET;
     
     if (!secret) {
@@ -36,7 +36,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Missing signature headers' }, { status: 401 });
     }
 
-    // Extrai ts e v1 da assinatura
+    // Extract ts and v1 from the signature
     const parts = xSignature.split(',');
     let ts = '';
     let hash = '';
@@ -51,42 +51,42 @@ export async function POST(request: Request) {
       }
     });
 
-    // Obtém o ID do evento da URL (query param)
+    // Get data.id from query parameters
     const url = new URL(request.url);
     const dataId = url.searchParams.get('data.id');
 
     if (!dataId) {
-       // Algumas notificações vêm no body, vamos checar
+       // Some notifications come in the body, let's check
        const body = await request.json();
        if (body.data && body.data.id) {
-         // Se veio no body, usamos o do body para validação? 
-         // A documentação diz que o template usa data.id da URL query param.
-         // Se não tiver na URL, a validação pode falhar se o template exigir.
-         // Vamos prosseguir tentando validar com o que temos.
+         // If found in body, use it.
+         // The documentation says the template uses data.id from the URL query param.
+         // If it's not in the URL, validation may fail if the template requires it.
+         // We'll proceed trying to validate with what we have.
        }
        return NextResponse.json({ error: 'Missing data.id' }, { status: 400 });
     }
 
-    // Cria o template de assinatura
+    // Create the signature template
     const manifest = `id:${dataId};request-id:${xRequestId};ts:${ts};`;
 
-    // Gera o HMAC
+    // Generate HMAC SHA256 hash
     const cyphedSignature = crypto
       .createHmac('sha256', secret)
       .update(manifest)
       .digest('hex');
 
-    // Compara as assinaturas
+    // Compare signatures
     if (cyphedSignature !== hash) {
-      // Em ambiente de desenvolvimento (localhost), as vezes queremos pular isso se não tivermos o segredo correto ou tunelamento perfeito.
-      // Mas para produção é CRÍTICO.
-      console.error('Assinatura inválida');
+      // In development environment (localhost), sometimes we want to skip this if we don't have the correct secret or perfect tunneling.
+      // But for production, it's CRITICAL.
+      console.error('Invalid signature');
       // return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
-      // TODO: Descomentar a linha acima em produção. Para testes locais sem segredo correto, pode atrapalhar.
+      // TODO: Uncomment the line above in production. For local testing without the correct secret, it may interfere.
     }
 
-    // 2. Processa o Evento
-    // Se a assinatura for válida (ou ignorada), buscamos o pagamento.
+    // 2. Fetch Payment Information
+    // If the signature is valid (or ignored), fetch the payment.
     const payment = new Payment(client);
     const paymentInfo = await payment.get({ id: dataId });
 
@@ -98,9 +98,9 @@ export async function POST(request: Request) {
     
     console.log(`Webhook recebido: Pagamento ${dataId} - Status: ${status} - Ref: ${external_reference}`);
 
-    // 3. Atualiza o Pedido no Sanity
+    // 3. Update Order in Sanity
     if (external_reference && process.env.SANITY_API_WRITE_TOKEN) {
-      // Mapeia status do MP para nosso status
+      // Map Mercado Pago status to our order status
       let orderStatus = 'pending';
       switch (status) {
         case 'approved': orderStatus = 'approved'; break;
@@ -113,20 +113,58 @@ export async function POST(request: Request) {
         default: orderStatus = 'pending';
       }
 
-      // Atualiza o documento no Sanity
-      // O external_reference deve ser o ID do documento (ex: "drafts.ORDER-..." ou apenas ID)
-      // Se criamos com writeClient.create, o ID é retornado.
-      
       try {
-        await writeClient
-          .patch(external_reference)
-          .set({ 
-            status: orderStatus,
-            mercadoPagoId: dataId 
-          })
-          .commit();
-          
-        console.log(`Pedido ${external_reference} atualizado para ${orderStatus}`);
+        // Fetch the current order to check previous status and items
+        // Also bring the _type of the document referenced in productId to know if it's a product or service
+        const currentOrder = await writeClient.fetch(
+          `*[_id == $id][0]{
+            status,
+            items[]{
+              quantity,
+              productId,
+              "docType": *[_id == ^.productId][0]._type
+            }
+          }`, 
+          { id: external_reference }
+        );
+
+        if (currentOrder) {
+             // Check if we need to update stock (only on approval)
+             if (orderStatus === 'approved' && currentOrder.status !== 'approved') {
+                 console.log('Pagamento aprovado. Iniciando baixa de estoque...');
+                 
+                 const transaction = writeClient.transaction();
+                 let hasStockUpdates = false;
+                 
+                 for (const item of currentOrder.items || []) {
+                     // Only update stock for products, not services
+                     if (item.productId && item.docType === 'product') {
+                         transaction.patch(item.productId, p => p.dec({ stock: item.quantity }));
+                         hasStockUpdates = true;
+                         console.log(`Baixando ${item.quantity} itens do produto ${item.productId}`);
+                     }
+                 }
+                 
+                 if (hasStockUpdates) {
+                    await transaction.commit();
+                    console.log('Estoque atualizado com sucesso.');
+                 }
+             }
+
+             // Update the order status and mercadoPagoId
+             await writeClient
+              .patch(external_reference)
+              .set({ 
+                status: orderStatus,
+                mercadoPagoId: dataId 
+              })
+              .commit();
+              
+             console.log(`Pedido ${external_reference} atualizado para ${orderStatus}`);
+        } else {
+            console.error(`Pedido ${external_reference} não encontrado no Sanity.`);
+        }
+
       } catch (err) {
         console.error(`Erro ao atualizar pedido ${external_reference}:`, err);
       }
