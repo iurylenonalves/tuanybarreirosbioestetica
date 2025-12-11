@@ -21,18 +21,61 @@ export function CheckoutPage() {
     name: '',
     email: '',
     phone: '',
-    address: '',
-    city: '',
-    zipCode: ''
+    zipCode: '',
+    address: '',      // Logradouro
+    number: '',       // Novo
+    neighborhood: '', // Novo
+    city: '',         // Cidade
+    state: ''         // Novo (UF)
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [isLoadingCep, setIsLoadingCep] = useState(false);
 
   // Check if cart has any services
   const hasServices = state.items.some(item => item.type === 'service');
   // If cart has services, we must use WhatsApp for scheduling. 
   // If it has ONLY products, we can use Mercado Pago.
   const isWhatsAppCheckout = hasServices;
+
+  const searchCep = async (cepValue: string) => {
+    const cep = cepValue.replace(/\D/g, '');
+    
+    if (cep.length === 8) {
+      setIsLoadingCep(true);
+      try {
+        const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        const data = await response.json();
+        
+        if (!data.erro) {
+          setCustomerInfo(prev => ({
+            ...prev,
+            address: data.logradouro,
+            neighborhood: data.bairro,
+            city: data.localidade,
+            state: data.uf
+          }));
+          // Limpa erros de endereço se houver
+          setErrors(prev => ({...prev, address: '', city: '', neighborhood: '', state: ''}));
+          
+          // Focus on number field
+          document.getElementById('address-number')?.focus();
+        } else {
+           setErrors(prev => ({...prev, zipCode: 'CEP não encontrado'}));
+        }
+      } catch (error) {
+        console.error('Erro ao buscar CEP:', error);
+        setErrors(prev => ({...prev, zipCode: 'Erro ao buscar CEP'}));
+      } finally {
+        setIsLoadingCep(false);
+      }
+    }
+  };
+
+  const handleCepBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    searchCep(e.target.value);
+  };
 
   if (state.items.length === 0) {
     return (
@@ -58,8 +101,18 @@ export function CheckoutPage() {
     setErrors({});
     setIsSubmitting(true);
     
-    try {      
-      const validatedData = checkoutSchema.parse(customerInfo);      
+    try {
+      // Combine fields for validation/submission to match existing schema/API
+      const fullAddress = `${customerInfo.address}, ${customerInfo.number} - ${customerInfo.neighborhood}`;
+      const fullCity = `${customerInfo.city} - ${customerInfo.state}`;
+      
+      const dataToValidate = {
+        ...customerInfo,
+        address: fullAddress,
+        city: fullCity
+      };
+      
+      const validatedData = checkoutSchema.parse(dataToValidate);      
       
       const sanitizedData = {
         name: sanitizeString(validatedData.name),
@@ -308,25 +361,91 @@ export function CheckoutPage() {
                   {errors.phone && <p className="text-red-600 text-sm mt-1">{errors.phone}</p>}
                 </div>
 
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      CEP
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        value={customerInfo.zipCode}
+                        onChange={(e) => {
+                          // Máscara simples de CEP
+                          let val = e.target.value.replace(/\D/g, '');
+                          if (val.length > 5) val = val.replace(/^(\d{5})(\d)/, '$1-$2');
+                          
+                          setCustomerInfo({...customerInfo, zipCode: val});
+                          if (errors.zipCode) setErrors({...errors, zipCode: ''});
+                          
+                          // Auto-search if 8 digits
+                          if (val.replace(/\D/g, '').length === 8) {
+                            searchCep(val);
+                          }
+                        }}
+                        onBlur={handleCepBlur}
+                        maxLength={9}
+                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-text-button focus:border-transparent ${errors.zipCode ? 'border-red-500' : 'border-brand-dark-nude/20'}`}
+                        placeholder="00000-000"
+                      />
+                      {isLoadingCep && (
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-brand-text-button"></div>
+                        </div>
+                      )}
+                    </div>
+                    {errors.zipCode && <p className="text-red-600 text-sm mt-1">{errors.zipCode}</p>}
+                  </div>
+
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="col-span-2">
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Endereço (Rua)
+                    </label>
+                    <input
+                      type="text"
+                      value={customerInfo.address}
+                      onChange={(e) => {
+                        setCustomerInfo({...customerInfo, address: e.target.value});
+                        if (errors.address) setErrors({...errors, address: ''});
+                      }}
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-text-button focus:border-transparent ${errors.address ? 'border-red-500' : 'border-brand-dark-nude/20'}`}
+                      placeholder="Rua Exemplo"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Número
+                    </label>
+                    <input
+                      id="address-number"
+                      type="text"
+                      value={customerInfo.number}
+                      onChange={(e) => {
+                        setCustomerInfo({...customerInfo, number: e.target.value});
+                      }}
+                      className="w-full px-4 py-3 border border-brand-dark-nude/20 rounded-lg focus:ring-2 focus:ring-brand-text-button focus:border-transparent"
+                      placeholder="123"
+                    />
+                  </div>
+                </div>
+
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Endereço
+                    Bairro
                   </label>
                   <input
                     type="text"
-                    value={customerInfo.address}
+                    value={customerInfo.neighborhood}
                     onChange={(e) => {
-                      setCustomerInfo({...customerInfo, address: e.target.value});
-                      if (errors.address) setErrors({...errors, address: ''});
+                      setCustomerInfo({...customerInfo, neighborhood: e.target.value});
                     }}
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-text-button focus:border-transparent ${errors.address ? 'border-red-500' : 'border-brand-dark-nude/20'}`}
-                    placeholder="Rua Exemplo, 123"
+                    className="w-full px-4 py-3 border border-brand-dark-nude/20 rounded-lg focus:ring-2 focus:ring-brand-text-button focus:border-transparent"
+                    placeholder="Bairro"
                   />
-                  {errors.address && <p className="text-red-600 text-sm mt-1">{errors.address}</p>}
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="col-span-2">
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
                       Cidade
                     </label>
@@ -340,23 +459,20 @@ export function CheckoutPage() {
                       className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-text-button focus:border-transparent ${errors.city ? 'border-red-500' : 'border-brand-dark-nude/20'}`}
                       placeholder="São Paulo"
                     />
-                    {errors.city && <p className="text-red-600 text-sm mt-1">{errors.city}</p>}
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      CEP
+                      Estado
                     </label>
                     <input
                       type="text"
-                      value={customerInfo.zipCode}
+                      value={customerInfo.state}
                       onChange={(e) => {
-                        setCustomerInfo({...customerInfo, zipCode: e.target.value});
-                        if (errors.zipCode) setErrors({...errors, zipCode: ''});
+                        setCustomerInfo({...customerInfo, state: e.target.value});
                       }}
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-text-button focus:border-transparent ${errors.zipCode ? 'border-red-500' : 'border-brand-dark-nude/20'}`}
-                      placeholder="00000-000"
+                      className="w-full px-4 py-3 border border-brand-dark-nude/20 rounded-lg focus:ring-2 focus:ring-brand-text-button focus:border-transparent"
+                      placeholder="SP"
                     />
-                    {errors.zipCode && <p className="text-red-600 text-sm mt-1">{errors.zipCode}</p>}
                   </div>
                 </div>
               </div>

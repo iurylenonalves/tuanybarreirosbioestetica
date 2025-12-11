@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        // Aplicar headers de segurança em todas as rotas
+        // Apply these headers to all routes
         source: '/:path*',
         headers: [
           {
@@ -52,7 +52,7 @@ const nextConfig: NextConfig = {
               "style-src 'self' 'unsafe-inline' https://cdn.sanity.io https://calendly.com",
               "img-src 'self' data: blob: https://cdn.sanity.io https://calendly.com",
               "font-src 'self' data:",
-              "connect-src 'self' https://*.sanity.io https://calendly.com wss://*.sanity.io",
+              "connect-src 'self' https://*.sanity.io https://calendly.com wss://*.sanity.io https://viacep.com.br",
               "frame-src 'self' https://calendly.com https://*.calendly.com https://www.google.com",
               "media-src 'self' https://cdn.sanity.io",
               "object-src 'none'",
