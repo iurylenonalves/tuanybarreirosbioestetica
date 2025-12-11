@@ -87,13 +87,41 @@ export function CheckoutPage() {
         window.open(whatsappUrl, '_blank');
       } else {
         // Mercado Pago Checkout
+        
+        // Apply discounts before sending to API
+        const itemQuantities = new Map<string, number>();
+        state.items.forEach(item => {
+          itemQuantities.set(item.id, item.quantity);
+        });
+
+        const itemsWithDiscounts = state.items.map(item => {
+          let finalPrice = item.price;
+          
+          // Check for bundle discount logic
+          if (item.bundleWith && item.bundleDiscount && item.bundleWith.length > 0) {
+            const hasBundlePartner = item.bundleWith.some(partnerId => {
+              const partnerQty = itemQuantities.get(partnerId);
+              return partnerQty && partnerQty > 0;
+            });
+
+            if (hasBundlePartner) {
+              finalPrice = item.price * (1 - item.bundleDiscount / 100);
+            }
+          }
+
+          return {
+            ...item,
+            price: Number(finalPrice.toFixed(2)) // Send the discounted price
+          };
+        });
+
         const response = await fetch('/api/checkout', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            items: state.items,
+            items: itemsWithDiscounts,
             payer: sanitizedData,
           }),
         });
