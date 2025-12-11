@@ -244,47 +244,47 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('cart', JSON.stringify(state.items));
   }, [state.items]);
 
-  const addItem = (item: Omit<CartItem, 'quantity'>) => {
+  const addItem = React.useCallback((item: Omit<CartItem, 'quantity'>) => {
     dispatch({ type: 'ADD_ITEM', payload: item });
-  };
+  }, []);
 
-  const removeItem = (id: string) => {
+  const removeItem = React.useCallback((id: string) => {
     dispatch({ type: 'REMOVE_ITEM', payload: id });
-  };
+  }, []);
 
-  const updateQuantity = (id: string, quantity: number) => {
+  const updateQuantity = React.useCallback((id: string, quantity: number) => {
     dispatch({ type: 'UPDATE_QUANTITY', payload: { id, quantity } });
-  };
+  }, []);
 
-  const clearCart = () => {
+  const clearCart = React.useCallback(() => {
     dispatch({ type: 'CLEAR_CART' });
-  };
+  }, []);
 
-  const toggleCart = () => {
+  const toggleCart = React.useCallback(() => {
     dispatch({ type: 'TOGGLE_CART' });
-  };
+  }, []);
 
-  const openCart = () => {
+  const openCart = React.useCallback(() => {
     dispatch({ type: 'OPEN_CART' });
-  };
+  }, []);
 
-  const closeCart = () => {
+  const closeCart = React.useCallback(() => {
     dispatch({ type: 'CLOSE_CART' });
-  };
+  }, []);
+
+  const value = React.useMemo(() => ({
+    state,
+    addItem,
+    removeItem,
+    updateQuantity,
+    clearCart,
+    toggleCart,
+    openCart,
+    closeCart,
+  }), [state, addItem, removeItem, updateQuantity, clearCart, toggleCart, openCart, closeCart]);
 
   return (
-    <CartContext.Provider
-      value={{
-        state,
-        addItem,
-        removeItem,
-        updateQuantity,
-        clearCart,
-        toggleCart,
-        openCart,
-        closeCart,
-      }}
-    >
+    <CartContext.Provider value={value}>
       {children}
     </CartContext.Provider>
   );
