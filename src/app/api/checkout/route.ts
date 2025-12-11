@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { MercadoPagoConfig, Preference } from 'mercadopago';
 import { createClient } from 'next-sanity';
 import { apiVersion, dataset, projectId } from '@/sanity/env';
+import { checkRateLimit } from '@/lib/rateLimit';
+import { checkoutSchema, sanitizeString } from '@/lib/validations/schemas';
 
 // Inicializa o cliente com o Token de Acesso (Sandbox ou Produção)
 const client = new MercadoPagoConfig({ 
@@ -20,9 +22,41 @@ const writeClient = createClient({
 
 export async function POST(request: Request) {
   try {
+    // 0. Rate Limiting (Segurança contra Spam)
+    // Obtém o IP do cliente (funciona na Vercel e localmente)
+    const ip = request.headers.get('x-forwarded-for') || 'unknown';
+    const rateLimit = checkRateLimit(ip, { maxRequests: 5, windowSeconds: 600 }); // 5 tentativas a cada 10 min
+
+    if (!rateLimit.success) {
+      return NextResponse.json(
+        { error: 'Muitas tentativas. Por favor, aguarde alguns minutos.' },
+        { status: 429 }
+      );
+    }
+
     // 1. Recebe os dados do Frontend
     const body = await request.json();
     const { items: frontendItems, payer } = body;
+
+    // 1.0 Validação de Dados do Cliente (Segurança de Input)
+    const validationResult = checkoutSchema.safeParse(payer);
+    
+    if (!validationResult.success) {
+      return NextResponse.json(
+        { error: 'Dados do cliente inválidos.', details: validationResult.error.format() },
+        { status: 400 }
+      );
+    }
+
+    // Sanitização extra (embora o Zod já ajude, garantimos que não entra HTML)
+    const safePayer = {
+      name: sanitizeString(payer.name),
+      email: sanitizeString(payer.email),
+      phone: payer.phone.replace(/\D/g, ''), // Apenas números
+      address: sanitizeString(payer.address),
+      city: sanitizeString(payer.city),
+      zipCode: payer.zipCode.replace(/\D/g, '')
+    };
 
     // Determine base URL dynamically
     let origin = '';
@@ -106,9 +140,9 @@ export async function POST(request: Request) {
       const order = await writeClient.create({
         _type: 'order',
         orderNumber: `ORDER-${Date.now()}`,
-        customerName: payer.name,
-        customerEmail: payer.email,
-        customerPhone: payer.phone,
+        customerName: safePayer.name,
+        customerEmail: safePayer.email,
+        customerPhone: safePayer.phone,
         items: items.map((item: any) => ({
           _key: item.id,
           title: item.name,
@@ -145,12 +179,12 @@ export async function POST(request: Request) {
           currency_id: 'BRL',
         })),
         payer: {
-          email: payer.email,
-          name: payer.name,
+          email: safePayer.email,
+          name: safePayer.name,
           // O MP pede telefone separado em área e número
           phone: {
-            area_code: payer.phone.substring(0, 2),
-            number: payer.phone.substring(2),
+            area_code: safePayer.phone.substring(0, 2),
+            number: safePayer.phone.substring(2),
           },
         },
         // Para onde o usuário volta depois de pagar
