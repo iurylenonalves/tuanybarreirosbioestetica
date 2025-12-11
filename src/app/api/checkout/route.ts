@@ -22,7 +22,7 @@ export async function POST(request: Request) {
   try {
     // 1. Recebe os dados do Frontend
     const body = await request.json();
-    const { items, payer } = body;
+    const { items: frontendItems, payer } = body;
 
     // Determine base URL dynamically
     let origin = '';
@@ -37,6 +37,57 @@ export async function POST(request: Request) {
     }
 
     console.log('MP Checkout Origin:', origin);
+
+    // 1.1 Validação de Preço no Servidor (Segurança)
+    // Busca os produtos reais no Sanity para garantir que o preço está correto
+    const itemIds = frontendItems.map((item: any) => item.id);
+    
+    const sanityItems = await writeClient.fetch(
+      `*[_id in $ids]{
+        _id,
+        _type,
+        name,
+        price,
+        "imageUrl": coalesce(images[0].asset->url, image.asset->url),
+        "bundleWith": bundleWith[]->_id,
+        bundleDiscount
+      }`,
+      { ids: itemIds }
+    );
+
+    // Cria um mapa para acesso rápido aos dados do Sanity
+    const sanityItemMap = new Map(sanityItems.map((item: any) => [item._id, item]));
+    
+    // Recalcula os itens com os dados confiáveis do servidor
+    const items = frontendItems.map((frontItem: any) => {
+      const realItem = sanityItemMap.get(frontItem.id) as any;
+      
+      if (!realItem) {
+        throw new Error(`Produto não encontrado: ${frontItem.id}`);
+      }
+
+      let finalPrice = realItem.price;
+
+      // Lógica de Desconto (Compre Junto)
+      if (realItem.bundleWith && realItem.bundleDiscount && realItem.bundleWith.length > 0) {
+        // Verifica se algum dos produtos do combo está no carrinho
+        const hasBundlePartner = realItem.bundleWith.some((partnerId: string) => 
+          frontendItems.some((i: any) => i.id === partnerId)
+        );
+
+        if (hasBundlePartner) {
+          finalPrice = realItem.price * (1 - realItem.bundleDiscount / 100);
+        }
+      }
+
+      return {
+        id: realItem._id,
+        name: realItem.name,
+        quantity: Number(frontItem.quantity),
+        price: Number(finalPrice.toFixed(2)), // Preço calculado no servidor
+        image: realItem.imageUrl
+      };
+    });
 
     // 2. Cria o Pedido no Sanity (Status: Pendente)
     // Opção B: Bloqueia a venda se o Sanity falhar para garantir integridade.
