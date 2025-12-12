@@ -5,6 +5,7 @@ import { useCart } from '@/contexts/CartContext';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
+import { toast } from 'sonner';
 
 function formatPrice(price: number): string {
   return new Intl.NumberFormat('pt-BR', {
@@ -123,7 +124,10 @@ export function Cart() {
                 {/* Clear Cart Button */}
                 {state.items.length > 0 && (
                   <button
-                    onClick={clearCart}
+                    onClick={() => {
+                      clearCart();
+                      toast.success('Carrinho limpo com sucesso!');
+                    }}
                     className="w-full text-sm text-gray-600 hover:text-red-600 py-2 transition-colors"
                   >
                     Limpar carrinho

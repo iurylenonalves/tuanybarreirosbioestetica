@@ -8,6 +8,7 @@ import { SanityLive } from '@/sanity/lib/live';
 import { CartProvider } from '@/contexts/CartContext';
 import { Cart } from '@/components/ui/Cart';
 import { CookieConsent } from '@/components/ui/CookieConsent';
+import { Toaster } from 'sonner';
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -72,6 +73,7 @@ export default function RootLayout({
           <Cart />
           <CookieConsent />
           <SanityLive />
+          <Toaster position="top-center" richColors />
         </CartProvider>
       </body>
     </html>

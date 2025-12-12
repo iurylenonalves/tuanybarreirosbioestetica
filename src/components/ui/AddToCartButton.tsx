@@ -3,6 +3,7 @@
 import React from 'react';
 import { useCart } from '@/contexts/CartContext';
 import { Button } from '@/components/ui/Button';
+import { toast } from 'sonner';
 
 interface AddToCartButtonProps {
   item: {
@@ -31,6 +32,7 @@ export function AddToCartButton({
 
   const handleAddToCart = () => {
     addItem(item);
+    toast.success(`${item.name} adicionado ao carrinho!`);
     openCart();
   };
 

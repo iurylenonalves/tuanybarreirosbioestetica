@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { checkoutSchema, formatZodError, sanitizeString } from '@/lib/validations/schemas';
 import { z } from 'zod';
+import { toast } from 'sonner';
 
 function formatPrice(price: number): string {
   return new Intl.NumberFormat('pt-BR', {
@@ -178,16 +179,17 @@ export function CheckoutPage() {
           window.location.href = data.url;
         } else {
           console.error('Erro ao criar pagamento:', data);
-          alert('Ocorreu um erro ao iniciar o pagamento. Tente novamente.');
+          toast.error(data.error || 'Ocorreu um erro ao iniciar o pagamento. Tente novamente.');
         }
       }
       
     } catch (error) {
       if (error instanceof z.ZodError) {
         setErrors(formatZodError(error));
+        toast.error('Por favor, verifique os campos destacados.');
       } else {
         console.error('Erro no checkout:', error);
-        alert('Ocorreu um erro inesperado. Tente novamente.');
+        toast.error('Ocorreu um erro inesperado. Tente novamente.');
       }
     } finally {
       setIsSubmitting(false);
