@@ -9,6 +9,7 @@ import { CartProvider } from '@/contexts/CartContext';
 import { Cart } from '@/components/ui/Cart';
 import { CookieConsent } from '@/components/ui/CookieConsent';
 import { Toaster } from 'sonner';
+import Script from 'next/script';
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -57,12 +58,30 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+
   return (
     <html lang="pt-BR">
       <body 
         className={`${inter.variable} ${dancingScript.variable} antialiased bg-brand-background`}
         suppressHydrationWarning
       >
+        {gaId && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${gaId}');
+              `}
+            </Script>
+          </>
+        )}
         <CartProvider>
           <Header />
           <main>
