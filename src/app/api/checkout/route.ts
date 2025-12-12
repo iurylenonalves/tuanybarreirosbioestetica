@@ -85,6 +85,7 @@ export async function POST(request: Request) {
         _type,
         name,
         price,
+        stock,
         "imageUrl": coalesce(images[0].asset->url, image.asset->url),
         "bundleWith": bundleWith[]->_id,
         bundleDiscount
@@ -101,6 +102,25 @@ export async function POST(request: Request) {
       
       if (!realItem) {
         throw new Error(`Produto não encontrado: ${frontItem.id}`);
+      }
+
+      // Validação de Estoque (Última checagem antes do pagamento)
+      // Apenas para produtos físicos (não serviços)
+      if (realItem._type === 'product') {
+        if (realItem.stock === undefined || realItem.stock === null) {
+           // Se não tiver campo stock, assumimos que é infinito ou erro de cadastro?
+           // Por segurança, vamos logar e permitir, ou bloquear. 
+           // Assumindo que produtos sem estoque definido não devem ser vendidos se a lógica é controlar estoque.
+           // Mas para evitar travar vendas de produtos antigos, vamos assumir 0 se não existir.
+           // Melhor: Se for produto físico, TEM que ter estoque.
+        }
+        
+        const currentStock = Number(realItem.stock || 0);
+        const requestedQuantity = Number(frontItem.quantity);
+
+        if (currentStock < requestedQuantity) {
+          throw new Error(`Estoque insuficiente para o produto "${realItem.name}". Disponível: ${currentStock}, Solicitado: ${requestedQuantity}`);
+        }
       }
 
       let finalPrice = realItem.price;
@@ -222,8 +242,17 @@ export async function POST(request: Request) {
     // 5. Retorna a URL de pagamento (Sandbox) para o Frontend
     return NextResponse.json({ url: result.init_point });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Erro Mercado Pago:', error);
+    
+    // Retorna erro amigável se for problema de estoque
+    if (error.message && error.message.includes('Estoque insuficiente')) {
+      return NextResponse.json(
+        { error: error.message },
+        { status: 409 } // Conflict
+      );
+    }
+
     return NextResponse.json(
       { error: 'Erro ao criar sessão de pagamento' },
       { status: 500 }

@@ -110,6 +110,11 @@ export const structure: StructureResolver = (S) =>
                 .title('Avaliações')
                 .schemaType('review')
                 .child(S.documentTypeList('review')),
+
+              S.listItem()
+                .title('Pedidos')
+                .schemaType('order')
+                .child(S.documentTypeList('order')),
             ])
         ),
       
@@ -117,6 +122,6 @@ export const structure: StructureResolver = (S) =>
       
       // Remaining items (if any)
       ...S.documentTypeListItems().filter(listItem => 
-        !['post', 'product', 'servicePackage', 'category', 'review'].includes(listItem.getId() || '')
+        !['post', 'product', 'servicePackage', 'category', 'review', 'order'].includes(listItem.getId() || '')
       ),
     ])
