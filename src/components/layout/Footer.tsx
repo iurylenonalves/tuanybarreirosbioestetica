@@ -24,7 +24,7 @@ export function Footer() {
                 Av. Guilherme Cotching, 1948 - sala 13<br />
                 Vila Maria, São Paulo - SP<br />
                 CEP: 02113-014<br />
-                <span className="text-xs text-gray-500 mt-2 block">CNPJ: XX.XXX.XXX/0001-XX</span>
+                <span className="text-xs text-brand-brown mt-2 block">CNPJ: 32.883.323/0001-67</span>
               </a>
             </div>
             <div>
