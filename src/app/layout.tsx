@@ -33,11 +33,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Tuany Barreiros Bioestética | Cuidado e Transformação',
     description: 'Transforme sua confiança com cuidados estéticos personalizados.',
-    url: 'https://tuanybarreirosbioestetica.vercel.app/', // <-- IMPORTANT: Change to your site's URL
+    url: 'https://tuanybarreiros.com.br/',
     siteName: 'Tuany Barreiros Bioestética',
     images: [
       {
-        url: 'https://tuanybarreirosbioestetica.vercel.app/tuany-retrato.jpg', // <-- IMPORTANT: Change to your site's URL
+        url: 'https://tuanybarreiros.com.br/tuany-retrato.jpg',
         width: 800,
         height: 600,
         alt: 'Retrato de Tuany Barreiros, especialista em bioestética',

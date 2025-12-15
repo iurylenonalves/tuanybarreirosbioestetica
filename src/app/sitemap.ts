@@ -3,7 +3,7 @@ import { client } from '@/sanity/lib/client'
 import { groq } from 'next-sanity'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://tuanybioestetica.com.br'
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://tuanybarreiros.com.br'
 
   // Static routes
   const routes = [

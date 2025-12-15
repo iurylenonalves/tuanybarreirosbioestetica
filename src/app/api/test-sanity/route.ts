@@ -10,7 +10,7 @@ export async function GET() {
       return NextResponse.json({ status: 'error', message: 'Token não encontrado nas variáveis de ambiente.' }, { status: 500 });
     }
 
-    // Debug info (seguro, mostra apenas o início)
+    // Debug info (show only first 5 chars of token)
     const tokenStart = token.substring(0, 5);
     const tokenLength = token.length;
     console.log(`Testando Sanity com ProjectID: ${projectId}, Dataset: ${dataset}, Token: ${tokenStart}... (${tokenLength} chars)`);
@@ -23,7 +23,7 @@ export async function GET() {
       token,
     });
 
-    // Tenta criar um pedido de teste
+    // Try to create a test document
     const doc = await client.create({
       _type: 'order',
       orderNumber: `TEST-${Date.now()}`,

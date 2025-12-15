@@ -21,7 +21,7 @@ const writeClient = createClient({
 
 export async function POST(request: Request) {
   try {
-    // 1. Validate the Signature
+    // Validate the Signature
     const secret = process.env.MP_WEBHOOK_SECRET;
     
     if (!secret) {
@@ -85,7 +85,7 @@ export async function POST(request: Request) {
       // TODO: Uncomment the line above in production. For local testing without the correct secret, it may interfere.
     }
 
-    // 2. Fetch Payment Information
+    // Fetch Payment Information
     // If the signature is valid (or ignored), fetch the payment.
     const payment = new Payment(client);
     const paymentInfo = await payment.get({ id: dataId });
@@ -98,7 +98,7 @@ export async function POST(request: Request) {
     
     console.log(`Webhook recebido: Pagamento ${dataId} - Status: ${status} - Ref: ${external_reference}`);
 
-    // 3. Update Order in Sanity
+    // Update Order in Sanity
     if (external_reference && process.env.SANITY_API_WRITE_TOKEN) {
       // Map Mercado Pago status to our order status
       let orderStatus = 'pending';

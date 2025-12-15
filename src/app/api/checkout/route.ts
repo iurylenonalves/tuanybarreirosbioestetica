@@ -5,25 +5,25 @@ import { apiVersion, dataset, projectId } from '@/sanity/env';
 import { checkRateLimit } from '@/lib/rateLimit';
 import { checkoutSchema, sanitizeString } from '@/lib/validations/schemas';
 
-// Inicializa o cliente com o Token de Acesso (Sandbox ou Produção)
+// Initialize the client with the Access Token (Sandbox or Production)
 const client = new MercadoPagoConfig({ 
   accessToken: process.env.MP_ACCESS_TOKEN!,
   options: { timeout: 5000 }
 });
 
-// Inicializa o cliente Sanity com permissão de escrita
+// Initialize the Sanity client with write permissions
 const writeClient = createClient({
   projectId,
   dataset,
   apiVersion,
   useCdn: false,
-  token: process.env.SANITY_API_WRITE_TOKEN, // Necessário criar este token no painel do Sanity
+  token: process.env.SANITY_API_WRITE_TOKEN,
 });
 
 export async function POST(request: Request) {
   try {
-    // 0. Rate Limiting (Segurança contra Spam)
-    // Obtém o IP do cliente (funciona na Vercel e localmente)
+    // Rate Limiting
+    // Obtain the client's IP address
     const ip = request.headers.get('x-forwarded-for') || 'unknown';
     const rateLimit = checkRateLimit(ip, { maxRequests: 5, windowSeconds: 600 }); // 5 tentativas a cada 10 min
 
@@ -34,11 +34,11 @@ export async function POST(request: Request) {
       );
     }
 
-    // 1. Recebe os dados do Frontend
+    // Receive data from frontend
     const body = await request.json();
     const { items: frontendItems, payer } = body;
 
-    // 1.0 Validação de Dados do Cliente (Segurança de Input)
+    // Client Data Validation (Input Security)
     const validationResult = checkoutSchema.safeParse(payer);
     
     if (!validationResult.success) {
@@ -48,11 +48,11 @@ export async function POST(request: Request) {
       );
     }
 
-    // Sanitização extra (embora o Zod já ajude, garantimos que não entra HTML)
+    // Extract sanitized payer data
     const safePayer = {
       name: sanitizeString(payer.name),
       email: sanitizeString(payer.email),
-      phone: payer.phone.replace(/\D/g, ''), // Apenas números
+      phone: payer.phone.replace(/\D/g, ''),
       address: sanitizeString(payer.address),
       number: sanitizeString(payer.number),
       neighborhood: sanitizeString(payer.neighborhood),
@@ -75,8 +75,8 @@ export async function POST(request: Request) {
 
     console.log('MP Checkout Origin:', origin);
 
-    // 1.1 Validação de Preço no Servidor (Segurança)
-    // Busca os produtos reais no Sanity para garantir que o preço está correto
+    // Price and Stock Validation
+    // Fetch real products from Sanity to ensure the price is correct
     const itemIds = frontendItems.map((item: any) => item.id);
     
     const sanityItems = await writeClient.fetch(
@@ -93,10 +93,10 @@ export async function POST(request: Request) {
       { ids: itemIds }
     );
 
-    // Cria um mapa para acesso rápido aos dados do Sanity
+    // Create a map for quick lookup
     const sanityItemMap = new Map(sanityItems.map((item: any) => [item._id, item]));
     
-    // Recalcula os itens com os dados confiáveis do servidor
+    // Recalculate items with correct prices and validate stock
     const items = frontendItems.map((frontItem: any) => {
       const realItem = sanityItemMap.get(frontItem.id) as any;
       
@@ -104,15 +104,10 @@ export async function POST(request: Request) {
         throw new Error(`Produto não encontrado: ${frontItem.id}`);
       }
 
-      // Validação de Estoque (Última checagem antes do pagamento)
-      // Apenas para produtos físicos (não serviços)
+      // Stock Validation
+      // Only validate stock for physical products
       if (realItem._type === 'product') {
         if (realItem.stock === undefined || realItem.stock === null) {
-           // Se não tiver campo stock, assumimos que é infinito ou erro de cadastro?
-           // Por segurança, vamos logar e permitir, ou bloquear. 
-           // Assumindo que produtos sem estoque definido não devem ser vendidos se a lógica é controlar estoque.
-           // Mas para evitar travar vendas de produtos antigos, vamos assumir 0 se não existir.
-           // Melhor: Se for produto físico, TEM que ter estoque.
         }
         
         const currentStock = Number(realItem.stock || 0);
@@ -125,9 +120,9 @@ export async function POST(request: Request) {
 
       let finalPrice = realItem.price;
 
-      // Lógica de Desconto (Compre Junto)
+      // Discount for Bundles
       if (realItem.bundleWith && realItem.bundleDiscount && realItem.bundleWith.length > 0) {
-        // Verifica se algum dos produtos do combo está no carrinho
+        // Verify if any of the bundled items are in the cart
         const hasBundlePartner = realItem.bundleWith.some((partnerId: string) => 
           frontendItems.some((i: any) => i.id === partnerId)
         );
@@ -141,13 +136,13 @@ export async function POST(request: Request) {
         id: realItem._id,
         name: realItem.name,
         quantity: Number(frontItem.quantity),
-        price: Number(finalPrice.toFixed(2)), // Preço calculado no servidor
+        price: Number(finalPrice.toFixed(2)), // Price calculated from Sanity
         image: realItem.imageUrl
       };
     });
 
-    // 2. Cria o Pedido no Sanity (Status: Pendente)
-    // Opção B: Bloqueia a venda se o Sanity falhar para garantir integridade.
+    // Create the Order in Sanity (Status: Pending)
+    // Option B: Block the sale if Sanity fails to ensure integrity.
     
     if (!process.env.SANITY_API_WRITE_TOKEN) {
       console.error('SANITY_API_WRITE_TOKEN não configurado.');
@@ -191,24 +186,24 @@ export async function POST(request: Request) {
       );
     }
 
-    // 3. Cria a instância de Preferência
+    // 3. Create Mercado Pago Preference
     const preference = new Preference(client);
 
-    // 4. Configura a venda
+    // 4. Configure preference data
     const result = await preference.create({
       body: {
         items: items.map((item: any) => ({
           id: item.id,
           title: item.name,
           quantity: Number(item.quantity),
-          unit_price: Number(item.price), // O MP espera o preço em Reais (float)
+          unit_price: Number(item.price), // Real price from server
           picture_url: item.image,
           currency_id: 'BRL',
         })),
         payer: {
           email: safePayer.email,
           name: safePayer.name,
-          // O MP pede telefone separado em área e número
+          // MP requires phone separated into area code and number
           phone: {
             area_code: safePayer.phone.substring(0, 2),
             number: safePayer.phone.substring(2),
@@ -219,33 +214,32 @@ export async function POST(request: Request) {
             street_number: safePayer.number,
           }
         },
-        // Para onde o usuário volta depois de pagar
+        // Where to redirect after payment
         back_urls: {
           success: `${origin}/checkout/sucesso`,
           failure: `${origin}/checkout`,
           pending: `${origin}/checkout`,
         },
-        auto_return: 'approved', // Requer HTTPS em produção.
+        auto_return: 'approved', // Requires HTTPS in production.
         
-        // URL para receber notificações (Webhooks)
-        // Nota: Localhost não recebe webhooks sem túnel (ngrok). Em produção funcionará.
+        // URL to receive notifications (Webhooks)
         notification_url: `${origin}/api/webhooks/mercadopago`,
 
-        // Identificador no extrato do cartão
+        // Identifier on the card statement
         statement_descriptor: 'TUANY BIO',
         
-        // Referência externa: Usamos o ID do pedido no Sanity
+        // External reference: We use the order ID from Sanity
         external_reference: orderId,
       },
     });
 
-    // 5. Retorna a URL de pagamento (Sandbox) para o Frontend
+    // Return the payment URL (Sandbox) to the Frontend
     return NextResponse.json({ url: result.init_point });
 
   } catch (error: any) {
     console.error('Erro Mercado Pago:', error);
     
-    // Retorna erro amigável se for problema de estoque
+    // Error Handling
     if (error.message && error.message.includes('Estoque insuficiente')) {
       return NextResponse.json(
         { error: error.message },
