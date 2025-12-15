@@ -12,6 +12,8 @@ import { methodologyType } from './methodology'
 import { procedureType } from './procedure'
 import { servicesHeroType } from './servicesHero'
 import { order } from './order'
+import { featuresType } from './features'
+import { resultsType } from './results'
 
 export const schema: { types: SchemaTypeDefinition[] } = {  
   types: [
@@ -26,6 +28,8 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     reviewType,
     // Institucional
     heroType,
+    resultsType,
+    featuresType,
     aboutType,
     methodologyType,
     procedureType,

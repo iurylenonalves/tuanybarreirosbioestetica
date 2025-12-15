@@ -9,6 +9,7 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 export interface ResultSlide {
   src: string;
   alt: string;
+  caption?: string;
 }
 
 interface ResultsCarouselProps {
@@ -44,13 +45,20 @@ export function ResultsCarousel({ slides }: ResultsCarouselProps) {
           {slides.map((slide, index) => (
             
             <div className="relative shrink-0 grow-0 basis-11/12 md:basis-4/5 pl-4" key={index}>
-              <div className="relative h-96 w-full overflow-hidden rounded-lg">
+              <div className="relative h-96 w-full overflow-hidden rounded-lg group">
                 <Image
                   src={slide.src}
                   alt={slide.alt}
                   fill
                   className="object-cover"
                 />
+                {slide.caption && (
+                  <div className="absolute bottom-0 left-0 right-0 bg-black/60 p-4 backdrop-blur-sm translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                    <p className="text-white text-sm font-medium text-center">
+                      {slide.caption}
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           ))}
