@@ -29,7 +29,7 @@ async function getAllProcedures() {
       alt
     }
   }`;
-  return client.fetch(query);
+  return client.fetch(query, {}, { next: { revalidate: 0 } });
 }
 
 export async function ServiceListSection() {

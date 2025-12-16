@@ -13,7 +13,9 @@ async function getFeatures() {
         description,
         "imageSrc": image.asset->url
       }
-    }`
+    }`,
+    {},
+    { next: { revalidate: 0 } }
   );
 }
 

@@ -13,7 +13,9 @@ async function getResults() {
         "alt": coalesce(alt, "Resultado Tuany Bioestética"),
         caption
       }
-    }`
+    }`,
+    {},
+    { next: { revalidate: 0 } }
   );
 }
 
