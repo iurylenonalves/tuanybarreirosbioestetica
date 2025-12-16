@@ -14,6 +14,8 @@ export async function GET(request: NextRequest) {
     `https://${host}`,
     'http://localhost:3000',
     'http://localhost:3333', // Sanity Studio local
+    'https://tuanybarreiros.com.br',
+    'https://www.tuanybarreiros.com.br',
   ];
   
   // Check origin OR referer (some tools don't send origin)

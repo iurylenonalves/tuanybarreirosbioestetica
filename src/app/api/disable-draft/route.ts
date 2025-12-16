@@ -11,6 +11,8 @@ export async function GET(request: NextRequest) {
     `http://${host}`,
     `https://${host}`,
     'http://localhost:3000',
+    'https://tuanybarreiros.com.br',
+    'https://www.tuanybarreiros.com.br',
   ];
   
   const sourceUrl = origin || referer;
