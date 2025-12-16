@@ -235,7 +235,7 @@ export async function getProducts(options?: {
     }
   `;
 
-  return client.fetch(query);
+  return client.fetch(query, {}, { next: { revalidate: 0 } });
 }
 
 // Function to fetch product by slug
@@ -317,7 +317,7 @@ export async function getCategories(): Promise<Category[]> {
     }
   `;
 
-  return client.fetch(query);
+  return client.fetch(query, {}, { next: { revalidate: 0 } });
 }
 
 // Function to fetch service packages
@@ -403,7 +403,7 @@ export async function getServicePackages(options?: {
     }
   `;
 
-  return client.fetch(query);
+  return client.fetch(query, {}, { next: { revalidate: 0 } });
 }
 
 // Function to fetch service package by slug
