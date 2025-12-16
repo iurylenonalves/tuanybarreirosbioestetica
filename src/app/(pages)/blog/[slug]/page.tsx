@@ -40,9 +40,16 @@ export default async function PostPage({
   const { slug } = await params
   const { isEnabled: isDraftMode } = await draftMode()
 
-  devLog('=== DEBUG POST ===')
-  devLog('Draft mode enabled:', isDraftMode)
-  devLog('Slug procurado:', slug)
+  // Debug logs
+  console.log('=== DEBUG POST PAGE ===')
+  console.log('Slug:', slug)
+  console.log('Draft Mode:', isDraftMode)
+  console.log('Sanity Token definido:', !!process.env.SANITY_API_READ_TOKEN)
+  if (process.env.SANITY_API_READ_TOKEN) {
+    console.log('Token prefix:', process.env.SANITY_API_READ_TOKEN.substring(0, 4) + '...')
+  }
+
+  let post: Post | null = null
 
   try {
     // Query with cache forcibly disabled
@@ -56,16 +63,16 @@ export default async function PostPage({
       _draft
     } | order(_createdAt desc)`
 
-    const allPosts = await clientWithToken.fetch(
-      allPostsQuery, 
-      {}, 
-      { 
-        cache: 'no-store',
-        next: { revalidate: 0 }
-      }
-    )
-    
-    devLog(`Total de posts encontrados: ${allPosts.length}`)
+    // Log para ver se conseguimos listar posts (mesmo que rascunhos)
+    if (isDraftMode) {
+       try {
+         const debugPosts = await clientWithToken.fetch(allPostsQuery, {}, { cache: 'no-store' })
+         console.log('Posts encontrados no modo draft:', debugPosts.length)
+         console.log('Slugs disponíveis:', debugPosts.map((p: any) => p.slug).join(', '))
+       } catch (err) {
+         console.error('Erro ao listar posts de debug:', err)
+       }
+    }
 
     // Fetch the specific post by slug
     const postQuery = `*[_type == "post" && slug.current == $slug][0] {
@@ -88,7 +95,7 @@ export default async function PostPage({
       _draft
     }`
 
-    const post: Post = await clientWithToken.fetch(
+    post = await clientWithToken.fetch(
       postQuery, 
       { slug },
       { 
@@ -97,38 +104,23 @@ export default async function PostPage({
       }
     )
 
-    devLog('Post específico encontrado:', post ? 'Sim' : 'Não')
+    console.log('Post específico encontrado:', post ? 'Sim' : 'Não')
+    
     if (post) {
-      devLog('Detalhes do post:')
-      devLog('- ID:', post._id)
-      devLog('- Título:', post.title)
-      devLog('- Slug:', post.slug)
-      console.log('- Publicado em:', post.publishedAt || 'NÃO PUBLICADO')
-      console.log('- _draft:', post._draft)
-      console.log('- _rev:', post._rev)
-      console.log('- mainImage:', post.mainImage ? 'Existe' : 'Não existe')
-      
-      // Debug the main image
-      if (post.mainImage) {
-        console.log('=== DEBUG IMAGEM PRINCIPAL ===')
-        console.log('asset completo:', JSON.stringify(post.mainImage.asset, null, 2))
-        try {
-          const imageUrl = urlFor(post.mainImage.asset).url()
-          console.log('URL gerada pelo urlFor:', imageUrl)
-        } catch (urlError) {
-          console.error('Erro ao gerar URL com urlFor:', urlError)
-        }
-        console.log('=== FIM DEBUG IMAGEM ===')
-      }
+      console.log('Detalhes do post:')
+      console.log('- ID:', post._id)
+      console.log('- Título:', post.title)
     }
 
-    console.log('=== FIM DEBUG ===')
+  } catch (error) {
+    console.error('Erro fatal ao tentar buscar post:', error)
+    // Não chamamos notFound() aqui para não mascarar o erro real no log
+  }
 
-    if (!post) {
-      console.log('POST NÃO ENCONTRADO - Redirecionando para 404')
-      notFound()
-    }
-
+  if (!post) {
+    console.log('POST NÃO ENCONTRADO - Redirecionando para 404')
+    notFound()
+  }
     // ✨ Fetch all published posts for navigation (previous and next)
     const navigationQuery = `*[_type == "post" && defined(publishedAt)] | order(publishedAt desc) {
       title,
