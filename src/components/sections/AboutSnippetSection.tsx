@@ -43,7 +43,11 @@ export async function AboutSnippetSection() {
   }
 
   const imageAlt = data?.image?.alt || 'Retrato de Tuany Barreiros';
-  const title = data?.name ? `${data.name}: Especialista em Bioestética` : 'Tuany Barreiros: Especialista em Bioestética';
+  
+  const name = data?.name || 'Tuany Barreiros';
+  const role = data?.role || 'Especialista em Bioestética';
+  const title = `${name}: ${role}`;
+  
   const description = data?.shortBio || 'Minha missão é ir além da estética, promovendo um encontro entre sua beleza interior e exterior. Com uma abordagem que une ciência, tecnologia e um cuidado profundo, eu crio jornadas de transformação pessoal para cada cliente.';
 
   return (

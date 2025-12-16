@@ -59,10 +59,10 @@ export async function AboutBioSection() {
           {/* Text column */}
           <div className="text-center md:text-left">
             <span className="text-sm font-semibold uppercase text-brand-dark-nude">
-              Quem sou
+              {data?.role || 'Quem sou'}
             </span>
             <h2 className="font-serif text-4xl md:text-5xl font-bold mt-2 text-gray-800 leading-tight">
-              Minha jornada na bioestética
+              {data?.name || 'Minha jornada na bioestética'}
             </h2>
             
             <div className="mt-4 text-lg text-gray-600 prose prose-brand">
