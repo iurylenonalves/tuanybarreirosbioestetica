@@ -405,8 +405,4 @@ export default async function PostPage({
       </article>
     )
 
-  } catch (error) {
-    console.log('Erro ao carregar post:', error)
-    notFound()
-  }
 }
