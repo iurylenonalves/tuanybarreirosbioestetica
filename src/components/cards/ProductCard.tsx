@@ -55,8 +55,8 @@ export function ProductCard({ item }: ProductCardProps) {
   }
   
   const imageAlt = isService 
-    ? (item as ServicePackage).image.alt || item.name
-    : (item as Product).images[0].alt || item.name;
+    ? (item as ServicePackage).image?.alt || item.name
+    : (item as Product).images?.[0]?.alt || item.name;
 
   // Determine prices based on type
   const currentPrice = item.price;
