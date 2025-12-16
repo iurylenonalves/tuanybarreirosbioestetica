@@ -61,7 +61,7 @@ export async function GET(request: NextRequest) {
   
   // Check secret
   if (!secret || !PREVIEW_SECRET || secret !== PREVIEW_SECRET) {
-    return new Response(JSON.stringify({ 
+    return new Response(JSON.stringify({   
       error: 'Invalid or missing secret'
     }), { 
       status: 401,
