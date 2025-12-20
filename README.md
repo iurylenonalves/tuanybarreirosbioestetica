@@ -1,36 +1,136 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Tuany Barreiros Bioestética
 
-## Getting Started
+This is the official repository for the website and e-commerce platform of **Dr. Tuany Barreiros - Bioestética**. The project is a modern web application designed to showcase bio-aesthetic services, sell products and treatment packages, and share educational content through a blog.
 
-First, run the development server:
+The site is fully manageable via a CMS (Sanity), allowing the client to update texts, images, products, and prices in real-time.
+
+## 🚀 Technologies Used
+
+The project was built with a modern stack focused on performance, SEO, and developer experience:
+
+- **Main Framework**: [Next.js 16](https://nextjs.org/) (App Router)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **CMS (Content Management)**: [Sanity.io](https://www.sanity.io/)
+- **Payments**: Integration with [Mercado Pago](https://www.mercadopago.com.br/)
+- **Icons**: [Lucide React](https://lucide.dev/) & React Icons
+- **Carousels**: [Embla Carousel](https://www.embla-carousel.com/)
+- **Notifications**: [Sonner](https://sonner.emilkowal.ski/)
+- **Validation**: [Zod](https://zod.dev/)
+
+## ✨ Key Features
+
+### 1. Content Management (CMS)
+All site content is dynamic and editable via Sanity Studio (`/studio`), including:
+- **Home Page**: Banner (Hero), About Section, Methodology, Results, Features.
+- **Blog**: Creation and editing of articles with Rich Text support.
+- **Shop**: Management of Products and Service Packages.
+- **Services**: Registration of aesthetic procedures.
+
+### 2. E-commerce & Shop
+- **Hybrid Catalog**: Support for selling **Physical Products** (e.g., creams) and **Service Packages** (e.g., treatment sessions).
+- **Shopping Cart**: Global cart state management.
+- **Checkout**: Integration for payment processing.
+- **Inventory Management**: Basic stock control for products.
+
+### 3. Blog & SEO
+- **Draft Mode (Preview)**: Real-time preview of drafts before publishing (Visual Editing).
+- **Optimized SEO**: Dynamic meta tags, XML Sitemap, and Robots.txt configured.
+- **Performance**: Use of `next/image` for automatic image optimization and strategic caching (ISR/SSR).
+
+### 4. Security & Infrastructure
+- **Rate Limiting**: Protection against abuse on API routes.
+- **Origin Validation**: CORS security configured for Preview mode.
+- **Analytics**: Integration with Google Analytics 4 (GA4).
+
+## 📂 Project Structure
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+src/
+├── app/                 # Next.js Routes (App Router)
+│   ├── (pages)/         # Public pages (Home, Blog, Shop, etc.)
+│   ├── api/             # API Routes (Draft mode, Checkout, etc.)
+│   └── studio/          # Sanity Studio Route
+├── components/          # React Components
+│   ├── cards/           # Product, post, service cards
+│   ├── layout/          # Header, Footer
+│   ├── sections/        # Full page sections (Hero, Features, etc.)
+│   └── ui/              # Base components (Buttons, Inputs, etc.)
+├── lib/                 # Utilities and configs (Rate Limit, Logger)
+├── sanity/              # CMS Configurations
+│   ├── lib/             # Sanity client and helper functions
+│   └── schemaTypes/     # Content type definitions (Schemas)
+└── styles/              # Global styles
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📝 CMS Schemas (Sanity)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The CMS has the following document types configured:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **`hero`**: Configuration for the main Home banner.
+- **`about`**: Information about Dr. Tuany (Bio, Photo, Role).
+- **`post`**: Blog articles.
+- **`product`**: Physical products for sale.
+- **`servicePackage`**: Service/treatment packages for sale.
+- **`procedure`**: List of offered procedures (informational).
+- **`results`**: Before/After gallery.
+- **`features`**: List of competitive advantages.
+- **`methodology`**: Explanation of the work method.
+- **`review`**: Customer testimonials.
+- **`category`**: Categories to organize products and services.
+- **`order`**: Record of placed orders.
 
-## Learn More
+## 🚀 How to Run Locally
 
-To learn more about Next.js, take a look at the following resources:
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/your-username/tuany-bioestetica.git
+   cd tuany-bioestetica
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. **Configure Environment Variables:**
+   Create a `.env.local` file in the project root with the following keys:
 
-## Deploy on Vercel
+   ```env
+   # Sanity CMS
+   NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
+   NEXT_PUBLIC_SANITY_DATASET=production
+   NEXT_PUBLIC_SANITY_API_VERSION=2024-02-06
+   
+   # Sanity Tokens (Generate in Sanity dashboard)
+   SANITY_API_READ_TOKEN=token_with_viewer_permission
+   SANITY_API_WRITE_TOKEN=token_with_editor_permission
+   SANITY_PREVIEW_SECRET=your_preview_secret
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   # Base URL
+   NEXT_PUBLIC_BASE_URL=http://localhost:3000
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   # Google Analytics
+   NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+   ```
+
+4. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
+
+5. **Access:**
+   - Site: `http://localhost:3000`
+   - CMS Studio: `http://localhost:3000/studio`
+
+## 📦 Deploy
+
+The project is configured for deployment on **Vercel**.
+
+1. Connect the GitHub repository to Vercel.
+2. Configure the environment variables in the Vercel dashboard.
+3. Deployment will be automatic on every push to the `main` branch.
+
+---
+
+Developed for **Tuany Barreiros Bioestética**.
