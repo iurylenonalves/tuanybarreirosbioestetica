@@ -105,6 +105,10 @@ function cartReducer(state: CartState, action: CartAction): CartState {
             : item
         );
       } else {
+        // Check stock for new items
+        if (action.payload.type === 'product' && action.payload.stock !== undefined && action.payload.stock < 1) {
+          return state;
+        }
         newItems = [...state.items, { ...action.payload, quantity: 1 }];
       }
 

@@ -132,6 +132,11 @@ export async function POST(request: Request) {
         }
       }
 
+      // Security Check: Price Tampering
+      if (Math.abs(Number(frontItem.price) - finalPrice) > 0.1) {
+         throw new Error(`Discrepância de preço detectada no produto "${realItem.name}".`);
+      }
+
       return {
         id: realItem._id,
         name: realItem.name,

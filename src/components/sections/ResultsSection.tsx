@@ -28,7 +28,7 @@ export async function ResultsSection() {
   }
 
   return (
-    <section className="bg-brand-background py-16 md:py-20 overflow-hidden">
+    <section id="resultados" className="bg-brand-background py-16 md:py-20 overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           
