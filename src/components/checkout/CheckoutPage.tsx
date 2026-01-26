@@ -57,7 +57,7 @@ export function CheckoutPage() {
             city: data.localidade,
             state: data.uf
           }));
-          // Limpa erros de endereço se houver
+          // Clear address errors if any
           setErrors(prev => ({...prev, address: '', city: '', neighborhood: '', state: ''}));
           
           // Focus on number field
@@ -365,7 +365,7 @@ export function CheckoutPage() {
                         type="text"
                         value={customerInfo.zipCode}
                         onChange={(e) => {
-                          // Máscara simples de CEP
+                          // Simple ZIP code mask
                           let val = e.target.value.replace(/\D/g, '');
                           if (val.length > 5) val = val.replace(/^(\d{5})(\d)/, '$1-$2');
                           

@@ -1,6 +1,5 @@
 import React from 'react';
 
-// Definimos as propriedades que nosso botão pode aceitar
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   variant?: 'primary' | 'secondary';

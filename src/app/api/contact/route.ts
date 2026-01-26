@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     //  Zod Validation
     const validatedData = contactSchema.parse(body);
 
-    //  TODO: EMAIL SERVICE INTEGRATION
+    //  ALL: EMAIL SERVICE INTEGRATION
     // 
     // Option 1 - Resend:
     // const resend = new Resend(process.env.RESEND_API_KEY);
@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
     // };
     // await sgMail.send(msg);
     //
-    // Opção 3 - Nodemailer (Gmail SMTP):
+    // Option 3 - Nodemailer (Gmail SMTP):
     // const transporter = nodemailer.createTransport({
     //   service: 'gmail',
     //   auth: {

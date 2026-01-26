@@ -22,7 +22,7 @@ async function getResults() {
 export async function ResultsSection() {
   const data = await getResults();
 
-  // Fallback se não tiver dados no Sanity ainda
+    // Fallback if there is no data in Sanity yet
   if (!data || !data.images) {
     return null; 
   }

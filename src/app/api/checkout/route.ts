@@ -25,7 +25,7 @@ export async function POST(request: Request) {
     // Rate Limiting
     // Obtain the client's IP address
     const ip = request.headers.get('x-forwarded-for') || 'unknown';
-    const rateLimit = checkRateLimit(ip, { maxRequests: 5, windowSeconds: 600 }); // 5 tentativas a cada 10 min
+    const rateLimit = checkRateLimit(ip, { maxRequests: 5, windowSeconds: 600 });
 
     if (!rateLimit.success) {
       return NextResponse.json(

@@ -1,10 +1,10 @@
 import { z } from 'zod';
 
-// Regex para validações brasileiras
+// Regex for Brazilian validations
 const phoneRegex = /^(?:\+55\s?)?(?:\(?[1-9]{2}\)?\s?)?(?:9\s?)?[6-9]\d{3}[-\s]?\d{4}$/;
 const cepRegex = /^\d{5}-?\d{3}$/;
 
-// Schema para Checkout
+// Checkout Schema
 export const checkoutSchema = z.object({
   name: z.string()
     .min(3, 'Nome deve ter no mínimo 3 caracteres')
@@ -49,7 +49,7 @@ export const checkoutSchema = z.object({
   
   zipCode: z.string()
     .regex(cepRegex, 'CEP inválido. Use formato: 00000-000')
-    .transform(val => val.replace(/\D/g, '')), // Remove caracteres não numéricos
+    .transform(val => val.replace(/\D/g, '')), // Remove non-numeric characters
 });
 
 export type CheckoutFormData = z.infer<typeof checkoutSchema>;
@@ -85,7 +85,7 @@ export const contactSchema = z.object({
 
 export type ContactFormData = z.infer<typeof contactSchema>;
 
-// Schema para Newsletter/Email simples
+// Schema for Newsletter/Simple Email
 export const newsletterSchema = z.object({
   email: z.string()
     .email('Email inválido')
@@ -96,7 +96,7 @@ export const newsletterSchema = z.object({
 
 export type NewsletterFormData = z.infer<typeof newsletterSchema>;
 
-// Função helper para formatar mensagens de erro
+// Helper function to format error messages
 export function formatZodError(error: z.ZodError): Record<string, string> {
   const errors: Record<string, string> = {};
   error.issues.forEach((issue) => {
@@ -107,7 +107,7 @@ export function formatZodError(error: z.ZodError): Record<string, string> {
   return errors;
 }
 
-// Função helper para sanitizar strings (prevenir XSS)
+// Helper function to sanitize strings (prevent XSS)
 export function sanitizeString(str: string): string {
   return str
     .replace(/</g, '&lt;')
