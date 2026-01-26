@@ -1,8 +1,16 @@
-# Tuany Barreiros Bioestética
+# Tuany Barreiros Bioestética - High-Performance E-commerce
 
 This is the official repository for the website and e-commerce platform of **Dr. Tuany Barreiros - Bioestética**. The project is a modern web application designed to showcase bio-aesthetic services, sell products and treatment packages, and share educational content through a blog.
 
-The site is fully manageable via a CMS (Sanity), allowing the client to update texts, images, products, and prices in real-time.
+**A production-ready platform transitioning a bio-aesthetics clinic into a fully digital ecosystem with real-time content management and hybrid sales capabilities.**
+
+## 🏆 Key Achievements & Technical Highlights
+This project operates in production, delivering high availability and a seamless user experience.
+
+- **🚀 Bleeding Edge Tech Stack:** Built with **Next.js 16** and **Tailwind CSS v4**, utilizing the latest Server Components and React 19 features for maximum efficiency.
+- **⚡ 95+ Lighthouse Performance:** Engineered with `next/image` optimization, font sub-setting, and aggressive caching strategies to ensure instant load times even on mobile networks.
+- **🛠️ Real-Time Content Velocity:** Empowered the non-technical client with a custom **Sanity Studio**, featuring "Visual Editing" (Draft Mode) for safe, real-time content updates without developer intervention.
+- **🔒 Security & Reliability:** Implemented robust validation with **Zod**, Rate Limiting on API routes, and CORS protection to secure client data and payment transactions.
 
 ## 🚀 Technologies Used
 
