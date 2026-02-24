@@ -18,7 +18,7 @@ export function Footer() {
           {/* Column 1 */}
           <div className="lg:col-span-2 space-y-6">
             <div>
-              <h4 className="font-semibold text-brand-text-button mb-2">Endereço</h4>
+              <h3 className="font-semibold text-brand-text-button mb-2">Endereço</h3>
               <a href="https://www.google.com/maps/search/?api=1&query=Av.+Guilherme+Cotching%2C+1948+-+sala+13+-+Vila+Maria%2C+S%C3%A3o+Paulo+-+SP%2C+02113-014" target="_blank" rel="noopener noreferrer" className="hover:underline">
                 Clínica Tuany Barreiros - Estética Integrativa e Avançada<br />
                 Av. Guilherme Cotching, 1948 - sala 13<br />
@@ -28,7 +28,7 @@ export function Footer() {
               </a>
             </div>
             <div>
-              <h4 className="font-semibold text-brand-text-button mb-2">Contato</h4>
+              <h3 className="font-semibold text-brand-text-button mb-2">Contato</h3>
               <div className="flex flex-col items-start gap-1">
                 <a href="tel:+5511954474237" className="hover:underline">+55 11 95447-4237</a>
                 <a href="mailto:contato@tuanybarreiros.com.br" className="hover:underline">contato@tuanybarreiros.com.br</a>
@@ -53,7 +53,7 @@ export function Footer() {
 
           {/* Column 2 */}
           <div className="space-y-4">
-            <h4 className="font-semibold text-brand-text-button mb-2">Navegação</h4>
+            <h3 className="font-semibold text-brand-text-button mb-2">Navegação</h3>
             <ul className="space-y-3">
               <li><Link href="/" className="hover:underline">Início</Link></li>
               <li><Link href="/sobre" className="hover:underline">Sobre mim</Link></li>
@@ -65,7 +65,7 @@ export function Footer() {
 
           {/* Column 3 */}
           <div className="space-y-4">
-            <h4 className="font-semibold text-brand-text-button mb-2">Informações</h4>
+            <h3 className="font-semibold text-brand-text-button mb-2">Informações</h3>
             <ul className="space-y-3">
               <li><Link href="/contato" className="hover:underline">Contato</Link></li>
               <li><Link href="/politica-de-privacidade" className="hover:underline">Política de privacidade</Link></li>

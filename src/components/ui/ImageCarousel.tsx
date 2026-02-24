@@ -70,10 +70,14 @@ export function ImageCarousel({ slides }: ImageCarouselProps) {
                 key={index}
                 onClick={() => scrollTo(index)}
                 aria-label={`Ir para o slide ${index + 1}`}
-                className={`w-2 h-2 rounded-full transition-all ${
-                  index === selectedIndex ? 'bg-brand-brown w-4' : 'bg-gray-300'
-                }`}
-              />
+                className="w-8 h-8 flex items-center justify-center"
+              >
+                <span
+                  className={`rounded-full transition-all ${
+                    index === selectedIndex ? 'bg-brand-brown w-3 h-3' : 'bg-gray-300 w-2 h-2'
+                  }`}
+                />
+              </button>
             ))}
           </div>
 

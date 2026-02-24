@@ -26,7 +26,7 @@ export async function ServicesHeroSection() {
         <div className="text-center max-w-3xl mx-auto">
           
           {eyebrow && (
-            <span className="text-sm font-semibold uppercase text-brand-brown">
+            <span className="text-sm font-semibold uppercase text-brand-text-button">
               {eyebrow}
             </span>
           )}

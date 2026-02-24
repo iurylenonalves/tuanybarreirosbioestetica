@@ -36,7 +36,7 @@ export function BlogSection() {
       <div className="container mx-auto px-4 text-center">
         
         {/* Tittle Block */}
-        <span className="text-sm font-semibold uppercase text-brand-brown">
+        <span className="text-sm font-semibold uppercase text-brand-text-button">
           Blog
         </span>
         <h2 className="font-serif text-4xl md:text-5xl font-bold mt-2 text-gray-800">

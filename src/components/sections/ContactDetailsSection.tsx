@@ -45,7 +45,7 @@ export function ContactDetailsSection() {
           
           {/* Left column: Title and Map */}
           <div>
-            <span className="text-sm font-semibold uppercase text-brand-brown">
+            <span className="text-sm font-semibold uppercase text-brand-text-button">
               Vamos conversar
             </span>
             <h2 className="font-serif text-4xl md:text-5xl font-bold mt-2 text-gray-800">

@@ -54,7 +54,7 @@ export async function AboutSnippetSection() {
     <section className="py-16 md:py-20 bg-brand-background">
       <div className="container mx-auto px-4">
         <div className="text-center">
-          <span className="text-sm font-semibold uppercase text-brand-brown">
+          <span className="text-sm font-semibold uppercase text-brand-text-button">
             Sobre mim
           </span>
         </div>
