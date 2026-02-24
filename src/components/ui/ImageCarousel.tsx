@@ -59,7 +59,7 @@ export function ImageCarousel({ slides }: ImageCarouselProps) {
 
       {/* Content Below the Carousel */}
       <div className="mt-4">
-        <h3 className="font-serif text-xl font-semibold text-gray-800">{currentSlide.title}</h3>
+        <h2 className="font-serif text-xl font-semibold text-gray-800">{currentSlide.title}</h2>
         <p className="text-gray-500 mt-1 text-sm">{currentSlide.description}</p>
         
         <div className="flex justify-between items-center mt-4">
