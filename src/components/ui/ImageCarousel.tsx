@@ -69,6 +69,7 @@ export function ImageCarousel({ slides }: ImageCarouselProps) {
               <button
                 key={index}
                 onClick={() => scrollTo(index)}
+                aria-label={`Ir para o slide ${index + 1}`}
                 className={`w-2 h-2 rounded-full transition-all ${
                   index === selectedIndex ? 'bg-brand-brown w-4' : 'bg-gray-300'
                 }`}
@@ -78,10 +79,10 @@ export function ImageCarousel({ slides }: ImageCarouselProps) {
 
           {/* Navigation Arrows */}
           <div className="flex gap-2">
-            <button onClick={scrollPrev} className="p-2 rounded-full hover:bg-gray-100">
+            <button onClick={scrollPrev} className="p-2 rounded-full hover:bg-gray-100" aria-label="Slide anterior">
               <ArrowLeft size={20} className="text-gray-600" />
             </button>
-            <button onClick={scrollNext} className="p-2 rounded-full hover:bg-gray-100">
+            <button onClick={scrollNext} className="p-2 rounded-full hover:bg-gray-100" aria-label="Próximo slide">
               <ArrowRight size={20} className="text-gray-600" />
             </button>
           </div>

@@ -70,14 +70,20 @@ export function Header() {
         {/* Mobile Menu Toggle */}
         <div className="lg:hidden flex items-center gap-2">
           <CartIcon />
-          <button onClick={() => setMobileMenuOpen(!isMobileMenuOpen)} className="z-50">
+          <button
+            onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
+            className="z-50"
+            aria-label={isMobileMenuOpen ? 'Fechar menu' : 'Abrir menu'}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-navigation"
+          >
             {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
 
         {/* Mobile Menu Panel */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden absolute top-0 left-0 w-full h-screen bg-white pt-24">
+          <div id="mobile-navigation" className="lg:hidden absolute top-0 left-0 w-full h-screen bg-white pt-24">
             <nav className="flex flex-col items-center text-center gap-8 mt-8">
               <ul className="flex flex-col items-center gap-8">
                 {navLinks.map((link) => (

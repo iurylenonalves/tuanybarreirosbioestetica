@@ -3,11 +3,11 @@ import { Facebook, Instagram, Twitter, Linkedin, Youtube } from 'lucide-react';
 
 export function Footer() {
   const socialLinks = [
-    { icon: <Facebook size={20} />, href: '#' },
-    { icon: <Instagram size={20} />, href: 'https://www.instagram.com/tuanybarreiros_bioestetica/' },
-    { icon: <Twitter size={20} />, href: '#' },
-    { icon: <Linkedin size={20} />, href: '#' },
-    { icon: <Youtube size={20} />, href: '#' },
+    { icon: <Facebook size={20} aria-hidden="true" />, href: '#', label: 'Facebook' },
+    { icon: <Instagram size={20} aria-hidden="true" />, href: 'https://www.instagram.com/tuanybarreiros_bioestetica/', label: 'Instagram' },
+    { icon: <Twitter size={20} aria-hidden="true" />, href: '#', label: 'Twitter/X' },
+    { icon: <Linkedin size={20} aria-hidden="true" />, href: '#', label: 'LinkedIn' },
+    { icon: <Youtube size={20} aria-hidden="true" />, href: '#', label: 'YouTube' },
   ];
 
    return (
@@ -42,6 +42,8 @@ export function Footer() {
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-brand-brown hover:text-opacity-70 transition-colors"
+                  aria-label={`Abrir ${link.label}`}
+                  title={link.label}
                 >
                   {link.icon}
                 </a>

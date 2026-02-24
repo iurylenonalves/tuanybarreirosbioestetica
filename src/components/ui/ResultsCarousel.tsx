@@ -68,10 +68,10 @@ export function ResultsCarousel({ slides }: ResultsCarouselProps) {
       {/* Navigation Controls */}
       <div className="flex justify-between items-center mt-6">
         <div className="flex gap-2">
-          <button onClick={scrollPrev} className="p-2 rounded-full cursor-pointer hover:bg-gray-100 transition-colors">
+          <button onClick={scrollPrev} className="p-2 rounded-full cursor-pointer hover:bg-gray-100 transition-colors" aria-label="Resultado anterior">
             <ArrowLeft size={20} className="text-gray-600" />
           </button>
-          <button onClick={scrollNext} className="p-2 rounded-full cursor-pointer hover:bg-gray-100 transition-colors">
+          <button onClick={scrollNext} className="p-2 rounded-full cursor-pointer hover:bg-gray-100 transition-colors" aria-label="Próximo resultado">
             <ArrowRight size={20} className="text-gray-600" />
           </button>
         </div>
@@ -80,6 +80,7 @@ export function ResultsCarousel({ slides }: ResultsCarouselProps) {
             <button
               key={index}
               onClick={() => scrollTo(index)}
+              aria-label={`Ir para o resultado ${index + 1}`}
               className={`w-2 h-2 rounded-full transition-all ${
                 index === selectedIndex ? 'bg-brand-brown' : 'bg-gray-300'
               }`}

@@ -79,6 +79,7 @@ export function TestimonialsCarousel({ slides }: TestimonialsCarouselProps) {
         {slides.map((_, index) => (
           <button
             key={index}
+            type="button"
             onClick={() => scrollTo(index)}
             className={`w-2 h-2 rounded-full transition-all duration-300 ${
               index === selectedIndex ? 'bg-brand-brown' : 'bg-gray-300'
