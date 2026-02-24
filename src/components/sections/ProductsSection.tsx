@@ -21,7 +21,7 @@ export function ProductsSection() {
 
           {/* Text Column */}
           <div className="text-center md:text-left">
-            <span className="text-sm font-semibold uppercase text-brand-dark-nude">
+            <span className="text-sm font-semibold uppercase text-brand-brown">
               Produtos
             </span>
             <h2 className="font-serif text-4xl md:text-5xl font-bold text-gray-800 mt-2 leading-tight">

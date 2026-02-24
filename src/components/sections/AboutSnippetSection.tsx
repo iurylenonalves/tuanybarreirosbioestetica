@@ -54,7 +54,7 @@ export async function AboutSnippetSection() {
     <section className="py-16 md:py-20 bg-brand-background">
       <div className="container mx-auto px-4">
         <div className="text-center">
-          <span className="text-sm font-semibold uppercase text-brand-dark-nude">
+          <span className="text-sm font-semibold uppercase text-brand-brown">
             Sobre mim
           </span>
         </div>
@@ -84,7 +84,7 @@ export async function AboutSnippetSection() {
             <ul className="mt-6 space-y-3">
               {qualities.map((quality: string, index: number) => (
                 <li key={index} className="flex items-center gap-3">
-                  <CheckCircle size={20} className="text-brand-dark-nude" />
+                  <CheckCircle size={20} className="text-brand-brown" />
                   <span className="text-gray-700">{quality}</span>
                 </li>
               ))}

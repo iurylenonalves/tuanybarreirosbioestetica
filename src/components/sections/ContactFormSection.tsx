@@ -113,7 +113,7 @@ export function ContactFormSection() {
 
           {/* Form Column */}
           <div className="text-left">
-            <span className="text-sm font-semibold uppercase text-brand-dark-nude">
+            <span className="text-sm font-semibold uppercase text-brand-brown">
               Contato
             </span>
             <h2 className="font-serif text-4xl md:text-5xl font-bold text-gray-800 mt-2 leading-tight">

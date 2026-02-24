@@ -81,7 +81,7 @@ export function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center text-center text-xs gap-4">
           
           {/* Left: Copyright */}
-          <p className="opacity-80">
+          <p className="text-brand-brown">
             &copy; {new Date().getFullYear()} Tuany Barreiros Bioestética. Todos os direitos reservados.
           </p>
           
@@ -90,7 +90,7 @@ export function Footer() {
             href="https://iurylenon.com" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="opacity-50 hover:opacity-100 hover:text-brand-text-button transition-all duration-300 flex items-center gap-1"
+            className="text-brand-brown hover:text-brand-text-button transition-all duration-300 flex items-center gap-1"
             title="Tech Partner & Digital Infrastructure"
           >
             Digital Infrastructure by <span className="font-bold">Iury Lenon</span>

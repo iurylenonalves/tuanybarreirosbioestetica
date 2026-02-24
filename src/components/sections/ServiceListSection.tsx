@@ -79,7 +79,7 @@ export async function ServiceListSection() {
       <section id="detalhes-servicos" className="bg-brand-background pt-16 md:pt-20 pb-8">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto">
-            <h2 className="text-xl font-semibold uppercase text-brand-dark-nude tracking-widest">
+            <h2 className="text-xl font-semibold uppercase text-brand-brown tracking-widest">
               PROCEDIMENTOS
             </h2>
           </div>

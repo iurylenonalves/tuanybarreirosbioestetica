@@ -4,7 +4,7 @@ export function ValuesSection() {
       <div className="container mx-auto px-4">
         <div className="text-center max-w-3xl mx-auto">
           
-          <span className="text-sm font-semibold uppercase text-brand-dark-nude">
+          <span className="text-sm font-semibold uppercase text-brand-brown">
             Valores
           </span>
           

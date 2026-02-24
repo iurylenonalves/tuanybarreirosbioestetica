@@ -25,7 +25,7 @@ export function ServiceCard({ category, title, description, imageSrc, linkHref }
       
       {/* Content */}
       <div className="p-6">
-        <span className="text-sm font-semibold uppercase text-brand-dark-nude">{category}</span>
+        <span className="text-sm font-semibold uppercase text-brand-brown">{category}</span>
         <h3 className="font-serif text-2xl font-bold mt-2 text-gray-800">{title}</h3>
         <p className="mt-2 text-gray-600 text-sm">{description}</p>
         <Link 

@@ -31,7 +31,7 @@ export async function FeaturesListSection() {
       <div className="container mx-auto px-4">
         {/* Title Block */}
         <div className="text-center max-w-3xl mx-auto">
-          <span className="text-sm font-semibold uppercase text-brand-dark-nude">
+          <span className="text-sm font-semibold uppercase text-brand-brown">
             Benefícios
           </span>
           <h2 className="font-serif text-4xl md:text-5xl font-bold mt-2 text-gray-800">

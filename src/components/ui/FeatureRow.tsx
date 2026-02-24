@@ -24,7 +24,7 @@ export function FeatureRow({ eyebrow, title, description, imageSrc, imagePositio
 
       {/* Text Column */}
       <div className={`text-center md:text-left ${textOrderClass}`}>
-        <span className="text-sm font-semibold uppercase text-brand-dark-nude">{eyebrow}</span>
+        <span className="text-sm font-semibold uppercase text-brand-brown">{eyebrow}</span>
         <h3 className="font-serif text-3xl md:text-4xl font-bold mt-2 text-gray-800">{title}</h3>
         <p className="mt-4 text-gray-600">{description}</p>
         

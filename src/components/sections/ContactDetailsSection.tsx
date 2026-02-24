@@ -45,7 +45,7 @@ export function ContactDetailsSection() {
           
           {/* Left column: Title and Map */}
           <div>
-            <span className="text-sm font-semibold uppercase text-brand-dark-nude">
+            <span className="text-sm font-semibold uppercase text-brand-brown">
               Vamos conversar
             </span>
             <h2 className="font-serif text-4xl md:text-5xl font-bold mt-2 text-gray-800">
@@ -96,7 +96,7 @@ export function ContactDetailsSection() {
                     href={link.href} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-brand-brown hover:text-brand-dark-nude transition-colors p-3 bg-white rounded-full shadow-sm hover:shadow-md"
+                    className="text-brand-brown hover:text-brand-text-button transition-colors p-3 bg-white rounded-full shadow-sm hover:shadow-md"
                   >
                     {link.icon}
                   </a>

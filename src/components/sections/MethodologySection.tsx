@@ -56,7 +56,7 @@ export async function MethodologySection() {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-sm font-semibold uppercase text-brand-dark-nude">
+          <span className="text-sm font-semibold uppercase text-brand-brown">
             Metodologia
           </span>
           <h2 className="font-serif text-3xl md:text-4xl font-bold mt-2 text-gray-800 uppercase tracking-wide">
